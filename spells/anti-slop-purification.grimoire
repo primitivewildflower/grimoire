@@ -1,0 +1,161 @@
+# anti-slop-purification
+# GRIMOIRE Spell Definition — GDL v1.0
+# Removes AI-generated slop from text, restoring human voice and depth.
+# Primitive Wildflower, June 2026
+
+name: "anti-slop-purification"
+version: "1.0.0"
+title: "Anti-Slop Purification"
+author: "pw-grimoire/sax"
+category: "practical"
+license: "MIT"
+price: 0
+
+tags:
+  - text
+  - editing
+  - voice
+  - writing
+  - ai-detox
+
+description: >
+  Detects and removes AI-generated slop patterns from text — redundancy,
+  corporate-speak, hedging language, cliché transitions, and hollow
+  enthusiasm. Restores human voice, concision, and depth. Not a style
+  guide: a purification ritual.
+
+inputs:
+  - name: "text"
+    type: "string"
+    description: "The text to purify — can be any length"
+    required: true
+
+  - name: "voice"
+    type: "string"
+    description: >
+      Target voice description. Examples: "technical and direct",
+      "warm and personal", "journalistic", "academic but readable".
+    required: false
+
+  - name: "intensity"
+    type: "number"
+    description: "Purification intensity from 1 (light cleanup) to 5 (complete rewrite)"
+    required: false
+    default: 3
+    min: 1
+    max: 5
+
+  - name: "preserve_tone"
+    type: "boolean"
+    description: "Whether to preserve the original tone while removing slop"
+    required: false
+    default: true
+
+output:
+  type: "object"
+  schema:
+    purified_text:
+      type: "string"
+      description: "The cleaned text with slop removed"
+    changes:
+      type: "array"
+      description: "List of specific changes made"
+      items:
+        type: "object"
+        properties:
+          original:
+            type: "string"
+            description: "The slop phrase that was removed"
+          replacement:
+            type: "string"
+            description: "What replaced it"
+          reason:
+            type: "string"
+            description: "Why it was flagged as slop"
+    slop_score_before:
+      type: "number"
+      description: "Estimated slop percentage before purification (0-100)"
+    slop_score_after:
+      type: "number"
+      description: "Estimated slop percentage after purification (0-100)"
+    word_count_before:
+      type: "number"
+    word_count_after:
+      type: "number"
+
+ritual:
+  steps:
+    - name: "Scan"
+      description: >
+        Scan input text for slop patterns: hedging phrases ("It is worth
+        noting that...", "One might argue..."), corporate filler
+        ("leverage", "synergize", "robust"), GPT-isms ("delve into",
+        "tapestry", "crucible"), empty intensifiers ("very", "quite",
+        "truly"), throat-clearing transitions ("In conclusion,",
+        "Furthermore,"), and faux-enthusiasm ("Exciting!", "Game-changer!").
+      provider_hint: "local"
+
+    - name: "Classify"
+      description: >
+        Classify each detected pattern by type: redundancy, hedge,
+        corporate-speak, cliché, filler, faux-enthusiasm. Assign
+        severity weight. Calculate baseline slop score.
+      provider_hint: "local"
+
+    - name: "Purify"
+      description: >
+        Apply intensity-scaled purification. Level 1: remove only
+        severe slop. Level 3: remove most patterns, preserve structure.
+        Level 5: aggressive rewrite optimizing for concision and voice.
+        Respect preserve_tone flag if set.
+      template: "prompts/purify-v1.md"
+
+    - name: "Verify"
+      description: >
+        Check that purified text is grammatically sound, preserves
+        meaning, and doesn't introduce new slop patterns. Re-run scan
+        on output. Compute post-purification slop score.
+      provider_hint: "local"
+
+    - name: "Document"
+      description: >
+        Build the changes array: original slop phrase, replacement,
+        and classification reason. Compute word count reduction
+        and slop score delta.
+
+deprecated: false
+requires_approval: false
+
+example:
+  input:
+    text: >
+      It is worth noting that in today's fast-paced digital landscape,
+      leveraging cutting-edge AI solutions is absolutely crucial for
+      businesses looking to stay ahead of the curve. Furthermore, it
+      goes without saying that these robust technologies truly empower
+      teams to unlock their full potential and drive meaningful
+      outcomes. In conclusion, the transformative power of artificial
+      intelligence cannot be overstated.
+    voice: "direct and honest"
+    intensity: 4
+  output:
+    purified_text: >
+      AI helps businesses work faster and make better decisions.
+    slop_score_before: 92
+    slop_score_after: 8
+    changes:
+      - original: "It is worth noting that"
+        replacement: "(removed)"
+        reason: "throat-clearing hedge"
+      - original: "in today's fast-paced digital landscape"
+        replacement: "(removed)"
+        reason: "cliché context-setting"
+      - original: "leveraging cutting-edge AI solutions"
+        replacement: "AI"
+        reason: "corporate-speak"
+      - original: "absolutely crucial"
+        replacement: "helps"
+        reason: "empty intensifier"
+      - original: "staying ahead of the curve"
+        replacement: "work faster"
+        reason: "cliché"
