@@ -66,7 +66,9 @@ const INSTALLED_DIR = join(GRIMOIRE_HOME, 'installed');
 const REGISTRY_INDEX = join(REGISTRY_DIR, 'index.json');
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const SPELLS_REPO = join(dirname(dirname(__dirname)), 'spells');
+// __dirname = packages/grimoire-cli/src → go up 3 levels to repo root
+const REPO_ROOT = dirname(dirname(dirname(__dirname)));
+const SPELLS_REPO = join(REPO_ROOT, 'spells');
 
 async function ensureDirs(): Promise<void> {
   await mkdir(GRIMOIRE_HOME, { recursive: true });
@@ -128,7 +130,8 @@ async function syncRepoSpells(): Promise<void> {
     }
     if (changed) await saveRegistryIndex(index);
   } catch (e) {
-    // Repo doesn't exist yet — first run
+    // Repo doesn't exist yet — first run, or path error
+    if (process.env.GRIMOIRE_DEBUG) console.error('Sync warning:', e);
   }
 }
 
