@@ -1,0 +1,261 @@
+# synchronicity-detection
+# GRIMOIRE Spell Definition — GDL v1.0
+# Acausal pattern detection across dream journals, codebases, and life events
+# using Hermetic correspondence and Jungian synchronicity theory.
+# Primitive Wildflower, June 2026
+
+name: "synchronicity-detection"
+version: "1.0.0"
+title: "Synchronicity Detection"
+author: "pw-grimoire/sax"
+category: "frontier"
+license: "MIT"
+price: 499
+
+tags:
+  - synchronicity
+  - jungian
+  - pattern-recognition
+  - hermetic
+  - dream-journal
+  - acausal
+  - correspondence
+  - frontier
+
+description: >
+  Detects acausal pattern clusters across disparate information streams —
+  dream journals, code commit histories, personal notes, and life event
+  logs — using Hermetic correspondence principles and Jungian synchronicity
+  theory. Not a coincidence detector: a meaning-weaver. Surfaces statistically
+  improbable yet symbolically coherent patterns that linear analysis would miss.
+
+dependencies:
+  - semantic-embedding
+  - archetype-library
+
+inputs:
+  - name: "primary_vault"
+    type: "text"
+    description: >
+      Primary text corpus to analyze — a dream journal, a series of
+      journal entries, a codebase changelog, or any narrative stream.
+    required: true
+
+  - name: "comparison_vaults"
+    type: "text[]"
+    description: >
+      Additional corpora to cross-reference for acausal patterns.
+      Each vault should be semantically coherent — e.g., a second dream
+      journal, a codebase, or a timeline of external events.
+    required: false
+
+  - name: "timeframe_days"
+    type: "number"
+    description: "Temporal window in days to bound pattern search"
+    required: false
+    default: 7
+    min: 1
+    max: 365
+
+  - name: "sensitivity"
+    type: "number"
+    description: "Detection sensitivity — lower = only the most blatant synchronicities; higher = more speculative connections"
+    required: false
+    default: 0.5
+    min: 0.1
+    max: 1.0
+
+  - name: "archetype_filter"
+    type: "string[]"
+    description: "Limit detection to specific Jungian archetypes (Shadow, Anima, Wise Old Man, Trickster, etc.)"
+    required: false
+
+  - name: "min_confidence"
+    type: "number"
+    description: "Minimum confidence threshold for including a cluster in output (0-1)"
+    required: false
+    default: 0.3
+    min: 0.0
+    max: 1.0
+
+output:
+  type: "object"
+  schema:
+    clusters:
+      type: "array"
+      description: "Detected synchronicity clusters ranked by significance"
+      items:
+        type: "object"
+        properties:
+          pattern:
+            type: "string"
+            description: "The named pattern — eg. 'The Serpent and the Variable'"
+          domains:
+            type: "string[]"
+            description: "Domains the pattern spans (dream, code, life_event, etc.)"
+          confidence:
+            type: "number"
+            description: "Statistical + symbolic confidence (0-1)"
+          archetypes:
+            type: "string[]"
+            description: "Jungian archetypes involved"
+          correspondences:
+            type: "array"
+            description: "Specific acausal links"
+            items:
+              type: "object"
+              properties:
+                source_vault:
+                  type: "string"
+                source_excerpt:
+                  type: "string"
+                target_vault:
+                  type: "string"
+                target_excerpt:
+                  type: "string"
+                resonance_type:
+                  type: "string"
+                  enum:
+                    - symbolic_parallel
+                    - temporal_mirror
+                    - structural_isomorph
+                    - numerological
+                    - archetypal_echo
+                explanation:
+                  type: "string"
+          description:
+            type: "string"
+            description: "Human-readable interpretation of the pattern's meaning"
+    total_clusters:
+      type: "number"
+    detection_summary:
+      type: "string"
+      description: "Overview of what was found and notable absences"
+    hermetic_principle:
+      type: "string"
+      description: "The primary Hermetic law that best describes the dominant pattern"
+      enum:
+        - mentalism
+        - correspondence
+        - vibration
+        - polarity
+        - rhythm
+        - cause_and_effect
+        - gender
+
+ritual:
+  steps:
+    - name: "Ingest"
+      description: >
+        Load and tokenize the primary vault. If comparison vaults
+        provided, load each with source metadata. Segment all texts
+        into coherent narrative chunks along natural boundaries
+        (date headers, commit messages, journal entries). Strip
+        timestamps but preserve chronological ordering as a latent
+        variable.
+      provider_hint: "local"
+
+    - name: "Embed"
+      description: >
+        Generate dense semantic embeddings for every chunk across
+        all vaults using the configured embedding model. Build
+        cross-vault similarity matrices. Apply Hermetic correspondence
+        weighting: elevate matches that share symbolic structure even
+        when surface semantics diverge. Calculate baseline statistical
+        expectation for random cross-vault similarity.
+      template: "prompts/embed-v1.md"
+
+    - name: "Cluster"
+      description: >
+        Run acausal clustering: identify groups of embeddings that
+        exhibit statistically improbable temporal or semantic proximity
+        across vaults. Apply Jungian archetype templates to candidate
+        clusters. Filter by sensitivity parameter — higher sensitivity
+        admits more speculative pattern candidates. Discard clusters
+        below min_confidence. Tag each cluster with relevant archetypes,
+        the Hermetic principles it embodies, and a provisional pattern
+        name.
+      template: "prompts/cluster-v1.md"
+
+    - name: "Interpret"
+      description: >
+        For each surviving cluster, generate a narrative interpretation
+        that explains the acausal connection in human terms. What does
+        this pattern mean? What is it asking the observer to notice?
+        Reference specific symbolic correspondences between the linked
+        excerpts. This is where the "synchronicity" becomes legible —
+        the step that transforms statistical anomaly into felt meaning.
+      template: "prompts/interpret-v1.md"
+
+    - name: "Present"
+      description: >
+        Assemble the full output: ranked clusters with confidence scores,
+        archetype tags, correspondence links with source excerpts, human
+        interpretations, the detection summary, and the dominant Hermetic
+        principle. Format as structured output. Include an epigraph — a
+        single line of poetic compression that captures the session's
+        central insight.
+      provider_hint: "local"
+
+deprecated: false
+requires_approval: false
+
+rate_limit:
+  per_minute: 3
+  per_day: 50
+
+example:
+  input:
+    primary_vault: >
+      June 3: Dreamed I was debugging an infinite loop in a cathedral.
+      Every time I fixed it, the stained glass changed color.
+      June 4: Woke up knowing the bug was in the authentication pipeline.
+      June 5: The cathedral appeared in a painting at the coffee shop.
+      June 6: Fixed the auth bug. It was a recursive redirect.
+    timeframe_days: 7
+    sensitivity: 0.6
+  output:
+    total_clusters: 3
+    detection_summary: >
+      Three significant synchronicity clusters detected across the
+      dream-code-life triad. The strongest pattern centers on recursive
+      structure appearing as both technical bug and sacred geometry.
+    hermetic_principle: correspondence
+    clusters:
+      - pattern: "The Infinite Cathedral"
+        domains:
+          - dream
+          - code
+          - life_event
+        confidence: 0.87
+        archetypes:
+          - Self
+          - Wise Old Man
+        correspondences:
+          - source_vault: "primary"
+            source_excerpt: "debugging an infinite loop in a cathedral"
+            target_vault: "primary"
+            target_excerpt: "It was a recursive redirect"
+            resonance_type: structural_isomorph
+            explanation: >
+              The dream's recursive cathedral (infinite loop in sacred space)
+              structurally mirrors the actual bug (recursive redirect in auth
+              pipeline). Sacred geometry and call-stack geometry collapsed
+              into the same form — recursion as both the wound and the temple.
+          - source_vault: "primary"
+            source_excerpt: "stained glass changed color"
+            target_vault: "primary"
+            target_excerpt: "cathedral appeared in a painting at the coffee shop"
+            resonance_type: symbolic_parallel
+            explanation: >
+              The mutable stained glass (code-triggered visual change in dream)
+              foreshadowed the cathedral's migration into waking life via
+              artwork. The unconscious prepared the symbol for daylight.
+        description: >
+          The dream presented the bug as sacred architecture. The recursive
+          redirect wasn't a mistake — it was a pattern demanding to be seen
+          from both inside (code) and outside (cathedral). The coffee shop
+          painting was the bridge: the unconscious placing the symbol where
+          conscious attention would land. The synchronicity suggests the bug
+          had meaning beyond engineering — it was a mirror of something
+          looping in the dreamer's life.

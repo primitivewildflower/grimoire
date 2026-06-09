@@ -1,16 +1,16 @@
 {
   "name": "grimoire",
   "private": true,
-  "description": "GRIMOIRE — AI Capability Definition Language + Marketplace",
+  "description": "GRIMOIRE — AI Capability Definition Language + Marketplace. Part of the Primitive Wildflower ecosystem. Built on the LOCUS sovereign AI architecture.",
   "workspaces": [
-    "packages/grymoire-core",
-    "packages/grymoire-cli",
-    "packages/grymoire-ui"
+    "packages/grimoire-core",
+    "packages/grimoire-cli",
+    "packages/grimoire-ui"
   ],
   "scripts": {
     "build": "npm run build --workspaces",
-    "dev:ui": "npm run dev -w grymoire-ui",
-    "cli": "npm run cli -w grymoire-cli",
+    "dev:ui": "npm run dev -w grimoire-ui",
+    "cli": "npm run cli -w grimoire-cli",
     "lint": "npm run lint --workspaces",
     "test": "npm run test --workspaces"
   }

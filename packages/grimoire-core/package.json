@@ -1,7 +1,7 @@
 {
-  "name": "grymoire-core",
+  "name": "grimoire-core",
   "version": "0.1.0",
-  "description": "GRIMOIRE core — spell definition language, validator, and execution engine",
+  "description": "GRIMOIRE core — spell definition language, validator, and execution engine. Part of the Primitive Wildflower LOCUS sovereign AI ecosystem.",
   "type": "module",
   "main": "src/index.ts",
   "scripts": {

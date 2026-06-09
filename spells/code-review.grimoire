@@ -1,0 +1,282 @@
+# code-review
+# GRIMOIRE Spell Definition — GDL v1.0
+# Multi-lens code review using architectural, security, performance,
+# and accessibility perspectives.
+# Primitive Wildflower, June 2026
+
+name: "code-review"
+version: "1.0.0"
+title: "Code Review"
+author: "pw-grimoire/sax"
+category: "code-review"
+license: "MIT"
+price: 199
+
+tags:
+  - code-review
+  - architecture
+  - security
+  - performance
+  - accessibility
+  - multi-lens
+  - quality
+
+description: >
+  Performs a multi-lens code review across architectural, security,
+  performance, and accessibility dimensions. Each lens brings its own
+  scrutiny — architecture checks for coupling and coherence, security
+  scans for injection surfaces and secret leaks, performance profiles
+  hot paths and allocation patterns, and accessibility audits for
+  semantic HTML and ARIA compliance. Issues are deduplicated, triaged
+  by severity, and synthesized into a single structured report with an
+  aggregate quality score.
+
+dependencies:
+  - security-scanner
+  - ast-parser
+
+inputs:
+  - name: "code"
+    type: "text"
+    description: "Source code to review — a full file, a diff, or a snippet"
+    required: true
+
+  - name: "files"
+    type: "string[]"
+    description: "File paths or names for context (used in issue line references)"
+    required: false
+
+  - name: "lenses"
+    type: "string[]"
+    description: >
+      Lenses to activate. "all" enables every lens. Available:
+      architectural, security, performance, accessibility.
+    required: false
+    default:
+      - all
+
+  - name: "language"
+    type: "string"
+    description: "Programming language hint to tune analysis (typescript, python, rust, go, etc.)"
+    required: false
+
+  - name: "severity_threshold"
+    type: "string"
+    description: "Minimum severity to include — info, warning, error, critical"
+    required: false
+    default: "info"
+
+output:
+  type: "object"
+  schema:
+    summary:
+      type: "string"
+      description: "Executive summary of the review — what passed, what needs attention"
+    issues:
+      type: "array"
+      description: "All detected issues across active lenses"
+      items:
+        type: "object"
+        properties:
+          severity:
+            type: "string"
+            enum:
+              - info
+              - warning
+              - error
+              - critical
+          category:
+            type: "string"
+            enum:
+              - architectural
+              - security
+              - performance
+              - accessibility
+          file:
+            type: "string"
+            description: "File path or name where the issue occurs"
+          line:
+            type: "number"
+            description: "Line number if determinable"
+          message:
+            type: "string"
+            description: "Concise issue description"
+          suggestion:
+            type: "string"
+            description: "Actionable fix recommendation"
+    score:
+      type: "number"
+      description: "Aggregate quality score (0-100)"
+    lens_summaries:
+      type: "object"
+      description: "Per-lens issue counts and top findings"
+      properties:
+        architectural:
+          type: "object"
+          properties:
+            issue_count: { type: "number" }
+            top_finding: { type: "string" }
+        security:
+          type: "object"
+          properties:
+            issue_count: { type: "number" }
+            top_finding: { type: "string" }
+        performance:
+          type: "object"
+          properties:
+            issue_count: { type: "number" }
+            top_finding: { type: "string" }
+        accessibility:
+          type: "object"
+          properties:
+            issue_count: { type: "number" }
+            top_finding: { type: "string" }
+    pass:
+      type: "boolean"
+      description: "Whether the review passes a minimum quality bar (score >= 70)"
+
+ritual:
+  steps:
+    - name: "Parse"
+      description: >
+        Parse the input code into an AST or token stream. Detect language
+        if not explicitly provided. Identify file boundaries when multiple
+        files are present. Normalize line endings and strip any non-code
+        content (email headers, chat transcripts). If a diff is detected
+        (unified format), reconstruct the full file context around changed
+        sections for meaningful line-level reporting.
+      provider_hint: "local"
+
+    - name: "Architectural_Review"
+      description: >
+        Evaluate code structure: coupling between modules, cyclomatic
+        complexity hotspots, interface segregation violations, dependency
+        inversion adherence, and SOLID principle conformance. Flag god
+        objects, feature envy, shotgun surgery surfaces, and deep
+        inheritance hierarchies. Assess whether the structure communicates
+        intent or obscures it.
+      template: "prompts/architectural-review-v1.md"
+
+    - name: "Security_Review"
+      description: >
+        Scan for injection surfaces (SQL, shell, template, log), hardcoded
+        secrets and API keys, weak cryptographic primitives, missing input
+        validation, authentication and authorization bypass surfaces, unsafe
+        deserialization, path traversal vectors, and information disclosure
+        through error messages. Apply OWASP Top 10 check patterns.
+      template: "prompts/security-review-v1.md"
+
+    - name: "Performance_Review"
+      description: >
+        Profile for algorithmic complexity issues (O(n²) where O(n log n)
+        would do), excessive allocations in hot paths, synchronous blocking
+        I/O in async contexts, missing memoization opportunities, N+1 query
+        patterns, unbounded resource consumption, missing pagination or
+        streaming, and heavy serialization in throughput-sensitive code.
+      template: "prompts/performance-review-v1.md"
+
+    - name: "Accessibility_Review"
+      description: >
+        Audit for semantic HTML structure, ARIA role correctness, keyboard
+        navigability, focus management, color contrast ratios, screen reader
+        compatibility, alt text completeness, form label associations, and
+        reduced-motion considerations. Skip if code has no UI surface.
+      template: "prompts/accessibility-review-v1.md"
+
+    - name: "Synthesize"
+      description: >
+        Deduplicate issues that span multiple lenses (e.g., a missing
+        input validation flagged by both security and architecture).
+        Triaged by severity: critical (exploitable, crash-causing),
+        error (bug-prone, pattern violation), warning (maintenance drag),
+        info (style, convention nits). Compute aggregate score: start at
+        100, subtract severity-weighted penalties (critical=-15, error=-8,
+        warning=-3, info=-1). Generate the executive summary, per-lens
+        breakdown, and a pass/fail determination.
+
+deprecated: false
+requires_approval: false
+
+rate_limit:
+  per_minute: 10
+  per_day: 200
+
+example:
+  input:
+    code: >
+      function processOrder(order) {
+        var total = 0;
+        for (var i = 0; i < order.items.length; i++) {
+          total += order.items[i].price * order.items[i].quantity;
+        }
+        var db = mysql.createConnection("mysql://admin:pa55word!@db.internal:3306/orders");
+        db.query("SELECT * FROM users WHERE id = " + order.userId);
+        return { total: total, items: order.items.length };
+      }
+    language: "javascript"
+    lenses:
+      - all
+  output:
+    score: 24
+    pass: false
+    summary: >
+      Critical security and architectural issues detected. SQL injection
+      surface, hardcoded credentials, and synchronous database access in
+      what appears to be a request handler. Multiple anti-patterns. Needs
+      significant refactoring before merging.
+    issues:
+      - severity: critical
+        category: security
+        file: "order.js"
+        line: 6
+        message: "SQL injection via string concatenation in query"
+        suggestion: "Use parameterized queries or an ORM (e.g., db.query('SELECT * FROM users WHERE id = ?', [order.userId]))"
+      - severity: critical
+        category: security
+        file: "order.js"
+        line: 5
+        message: "Hardcoded database credentials with plaintext password"
+        suggestion: "Store credentials in environment variables or a secrets manager (e.g., process.env.DB_URL)"
+      - severity: error
+        category: performance
+        file: "order.js"
+        line: 5
+        message: "Synchronous database connection creation per request"
+        suggestion: "Use a connection pool initialized at startup, not per-invocation"
+      - severity: error
+        category: architectural
+        file: "order.js"
+        line: 5
+        message: "Data access mixed with business logic — no separation of concerns"
+        suggestion: "Extract database access into a repository or data-access layer"
+      - severity: warning
+        category: security
+        file: "order.js"
+        line: 7
+        message: "Sensitive data returned without filtering"
+        suggestion: "Ensure only necessary fields are returned to the caller"
+      - severity: warning
+        category: performance
+        file: "order.js"
+        line: 6
+        message: "SELECT * fetches unnecessary columns"
+        suggestion: "Specify only needed columns to reduce network and memory overhead"
+      - severity: info
+        category: architectural
+        file: "order.js"
+        line: 2
+        message: "Use of var instead of const/let — scope ambiguity"
+        suggestion: "Use const for total and let for loop variables"
+    lens_summaries:
+      architectural:
+        issue_count: 2
+        top_finding: "Business logic and data access are tightly coupled"
+      security:
+        issue_count: 3
+        top_finding: "SQL injection surface and hardcoded credentials"
+      performance:
+        issue_count: 2
+        top_finding: "Per-request DB connection instantiation"
+      accessibility:
+        issue_count: 0
+        top_finding: "No UI surface — lens skipped"

@@ -1,0 +1,389 @@
+# creative-brief
+# GRIMOIRE Spell Definition — GDL v1.0
+# Generates a creative brief from idea fragments, filling in constraints,
+# audience, medium, and timeline.
+# Primitive Wildflower, June 2026
+
+name: "creative-brief"
+version: "1.0.0"
+title: "Creative Brief Generator"
+author: "pw-grimoire/sax"
+category: "practical"
+license: "MIT"
+price: 0
+
+tags:
+  - creative
+  - brief
+  - planning
+  - design
+  - ideation
+  - project
+  - practical
+
+description: >
+  Transforms raw idea fragments — a sketch, a shower thought, a "what if"
+  — into a structured, actionable creative brief. Fills in the unspoken
+  gaps: who is this for, what medium best serves it, what technical
+  constraints should you anticipate, how long will it take, and what
+  could go wrong. Works for films, games, installations, apps, zines,
+  performances, and anything else that starts with a spark and needs a plan.
+
+inputs:
+  - name: "idea_fragments"
+    type: "text"
+    description: >
+      Raw idea fragments — notes, descriptions, inspiration references,
+      half-formed thoughts. Can be messy. The spell finds the shape in it.
+    required: true
+
+  - name: "medium"
+    type: "string"
+    description: >
+      Target medium hint. If omitted, the spell recommends the best
+      medium based on the idea's nature. Examples: "interactive web",
+      "short film", "mobile app", "installation", "board game", "zine".
+    required: false
+
+  - name: "constraints"
+    type: "object"
+    description: >
+      Known constraints to incorporate. Keys can include budget, timeline,
+      team_size, platform, technical_stack, or any custom key.
+    required: false
+
+  - name: "tone"
+    type: "string"
+    description: "Brief tone: 'speculative' (blue-sky, ambitious), 'pragmatic' (shippable, realistic), 'experimental' (boundary-pushing, risky)"
+    required: false
+    default: "pragmatic"
+
+  - name: "output_detail"
+    type: "string"
+    description: "Level of detail in the output"
+    required: false
+    default: "full"
+    enum:
+      - summary
+      - full
+      - exhaustive
+
+output:
+  type: "object"
+  schema:
+    creative_brief:
+      type: "object"
+      description: "The generated creative brief"
+      properties:
+        concept:
+          type: "object"
+          description: "The refined core concept"
+          properties:
+            one_liner:
+              type: "string"
+              description: "Single-sentence pitch"
+            expanded:
+              type: "string"
+              description: "1-2 paragraph explanation of the vision"
+            emotional_core:
+              type: "string"
+              description: "The feeling the work should leave the audience with"
+        target_audience:
+          type: "object"
+          description: "Audience definition"
+          properties:
+            primary:
+              type: "string"
+              description: "Primary audience description"
+            secondary:
+              type: "string[]"
+              description: "Secondary audience segments"
+            audience_needs:
+              type: "string"
+              description: "What this audience wants that they're not getting"
+        medium_recommendation:
+          type: "object"
+          description: "Recommended medium and rationale"
+          properties:
+            recommended:
+              type: "string"
+              description: "The recommended medium"
+            rationale:
+              type: "string"
+              description: "Why this medium serves the idea"
+            alternatives:
+              type: "string[]"
+              description: "Viable alternative media with tradeoffs"
+        technical_requirements:
+          type: "object"
+          properties:
+            must_have:
+              type: "string[]"
+              description: "Non-negotiable technical capabilities"
+            nice_to_have:
+              type: "string[]"
+              description: "Stretch technical features"
+            tech_debt_risks:
+              type: "string[]"
+              description: "Anticipated technical compromises and their costs"
+        timeline_estimate:
+          type: "object"
+          properties:
+            phases:
+              type: "array"
+              items:
+                type: "object"
+                properties:
+                  phase:
+                    type: "string"
+                  duration:
+                    type: "string"
+                  deliverables:
+                    type: "string[]"
+            total_estimate:
+              type: "string"
+              description: "Total estimated timeline"
+            acceleration_opportunities:
+              type: "string[]"
+              description: "What could be cut or parallelized to go faster"
+        mood_board_keywords:
+          type: "string[]"
+          description: "Visual/aesthetic keywords for mood board creation"
+        reference_works:
+          type: "string[]"
+          description: "Existing works in any medium that share DNA with this idea"
+        risk_factors:
+          type: "array"
+          items:
+            type: "object"
+            properties:
+              risk:
+                type: "string"
+              likelihood:
+                type: "string"
+                enum:
+                  - low
+                  - medium
+                  - high
+              impact:
+                type: "string"
+                enum:
+                  - low
+                  - medium
+                  - high
+              mitigation:
+                type: "string"
+        next_step:
+          type: "string"
+          description: "The single most important action to take first"
+
+ritual:
+  steps:
+    - name: "Extract_Core"
+      description: >
+        Parse the idea fragments and extract the nucleus. What is the
+        irreducible core of the idea — the part that survives when you
+        strip away context, reference, and decoration? Identify the
+        central tension or question the idea explores. If the fragments
+        are contradictory, identify the productive friction. Output a
+        one-liner, an expanded pitch, and the emotional core — the
+        feeling the audience should carry away.
+      template: "prompts/extract-core-v1.md"
+
+    - name: "Expand_Context"
+      description: >
+        Place the idea in a broader cultural and creative context. What
+        conversation is it joining? What existing works share its DNA?
+        What assumptions is the idea making about the world, technology,
+        or human behavior? Surface the invisible scaffolding — the things
+        the creator knows but hasn't articulated yet. Generate reference
+        works and mood board keywords.
+      template: "prompts/expand-context-v1.md"
+
+    - name: "Define_Audience"
+      description: >
+        Identify the primary and secondary audiences. Who needs this?
+        Who would be changed by encountering it? What are they currently
+        missing from existing options? Be specific — not "people who
+        like art" but "young architects frustrated by CAD tools who
+        want to feel like they're sketching, not engineering." Define
+        audience needs: the gap this work fills.
+      template: "prompts/define-audience-v1.md"
+
+    - name: "Select_Medium"
+      description: >
+        If a medium was provided, validate it — does it actually serve
+        the idea? If no medium was provided, recommend the optimal one
+        based on the idea's emotional core, the audience's consumption
+        habits, and the creator's likely constraints. For each medium,
+        explain why it fits (or doesn't). Provide at least one alternative
+        with tradeoffs: "A web app reaches more people, but an installation
+        delivers the emotional impact more directly."
+      template: "prompts/select-medium-v1.md"
+
+    - name: "Estimate_Timeline"
+      description: >
+        Build a phased timeline: concept, prototype, production, polish,
+        launch. Estimate durations based on medium, scope, and constraints.
+        Identify acceleration opportunities — phases that can overlap,
+        features that can be deferred, dependencies that can be mocked.
+        For each phase, list concrete deliverables. Produce a total
+        estimate with confidence band.
+      template: "prompts/estimate-timeline-v1.md"
+
+    - name: "Identify_Risks"
+      description: >
+        Surface the failure modes. What could kill this project? Scope
+        creep, technical dead ends, audience indifference, dependency
+        on a platform that might change, creator burnout, budget
+        overrun? For each risk, assess likelihood and impact, then
+        propose a concrete mitigation. Be honest — this is the step
+        that separates a creative brief from a creative fantasy.
+      template: "prompts/identify-risks-v1.md"
+
+    - name: "Package"
+      description: >
+        Assemble all components into the final creative brief structure.
+        Ensure internal consistency — the timeline should match the scope,
+        the medium should serve the audience, the risks should reflect
+        the technical requirements. Write a next_step that is specific,
+        small, and achievable within a week. This is the bridge from
+        thinking to doing.
+      provider_hint: "local"
+
+deprecated: false
+requires_approval: false
+
+example:
+  input:
+    idea_fragments: >
+      Something about a garden that grows based on your mood. Like if
+      you're sad the flowers wilt but if you're happy they bloom. Maybe
+      it's an app? Or an actual physical thing? I want it to feel like
+      a Tamagotchi but for your emotional life. Could use biofeedback
+      or maybe just journal entries. The garden should be weird — not
+      normal flowers, more like alien plants. I want people to check
+      on it daily and feel accountable to something that's alive but
+      also a reflection of them.
+    constraints:
+      budget: "≤ $50,000"
+      timeline: "6 months"
+      team_size: 3
+    tone: "pragmatic"
+  output:
+    creative_brief:
+      concept:
+        one_liner: "A biofeedback-driven virtual garden that mirrors your emotional state, making internal weather visible and giving you something living to care for."
+        expanded: >
+          The Emotional Garden is a mobile application that generates a
+          procedurally evolving alien ecosystem — plants, fungi, bioluminescent
+          structures — whose health, color, and behavior respond to the user's
+          emotional state. Emotion data is sourced from passive inputs (Apple
+          Health heart rate variability, sleep data, step count) and active
+          inputs (daily 1-sentence journal entries). The garden doesn't
+          gamify emotions with points or streaks; it simply reflects them
+          back in a living, breathing form. The act of checking the garden
+          becomes a gentle daily ritual of emotional self-awareness.
+        emotional_core: "A sense of tender accountability — the feeling of being responsible for something alive that is, in turn, a mirror of your inner self. Not guilt, not gamification, but gentle witness."
+      target_audience:
+        primary: "Adults 22-35 navigating high-stress careers who struggle to maintain emotional awareness practices and respond to low-friction, high-beauty interventions"
+        secondary:
+          - "Therapy clients looking for between-session emotional tracking that doesn't feel clinical"
+          - "Casual gamers who loved virtual pet mechanics and want something with more emotional depth"
+        audience_needs: "Existing mood trackers feel like spreadsheets. Journaling apps feel like work. Meditation apps feel prescriptive. They want a relationship with something that reflects them back without judgment or instruction."
+      medium_recommendation:
+        recommended: "iOS/Android mobile application"
+        rationale: "A mobile app leverages always-available hardware sensors (HealthKit), fits into daily-check-in behavior patterns (like checking weather or social media), and supports the passive+active hybrid data model. The intimate screen size suits a personal garden — this is something you hold close, not display on a wall."
+        alternatives:
+          - "Physical installation with projection mapping — more visceral, but loses the daily portability and passive sensor integration"
+          - "Web app — wider reach, lower friction, but loses HealthKit/Google Fit integration and the intimacy of a phone-native experience"
+      technical_requirements:
+        must_have:
+          - "Apple HealthKit and Google Fit integration for passive biometric data"
+          - "Procedural plant generation system with smooth interpolation between emotional states"
+          - "Daily journal entry input (1-3 sentences, NLP sentiment analysis)"
+          - "Local-first data architecture (emotional data is sensitive)"
+          - "Push notification system for daily garden check-in reminder"
+        nice_to_have:
+          - "Apple Watch companion for HRV real-time feedback"
+          - "Shareable garden snapshots (anonymized, opt-in)"
+          - "Seasonal events — garden responds to real weather at user's location"
+          - "Multi-garden capability (one for work stress, one for relationships, etc.)"
+        tech_debt_risks:
+          - "Cross-platform HealthKit/Google Fit abstraction layer will be brittle"
+          - "Procedural plant system tuning is open-ended — needs a hard stop condition"
+          - "Local-first + optional cloud backup creates sync conflict surface"
+      timeline_estimate:
+        phases:
+          - phase: "Concept & Design"
+            duration: "4 weeks"
+            deliverables:
+              - "User research synthesis"
+              - "Emotion-to-garden mapping design document"
+              - "Wireframes for all core screens"
+              - "Visual style guide and plant asset direction"
+          - phase: "Core Prototype"
+            duration: "8 weeks"
+            deliverables:
+              - "Procedural plant generation engine (Unity or custom Metal/OpenGL)"
+              - "Sentiment analysis pipeline for journal entries"
+              - "HealthKit integration (read-only biometrics)"
+              - "Local SQLite data layer"
+              - "Functional prototype with 3 emotional states driving 3 garden states"
+          - phase: "Production Build"
+            duration: "8 weeks"
+            deliverables:
+              - "Full emotional range → garden state interpolation"
+              - "Notification system with smart scheduling"
+              - "Onboarding flow"
+              - "All UI polished to visual spec"
+              - "Accessibility pass (VoiceOver, Dynamic Type)"
+          - phase: "Testing & Polish"
+            duration: "4 weeks"
+            deliverables:
+              - "Beta test with 20 users (2-week diary study)"
+              - "Performance optimization (procedural plant should run at 60fps)"
+              - "App Store assets and copy"
+              - "Privacy nutrition label preparation"
+        total_estimate: "24 weeks (6 months) — within constraint"
+        acceleration_opportunities:
+          - "Phase 1 and Phase 2 start can overlap by 2 weeks if design decisions are made quickly"
+          - "Procedural plant engine can be scoped to 6 plant archetypes instead of infinite generation"
+          - "Android can be deferred to v1.1 — launch iOS-first cuts 4 weeks"
+      mood_board_keywords:
+        - "bioluminescent terrarium"
+        - "alien succulent garden"
+        - "Moebius botanical illustrations"
+        - "slow growth time-lapse"
+        - "deep ocean thermal vents"
+        - "morning light through greenhouse glass"
+        - "digital ghost plants"
+      reference_works:
+        - "Viridi (2015) — meditative succulent-growing app, the closest spiritual predecessor"
+        - "Tamagotchi (1996) — the emotional accountability loop between human and virtual creature"
+        - "Flower (2009, thatgamecompany) — emotion-driven environmental response, wordless storytelling"
+        - "Prune (2015) — minimalist touch interaction with growing things, meditative pacing"
+        - "Lumen (2020) — procedural plant generation driven by user input"
+        - "Dear Data (2016, Lupi & Posavec) — data as personal narrative, hand-drawn visualization of inner life"
+      risk_factors:
+        - risk: "Emotion detection feels inaccurate or creepy — users reject it"
+          likelihood: "medium"
+          impact: "high"
+          mitigation: "Frame garden responses as 'poetic interpretation' not 'scientific measurement.' Include a calibration period where users can correct the garden's read. Never surface raw biometric data — only the garden's response."
+        - risk: "Daily engagement drops after novelty wears off (Week 3 churn)"
+          likelihood: "high"
+          impact: "medium"
+          mitigation: "Introduce seasonal events, rare plant mutations that require consistent care to unlock, and garden 'memories' — the garden replays past emotional states as time-lapse blooms. Build the notification strategy around FOMO for rare events, not guilt."
+        - risk: "Procedural plant generation becomes a time sink — never feels 'done'"
+          likelihood: "medium"
+          impact: "medium"
+          mitigation: "Define 6 plant archetypes upfront as a complete set. Infinite variation happens within those 6 forms. Greenlight each archetype with a visual spec before coding. No new archetypes in v1.0."
+        - risk: "HealthKit/Google Fit permissions scare users at onboarding"
+          likelihood: "medium"
+          impact: "high"
+          mitigation: "Allow journal-only mode as a lighter entry point. Explain exactly what data is read and why — 'We read your resting heart rate so your garden can show you when you're stressed before you notice it yourself.' Never request write access."
+        - risk: "Budget overrun on visual asset creation"
+          likelihood: "low"
+          impact: "high"
+          mitigation: "All garden assets must be procedural or parametric, not hand-modeled. One artist defines the generation rules, not individual plants. The engine does the variation."
+      next_step: "Build a static prototype of the 3-state garden (calm / stressed / neutral) in a weekend using pre-rendered plant images. Show it to 5 people. Ask: 'Would you check on this tomorrow?' Their answer tells you whether the core loop works."

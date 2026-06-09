@@ -1,7 +1,7 @@
 {
-  "name": "grymoire-cli",
+  "name": "grimoire-cli",
   "version": "0.1.0",
-  "description": "GRIMOIRE CLI — command-line spell marketplace",
+  "description": "GRIMOIRE CLI — Primitive Wildflower spell casting engine. Install, cast, create, and publish AI capabilities as structured spells.",
   "type": "module",
   "main": "src/cli.ts",
   "bin": {

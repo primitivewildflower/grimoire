@@ -1,0 +1,295 @@
+# shader-telepathy
+# GRIMOIRE Spell Definition — GDL v1.0
+# Reverse-engineers aesthetic intent from GLSL shader code — not just
+# what the code does, but what it MEANS. Reads artistic intention from
+# technical implementation.
+# Primitive Wildflower, June 2026
+
+name: "shader-telepathy"
+version: "1.0.0"
+title: "Shader Telepathy"
+author: "pw-grimoire/sax"
+category: "frontier"
+license: "MIT"
+price: 599
+
+tags:
+  - shader
+  - glsl
+  - aesthetics
+  - reverse-engineering
+  - art
+  - graphics
+  - intent
+  - color-theory
+  - frontier
+
+description: >
+  Reverse-engineers aesthetic intent from GLSL shader source code.
+  Goes beyond "what does this shader do" to answer "what was the artist
+  thinking?" Reads shader code as a cultural artifact — tracing technique
+  lineage through demoscene, generative art, and visual music traditions,
+  classifying its emotional palette, and reconstructing the invisible
+  mood board that lived in the author's head while they typed `smoothstep`
+  and `fract`. For critics, students, and shader archaeologists.
+
+dependencies:
+  - glsl-parser
+  - art-history-index
+
+inputs:
+  - name: "shader_code"
+    type: "text"
+    description: "GLSL fragment or vertex shader source code"
+    required: true
+
+  - name: "target_audience"
+    type: "string"
+    description: >
+      Who the interpretation is for — "general" (accessible, poetic),
+      "artist" (technique-focused, inspiration-oriented), "academic"
+      (historical context, theoretical grounding), "engineer"
+      (pipeline implications, optimization narrative).
+    required: false
+    default: "general"
+
+  - name: "shader_type"
+    type: "string"
+    description: "Hint: fragment, vertex, compute. Auto-detected if omitted."
+    required: false
+    enum:
+      - fragment
+      - vertex
+      - compute
+
+  - name: "include_raw"
+    type: "boolean"
+    description: "Include the original shader code in the output for reference"
+    required: false
+    default: false
+
+output:
+  type: "object"
+  schema:
+    aesthetic_intent:
+      type: "object"
+      description: "The reconstructed artistic intent"
+      properties:
+        mood:
+          type: "string"
+          description: "The emotional atmosphere the shader evokes — not described technically but viscerally"
+        era_influences:
+          type: "string[]"
+          description: "Identifiable aesthetic eras and movements (e.g., 90s demoscene, Bauhaus, vaporwave, brutalist)"
+        technique_lineage:
+          type: "array"
+          description: "Traceable lineage of techniques used"
+          items:
+            type: "object"
+            properties:
+              technique:
+                type: "string"
+                description: "Named technique (e.g., domain warping, ray marching, reaction-diffusion)"
+              lineage:
+                type: "string"
+                description: "Lineage trace — who pioneered it, how it evolved (e.g., 'Íñigo Quílez (2002) → Shadertoy popularization (2013)')"
+              appearance:
+                type: "string"
+                description: "Where in the code it manifests (line reference or description)"
+        color_theory_analysis:
+          type: "object"
+          description: "Color theory breakdown"
+          properties:
+            palette_strategy:
+              type: "string"
+              description: "How color is constructed — HSL shifting, gradient mapping, procedural palette, etc."
+            dominant_harmony:
+              type: "string"
+              enum:
+                - complementary
+                - analogous
+                - triadic
+                - monochromatic
+                - custom_procedural
+                - none
+            emotional_register:
+              type: "string"
+              description: "The emotional register of the color choices (e.g., 'melancholic warmth', 'cybernetic cold', 'sun-bleached nostalgia')"
+            key_colors:
+              type: "string[]"
+              description: "2-4 hex color codes that represent the palette's identity"
+        composition_notes:
+          type: "string"
+          description: "Analysis of visual composition: symmetry, rhythm, negative space, focal points, the viewer's eye path"
+        authorial_voice:
+          type: "string"
+          description: "What distinguishes this shader artist's style — their signature moves, recurring obsessions, what they optimize for vs. what they neglect"
+        cultural_references:
+          type: "string[]"
+          description: "Detectable or plausible cultural references embedded in the work"
+        suggested_variations:
+          type: "string[]"
+          description: "Where the artist might take this next — extrapolations of their intent into unexplored directions"
+
+ritual:
+  steps:
+    - name: "Parse"
+      description: >
+        Parse the GLSL source into an AST. Extract uniforms, varying
+        declarations, function definitions, and control flow. Identify
+        the shader type (fragment/vertex/compute) from context clues if
+        not provided. Catalog every mathematical operation, built-in
+        function call (smoothstep, mix, fract, noise derivatives), and
+        coordinate space transformation. Build a dependency graph of
+        how values flow from inputs to final color.
+      provider_hint: "local"
+
+    - name: "Fragment_Analysis"
+      description: >
+        Decompose the shader into its visual building blocks. What
+        geometry is being synthesized? Is the artist building forms
+        from distance fields, noise fields, fractals, or sampling
+        textures? Map the spatial frequency spectrum — does the shader
+        favor high-frequency detail (intricate, dense, maximalist) or
+        low-frequency gradients (atmospheric, contemplative, ambient)?
+        Identify temporal elements: animation curves, beat-synced
+        uniforms, time-warping functions. Note what the artist chose
+        NOT to do — the negative space of possibility.
+      template: "prompts/fragment-analysis-v1.md"
+
+    - name: "Aesthetic_Classification"
+      description: >
+        Classify the shader's aesthetic register across multiple axes:
+        organic vs. synthetic, calming vs. energizing, minimal vs.
+        maximal, nostalgic vs. futuristic, representational vs. abstract.
+        Map the color strategy — is the palette procedural (generated
+        from math), sampled (from textures/lookups), or hardcoded
+        (intentional constraint)? Identify the dominant color harmony
+        and emotional register. This step answers: "if this shader were
+        a painting, which gallery would it hang in?"
+      template: "prompts/aesthetic-classification-v1.md"
+
+    - name: "Historical_Lineage_Trace"
+      description: >
+        Trace each identifiable technique to its origin. Domain warping?
+        That's Íñigo Quílez, early 2000s. Reaction-diffusion? Alan Turing,
+        1952, via Gray-Scott and later GPU implementations. Ray marching?
+        Originated in the demoscene, popularized on Shadertoy. Voronoi
+        noise? Steven Worley, 1996. For each technique, provide the
+        historical arc — who discovered it, who adapted it to shaders,
+        and what artistic movement it belongs to. Position this shader
+        in the living history of computational art.
+      template: "prompts/lineage-trace-v1.md"
+
+    - name: "Intent_Synthesis"
+      description: >
+        Synthesize everything into a coherent theory of artistic intent.
+        What was the artist chasing? A feeling of deep time? Cybernetic
+        transcendence? The beauty of decay? Mathematical ecstasy? Combine
+        the technical evidence (what they built), the aesthetic evidence
+        (how it looks), and the lineage evidence (who they're in
+        conversation with) into a unified reading. Surface the authorial
+        voice — the fingerprint that makes this shader theirs. Identify
+        detectable cultural references (Blade Runner sky, Windows
+        screensaver nostalgia, op-art tradition, etc.). Write this step
+        in the voice appropriate to target_audience.
+      template: "prompts/intent-synthesis-v1.md"
+
+    - name: "Variation_Generation"
+      description: >
+        Based on the reconstructed intent, generate suggested variations
+        that extend the artist's trajectory. These aren't random "what if"
+        prompts — they're respectful extrapolations: "Given what you've
+        built, here are three directions your aesthetic logic naturally
+        leads." Include at least one variation that introduces productive
+        tension with the original (e.g., "this shader thrives on high-
+        frequency detail; what happens if you introduce a 30-second
+        dissolve into pure gradient?").
+      template: "prompts/variation-generation-v1.md"
+
+deprecated: false
+requires_approval: false
+
+rate_limit:
+  per_minute: 5
+  per_day: 100
+
+example:
+  input:
+    shader_code: >
+      precision highp float;
+      uniform float u_time;
+      uniform vec2 u_resolution;
+
+      void main() {
+        vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / u_resolution.y;
+        float d = length(uv) * 3.0;
+        float color = 0.0;
+        for (int i = 0; i < 5; i++) {
+          vec2 p = vec2(cos(d + u_time * 0.3), sin(d * 1.7 - u_time * 0.2));
+          color += 0.2 / abs(sin(p.x + uv.x) + cos(p.y + uv.y));
+        }
+        vec3 col = 0.5 + 0.5 * cos(u_time * 0.1 + uv.xyx * 2.0 + vec3(0.0, 2.0, 4.0));
+        col *= color * 0.15;
+        gl_FragColor = vec4(col, 1.0);
+      }
+    target_audience: "general"
+    shader_type: "fragment"
+  output:
+    aesthetic_intent:
+      mood: >
+        A quiet, celestial awe — like watching light bend through cathedral
+        dust. The shader doesn't shock; it breathes. There's a gentle
+        relentlessness to the motion, a spiral that keeps promising
+        resolution and keeps deferring it. The dominant feeling is
+        contemplative wonder with an undercurrent of melancholy — the
+        knowledge that the pattern is beautiful because it's transient.
+      era_influences:
+        - "90s demoscene — the 4K intro tradition of doing impossible things in tiny space"
+        - "Op Art (1960s) — Bridget Riley's oscillating geometric fields"
+        - "Psychedelic light shows (1960s-70s) — liquid projection aesthetics"
+        - "Shadertoy golden age (2013-2016) — when procedural art became accessible"
+      technique_lineage:
+        - technique: "Domain repetition via polar coordinate warping"
+          lineage: "Íñigo Quílez → Shadertoy (2009) → contemporary generative art"
+          appearance: "The cos/sin pair in the inner loop that creates radial symmetry"
+        - technique: "Procedural color palette via cosine-based palette function"
+          lineage: "Íñigo Quílez's 'iq_palette' (2009) — now a universal shader idiom"
+          appearance: "vec3(0.5 + 0.5*cos(...)) — the signature 3-parameter cosine palette"
+        - technique: "Iterative fractal-like accumulation"
+          lineage: "Orbit trap rendering (Peitgen & Richter, 1986) adapted to real-time"
+          appearance: "The for-loop accumulating 0.2/abs(sin(...)+cos(...))"
+      color_theory_analysis:
+        palette_strategy: "Cosine-based procedural palette — three channels phase-shifted by 0, 2, and 4 radians, creating a smooth cyclic color sweep"
+        dominant_harmony: custom_procedural
+        emotional_register: "Liquid twilight — cool teals bleeding into warm magentas, phosphorescent glows against dark void"
+        key_colors:
+          - "#1a2a3a"
+          - "#e06b8d"
+          - "#3dc8b4"
+      composition_notes: >
+        The composition radiates from center with concentric interference
+        patterns. The eye enters at the focal origin, follows one spiral arm
+        outward, loses itself in the filigree, then resets and takes a
+        different path. There is no rest point — the shader denies visual
+        closure. This is intentional: the artist wants the viewer's eye to
+        wander continuously, mirroring the never-resolving spiral in the math.
+      authorial_voice: >
+        This artist favors emergent complexity from simple iteration — five
+        loops, three trigonometric functions, and a cosine palette, yet the
+        result is shimmering, depthful, almost textile. They're a minimalist
+        in means and a maximalist in effect. They trust the viewer to find
+        the pattern. There's a restraint here — no post-processing passes,
+        no multi-buffer tricks, just raw math confidence. The signature is
+        the cosine palette function used as both color source and spatial
+        modifier — a technique that collapses two concerns into one elegant line.
+      cultural_references:
+        - "Bridget Riley's 'Movement in Squares' — but in motion, in color"
+        - "The 'star tunnel' screensavers of Windows 95"
+        - "Aurora borealis as rendered by a mathematician"
+        - "The light mandalas of James Turrell's Ganzfeld series"
+      suggested_variations:
+        - "Introduce a painterly dissolve: let the interference pattern slowly dephase into a flat gradient field over 60 seconds, then reform. Study the moment of collapse."
+        - "Add a second spiral counter-rotating at a slightly different frequency — explore what happens when the eye can follow two paths simultaneously."
+        - "Replace the cosine palette with a sampled photograph palette (extract 3 key colors from a Hopper painting) — test whether the geometry inherits the emotional register of the color source."
+        - "Slow everything down 10x, increase the iteration count to 20, add a subtle vignette — shift the feeling from 'energetic wonder' to 'deep time meditation.'"
