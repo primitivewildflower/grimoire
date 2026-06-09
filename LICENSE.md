@@ -50,7 +50,7 @@ TITLE.
 -----------------------------------------------------------------------------
 
 Licensed Work:        GRIMOIRE — AI Capability Definition Language + Marketplace
-The Licensed Work is (c) 2026 Primitive Wildflower (Saxon John Baci Evers)
+The Licensed Work is (c) 2026 Primitive Wildflower
 
 Additional Use Grant: You may use the Licensed Work for non-production,
 non-commercial purposes, including personal use, academic research,
