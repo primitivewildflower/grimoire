@@ -1,4 +1,4 @@
-# GRIMOIRE — Spell Marketplace
+# <img src="grimoire-icon.svg" width="28" height="28" alt="✦"> GRIMOIRE — Spell Marketplace
 
 > *"Spells are capabilities. The grimoire is the marketplace."*
 

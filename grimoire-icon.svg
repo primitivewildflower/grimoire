@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="emerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2ECC71"/>
+      <stop offset="100%" style="stop-color:#27AE60"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#F1C40F"/>
+      <stop offset="100%" style="stop-color:#E67E22"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Book cover -->
+  <rect x="20" y="10" width="60" height="90" rx="4" fill="url(#emerald)" stroke="#1a6e3e" stroke-width="2"/>
+  
+  <!-- Book spine -->
+  <line x1="20" y1="10" x2="20" y2="100" stroke="#1a6e3e" stroke-width="1"/>
+  
+  <!-- Book pages -->
+  <rect x="78" y="14" width="8" height="84" rx="1" fill="#0d5030"/>
+  
+  <!-- Center symbol — hexagram -->
+  <polygon points="50,25 65,55 50,85 35,55" fill="none" stroke="url(#gold)" stroke-width="2.5"/>
+  <polygon points="35,55 50,25 65,55 50,85" fill="none" stroke="url(#gold)" stroke-width="1.5"/>
+  
+  <!-- Sparkle 1 -->
+  <circle cx="50" cy="55" r="2" fill="url(#gold)"/>
+  
+  <!-- Sparkle 2 -->
+  <circle cx="42" cy="40" r="1.5" fill="url(#gold)"/>
+  
+  <!-- Sparkle 3 -->
+  <circle cx="58" cy="70" r="1.5" fill="url(#gold)"/>
+</svg>
