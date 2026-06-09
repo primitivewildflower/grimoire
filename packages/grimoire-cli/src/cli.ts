@@ -182,7 +182,7 @@ async function cmdSearch(query: string): Promise<void> {
     return;
   }
 
-  console.log(accent(`  🔮 Search: "${query}" — ${results.length} results`));
+  console.log(accent(`  ◆ Search: "${query}" — ${results.length} results`));
   console.log(dark('  ──────────────────────────────────────────────────'));
   for (const entry of results) {
     const s = entry.spell;
@@ -258,7 +258,7 @@ async function cmdCast(spellName: string, options: Record<string, string>): Prom
     return;
   }
 
-  console.log(accent(`  🕯️  Casting: ${spell.title}`));
+  console.log(accent(`  ✦ Casting: ${spell.title}`));
   console.log(dark('  ──────────────────────────────────────────────────'));
   console.log(`  ${muted('Version:')} ${spell.version}  ${muted('Author:')} ${spell.author}`);
   console.log(`  ${muted('Category:')} ${spell.category}  ${muted('License:')} ${spell.license}`);
@@ -291,7 +291,7 @@ async function cmdCast(spellName: string, options: Record<string, string>): Prom
 
 async function cmdCreate(): Promise<void> {
   banner();
-  console.log(accent('  🕯️  Create a New Spell'));
+  console.log(accent('  ✦ Create a New Spell'));
   console.log(dark('  ──────────────────────────────────────────────────'));
   console.log('');
 
