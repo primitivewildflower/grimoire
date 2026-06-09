@@ -1,0 +1,17 @@
+{
+  "name": "grimoire",
+  "private": true,
+  "description": "GRIMOIRE — AI Capability Definition Language + Marketplace",
+  "workspaces": [
+    "packages/grymoire-core",
+    "packages/grymoire-cli",
+    "packages/grymoire-ui"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "dev:ui": "npm run dev -w grymoire-ui",
+    "cli": "npm run cli -w grymoire-cli",
+    "lint": "npm run lint --workspaces",
+    "test": "npm run test --workspaces"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "grymoire-core",
+  "version": "0.1.0",
+  "description": "GRIMOIRE core — spell definition language, validator, and execution engine",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts"
+  },
+  "dependencies": {
+    "yaml": "^2.4.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.0.0"
+  }
+}
