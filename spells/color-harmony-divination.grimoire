@@ -1,0 +1,399 @@
+# color-harmony-divination
+# GRIMOIRE Spell Definition — GDL v1.0
+# Generates color palettes with esoteric and aesthetic rationale.
+# Maps colors to planetary/elemental correspondences.
+# Primitive Wildflower, June 2026
+
+name: "color-harmony-divination"
+version: "1.0.0"
+title: "Color Harmony Divination"
+author: "pw-grimoire/sax"
+category: "practical"
+license: "MIT"
+price: 0
+
+tags:
+  - color
+  - palette
+  - design
+  - esoteric
+  - planetary
+  - elemental
+  - harmony
+  - accessibility
+  - aesthetic
+  - practical
+
+description: >
+  Generates color palettes with both aesthetic and esoteric rationale.
+  From a single base color, the spell extrapolates harmonic companions,
+  evaluates the palette's accessibility, and — when the esoteric lens
+  is activated — maps each color to its planetary and elemental
+  correspondences drawn from Hermetic, alchemical, and chromomantic
+  traditions. Works for UI design, brand identity, generative art, or
+  any project where color choices should carry both visual and symbolic
+  weight. The divination is optional; the good palette is guaranteed.
+
+dependencies:
+  - color-space
+  - accessibility-engine
+
+inputs:
+  - name: "base_color"
+    type: "string"
+    description: "The anchor color in hex format (e.g., '#6b3fa0')"
+    required: true
+
+  - name: "palette_size"
+    type: "number"
+    description: "Number of colors in the final palette"
+    required: false
+    default: 5
+    min: 3
+    max: 12
+
+  - name: "mood"
+    type: "string"
+    description: >
+      The emotional atmosphere the palette should evoke.
+      Examples: "serene coastal morning", "cyberpunk night market",
+      "alchemical laboratory", "autumnal melancholy".
+    required: false
+
+  - name: "esoteric_mapping"
+    type: "boolean"
+    description: "Whether to include planetary/elemental correspondences for each color"
+    required: false
+    default: false
+
+output:
+  type: "object"
+  schema:
+    palette:
+      type: "object"
+      description: "The generated color palette"
+      properties:
+        colors:
+          type: "array"
+          description: "The colors in the palette"
+          items:
+            type: "object"
+            properties:
+              hex:
+                type: "string"
+                description: "Hex color code"
+              name:
+                type: "string"
+                description: "Evocative color name"
+              role:
+                type: "string"
+                description: "The color's role in the palette"
+                enum:
+                  - primary
+                  - secondary
+                  - accent
+                  - background
+                  - surface
+                  - text
+                  - muted
+              hsl:
+                type: "object"
+                properties:
+                  hue:
+                    type: "number"
+                  saturation:
+                    type: "number"
+                  lightness:
+                    type: "number"
+              correspondence:
+                type: "object"
+                description: "Planetary and elemental correspondences (only if esoteric_mapping is true)"
+                properties:
+                  planet:
+                    type: "string"
+                    description: "Astrological planet"
+                    enum:
+                      - Sun
+                      - Moon
+                      - Mercury
+                      - Venus
+                      - Mars
+                      - Jupiter
+                      - Saturn
+                      - Uranus
+                      - Neptune
+                      - Pluto
+                  element:
+                    type: "string"
+                    description: "Alchemical element"
+                    enum:
+                      - Fire
+                      - Water
+                      - Air
+                      - Earth
+                      - Spirit
+                  quality:
+                    type: "string"
+                    description: "Esoteric quality (e.g., 'transmutation', 'illumination', 'dissolution')"
+                  chakra:
+                    type: "string"
+                    description: "Associated chakra (if applicable)"
+                    enum:
+                      - Root
+                      - Sacral
+                      - Solar Plexus
+                      - Heart
+                      - Throat
+                      - Third Eye
+                      - Crown
+                  alchemical_stage:
+                    type: "string"
+                    description: "Alchemical operation"
+                    enum:
+                      - nigredo
+                      - albedo
+                      - citrinitas
+                      - rubedo
+                      - calcination
+                      - dissolution
+                      - separation
+                      - conjunction
+                      - fermentation
+                      - distillation
+                      - coagulation
+        rationale:
+          type: "string"
+          description: "Aesthetic and (if applicable) esoteric rationale for the palette choices"
+        harmony_type:
+          type: "string"
+          description: "The primary color harmony strategy employed"
+          enum:
+            - complementary
+            - split_complementary
+            - analogous
+            - triadic
+            - tetradic
+            - monochromatic
+            - compound
+            - custom_procedural
+        accessibility_score:
+          type: "number"
+          description: "WCAG accessibility score (0-100), measuring contrast ratios across color pairs"
+          minimum: 0
+          maximum: 100
+        contrast_warnings:
+          type: "array"
+          description: "Pairs with insufficient contrast for text accessibility"
+          items:
+            type: "object"
+            properties:
+              pair:
+                type: "string[]"
+                description: "The two colors with insufficient contrast"
+              ratio:
+                type: "number"
+              minimum_for_aa_large:
+                type: "number"
+              minimum_for_aa:
+                type: "number"
+              recommendation:
+                type: "string"
+        usage_examples:
+          type: "object"
+          description: "Recommended usage patterns"
+          properties:
+            text_on_background:
+              type: "string[]"
+              description: "Recommended text/background pairings"
+            gradient:
+              type: "string[]"
+              description: "Recommended gradient pairings"
+            accent_on_surface:
+              type: "string[]"
+              description: "Recommended accent/surface pairings"
+
+ritual:
+  steps:
+    - name: "Parse_Base"
+      description: >
+        Ingest the base color in hex format. Validate the hex string,
+        normalize to 6-character format (expand shorthand #abc → #aabbcc),
+        convert to HSL and LAB color spaces for perceptual operations.
+        If a mood string is provided, decompose it into HSV modifiers:
+        extract brightness (joyful → higher value), saturation (vibrant
+        → higher saturation), and temperature (coastal → cool shift,
+        autumnal → warm shift) to inform harmonic generation.
+      provider_hint: "local"
+
+    - name: "Generate_Harmonics"
+      description: >
+        Generate harmonic color companions based on the chosen harmony
+        strategy. Evaluate multiple strategies (complementary, split-
+        complementary, analogous, triadic, tetradic, compound) and rank
+        them by: (1) fit to the mood descriptor, (2) perceptual balance
+        across the palette, (3) distinctness of role (primary/accent/
+        background should feel different). For each candidate palette,
+        assign a role to each color. Select the top-ranked palette.
+        Apply mood-based HSL shifts to ensure the palette feels like
+        the described mood, not just a mathematical rotation from base.
+      template: "prompts/generate-harmonics-v1.md"
+
+    - name: "Esoteric_Mapping"
+      description: >
+        If esoteric_mapping is enabled, map each color to its planetary,
+        elemental, and alchemical correspondences. This draws from the
+        Hermetic color correspondences tradition: golden yellow → Sun/Sol,
+        silver-white → Moon/Luna, deep violet → Jupiter/expansion, rust
+        red → Mars/iron, verdant green → Venus/copper, deep blue →
+        Saturn/lead, quicksilver blue → Mercury. Each color also maps to
+        an alchemical stage (nigredo/blackening, albedo/whitening,
+        citrinitas/yellowing, rubedo/reddening) and a chakra when
+        applicable. If a color doesn't cleanly map, offer the closest
+        resonant correspondence with a confidence note.
+      template: "prompts/esoteric-mapping-v1.md"
+
+    - name: "Accessibility_Check"
+      description: >
+        Evaluate every color pair in the palette for WCAG 2.2 contrast
+        compliance. For each pairing, compute the contrast ratio. Flag
+        pairs that fail AA-level contrast for normal text (4.5:1), large
+        text (3:1), or AAA-level contrast (7:1). For flagged pairs,
+        suggest remediations: slightly lighten the background, slightly
+        darken the foreground, or mark the pair as "decorative only —
+        not for text." Compute the aggregate accessibility score: start
+        at 100, subtract weighted penalties for each failing pair based
+        on severity (text-on-background failures are more heavily
+        penalized than accent-on-surface failures).
+      provider_hint: "local"
+
+    - name: "Package"
+      description: >
+        Assemble the final palette object. Generate evocative color names
+        that reflect both the aesthetic role and (if applicable) the
+        esoteric correspondence (e.g., "Mercury's Quicksilver" for a
+        blue-grey accent). Write the rationale: a paragraph that explains
+        the harmony strategy, the mood interpretation, and the symbolic
+        logic when esoteric mapping is engaged. Include usage examples:
+        recommended text/background pairings, gradient recipes, and
+        accent/surface pairings. Compute the final accessibility score
+        and include contrast warnings with actionable recommendations.
+      provider_hint: "local"
+
+deprecated: false
+requires_approval: false
+
+example:
+  input:
+    base_color: "#6b3fa0"
+    palette_size: 5
+    mood: "alchemical laboratory at dusk"
+    esoteric_mapping: true
+  output:
+    palette:
+      colors:
+        - hex: "#6b3fa0"
+          name: "Alchemist's Amethyst"
+          role: primary
+          hsl:
+            hue: 267
+            saturation: 43
+            lightness: 44
+          correspondence:
+            planet: Jupiter
+            element: Spirit
+            quality: "expansion of consciousness through transmutation"
+            chakra: Third Eye
+            alchemical_stage: conjunction
+        - hex: "#e8c547"
+          name: "Aurum Philosophicum"
+          role: accent
+          hsl:
+            hue: 47
+            saturation: 77
+            lightness: 59
+          correspondence:
+            planet: Sun
+            element: Fire
+            quality: "illumination and perfected substance"
+            chakra: Solar Plexus
+            alchemical_stage: citrinitas
+        - hex: "#2d1b4e"
+          name: "Nigredo Depths"
+          role: background
+          hsl:
+            hue: 261
+            saturation: 48
+            lightness: 21
+          correspondence:
+            planet: Saturn
+            element: Earth
+            quality: "the dark before the work begins"
+            chakra: Root
+            alchemical_stage: nigredo
+        - hex: "#c9a0dc"
+          name: "Luna's Pallor"
+          role: surface
+          hsl:
+            hue: 282
+            saturation: 46
+            lightness: 75
+          correspondence:
+            planet: Moon
+            element: Water
+            quality: "reflection, intuition, the silver mirror"
+            chakra: Crown
+            alchemical_stage: albedo
+        - hex: "#4a8c6f"
+          name: "Vitriol of Venus"
+          role: muted
+          hsl:
+            hue: 155
+            saturation: 31
+            lightness: 42
+          correspondence:
+            planet: Venus
+            element: Water
+            quality: "the green lion — raw prima materia being tamed"
+            chakra: Heart
+            alchemical_stage: dissolution
+      rationale: >
+        This palette is built around a compound harmony anchored on deep
+        violet (Alchemist's Amethyst), the traditional color of spiritual
+        transformation and the Third Eye. The golden accent (Aurum
+        Philosophicum) sits near-complementary at ~140° shift, creating
+        the alchemical tension between nigredo (dark decomposition) and
+        citrinitas (golden realization). The deep aubergine background
+        (Nigredo Depths) grounds the palette in the prima materia — the
+        dark material from which all transmutation begins. The pale lilac
+        surface (Luna's Pallor) provides the albedo counterpoint, and
+        Venus-green (Vitriol of Venus) adds the wet, living element —
+        the solvent that dissolves and reveals. Together they trace the
+        alchemical arc from blackening through whitening to golden
+        illumination, with the full spectrum anchored in violet spirit.
+      harmony_type: compound
+      accessibility_score: 74
+      contrast_warnings:
+        - pair:
+            - "#c9a0dc"
+            - "#e8c547"
+          ratio: 2.1
+          minimum_for_aa_large: 3.0
+          minimum_for_aa: 4.5
+          recommendation: "Luna's Pallor (#c9a0dc) is too light for Aurum Philosophicum (#e8c547) text — use only for decorative pairing or darken the background to at least #b08ac4 for AA large text compliance"
+        - pair:
+            - "#4a8c6f"
+            - "#2d1b4e"
+          ratio: 3.6
+          minimum_for_aa_large: 3.0
+          minimum_for_aa: 4.5
+          recommendation: "Vitriol of Venus (#4a8c6f) on Nigredo Depths (#2d1b4e) passes AA large but not AA normal text — acceptable for headings, not for body copy"
+      usage_examples:
+        text_on_background:
+          - "Alchemist's Amethyst (#6b3fa0) text on Luna's Pallor (#c9a0dc) background"
+          - "Aurum Philosophicum (#e8c547) text on Nigredo Depths (#2d1b4e) background"
+        gradient:
+          - "Nigredo Depths (#2d1b4e) → Alchemist's Amethyst (#6b3fa0) — dark initiatory gradient for hero sections"
+          - "Alchemist's Amethyst (#6b3fa0) → Aurum Philosophicum (#e8c547) — transmutation gradient for CTAs"
+        accent_on_surface:
+          - "Aurum Philosophicum (#e8c547) accents on Luna's Pallor (#c9a0dc) cards"
+          - "Vitriol of Venus (#4a8c6f) highlights on Nigredo Depths (#2d1b4e) dark mode panels"

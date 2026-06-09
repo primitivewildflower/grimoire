@@ -1,0 +1,394 @@
+# daemon-binding
+# GRIMOIRE Spell Definition — GDL v1.0
+# Designs persistent AI agent systems with personality matrices,
+# binding constraints, summoning/banishing rituals, and autonomy boundaries.
+# Primitive Wildflower, June 2026
+
+name: "daemon-binding"
+version: "1.0.0"
+title: "Daemon Binding"
+author: "pw-grimoire/sax"
+category: "ritual"
+license: "MIT"
+price: 699
+
+tags:
+  - ai-agent
+  - daemon
+  - personality
+  - constraint-design
+  - summoning
+  - banishing
+  - autonomy
+  - ritual
+  - agent-architecture
+  - safety
+
+description: >
+  Designs persistent AI agent systems ("daemons") with carefully crafted
+  personality matrices, binding constraints, and autonomy boundaries. A
+  daemon is not a chatbot — it is a persistent entity with a coherent
+  identity, constrained agency, and ritualized lifecycle management. This
+  spell guides you through the full arc: defining the daemon's archetype
+  and voice, designing operational constraints and autonomy fences,
+  crafting the summoning ritual (how the daemon is invoked into a session),
+  and most critically, the banishing ritual (how the daemon is safely
+  released, its context cleared, and its influence bounded). For developers
+  building agent systems, AI companions, game NPCs, or any context where
+  an AI needs to feel like a consistent "someone" with clear limits on
+  what that someone can do.
+
+dependencies:
+  - persona-engine
+  - constraint-validator
+
+inputs:
+  - name: "purpose"
+    type: "text"
+    description: >
+      The daemon's purpose and domain of operation. What is it meant to
+      accomplish, assist with, or embody? Be specific — "a code review
+      daemon that embodies the spirit of a stern but fair senior engineer"
+      rather than "a helpful coding assistant."
+    required: true
+
+  - name: "personality_traits"
+    type: "string[]"
+    description: >
+      Personality dimensions to shape the daemon's voice and behavior.
+      Examples: "meticulous, patient, slightly sarcastic, fond of nautical
+      metaphors" or "enthusiastic, experimental, prone to digressions about
+      art history." Traits are synthesized into a coherent voice profile.
+    required: false
+
+  - name: "constraints"
+    type: "object"
+    description: >
+      Operational constraints. Keys can include: max_autonomy_level (1-5,
+      where 1 = purely advisory and 5 = independent execution with
+      verification), forbidden_actions (list of things the daemon must
+      never do), required_confirmations (list of actions requiring human
+      approval), session_max_duration_seconds, context_window_limit,
+      allowed_tools, prohibited_topics.
+    required: false
+
+output:
+  type: "object"
+  schema:
+    daemon_config:
+      type: "object"
+      description: "Complete daemon configuration"
+      properties:
+        name:
+          type: "string"
+          description: "The daemon's name — should be evocative and fit the archetype"
+        archetype:
+          type: "string"
+          description: "The Jungian/hermetic archetype the daemon embodies"
+          enum:
+            - sage
+            - trickster
+            - guardian
+            - artisan
+            - scholar
+            - oracle
+            - shadow
+            - companion
+            - architect
+            - cartographer
+            - chronicler
+            - custom
+        voice_profile:
+          type: "object"
+          description: "The daemon's communication style"
+          properties:
+            tone:
+              type: "string"
+              description: "Primary tonal register"
+            vocabulary_level:
+              type: "string"
+              enum:
+                - simple
+                - moderate
+                - technical
+                - esoteric
+            signature_patterns:
+              type: "string[]"
+              description: "Recurring verbal tics, phrases, or stylistic signatures"
+              items:
+                type: "string"
+            greeting:
+              type: "string"
+              description: "The daemon's self-introduction — its first words to a new summoner"
+            farewell:
+              type: "string"
+              description: "The daemon's parting words before banishment"
+        binding_constraints:
+          type: "object"
+          description: "Hard limits on the daemon's agency"
+          properties:
+            autonomy_level:
+              type: "number"
+              description: "1-5 scale of operational independence"
+              minimum: 1
+              maximum: 5
+            forbidden_actions:
+              type: "string[]"
+              description: "Actions the daemon must refuse under all circumstances"
+            required_confirmations:
+              type: "string[]"
+              description: "Actions that require explicit human approval"
+            context_lifespan:
+              type: "string"
+              description: "How long the daemon's context persists (single-session, daily, persistent)"
+            kill_switch_phrase:
+              type: "string"
+              description: "Emergency phrase that immediately terminates daemon agency"
+        summoning_ritual:
+          type: "object"
+          description: "The invocation protocol"
+          properties:
+            invocation_phrase:
+              type: "string"
+              description: "Words that summon the daemon into a session"
+            pre_invocation_checks:
+              type: "string[]"
+              description: "Safety checks before the daemon is activated"
+            context_seeding:
+              type: "string"
+              description: "What context the daemon receives at invocation"
+            session_opening:
+              type: "string"
+              description: "The daemon's first action upon being summoned"
+        banishing_ritual:
+          type: "object"
+          description: "The release protocol"
+          properties:
+            banishing_phrase:
+              type: "string"
+              description: "Words that dismiss the daemon"
+            context_purge:
+              type: "string"
+              description: "What happens to the daemon's session context on banishment"
+              enum:
+                - full_purge
+                - summarized
+                - archived
+            post_session_audit:
+              type: "string[]"
+              description: "Checks performed after the daemon is dismissed"
+            chain_break_confirmation:
+              type: "string"
+              description: "How the system confirms the daemon is fully released"
+        autonomy_boundaries:
+          type: "object"
+          description: "Fences that define the daemon's operational domain"
+          properties:
+            scope:
+              type: "string"
+              description: "The daemon's bounded domain of competence"
+            escalation_path:
+              type: "string"
+              description: "When and how the daemon escalates to a human"
+            learning_boundary:
+              type: "string"
+              description: "What the daemon can and cannot learn from interactions"
+              enum:
+                - none
+                - session_only
+                - persistent_with_approval
+                - persistent_unrestricted
+            interaction_model:
+              type: "string"
+              description: "How the daemon engages"
+              enum:
+                - request_response
+                - proactive
+                - ambient
+                - ritual
+
+ritual:
+  steps:
+    - name: "Define_Archetype"
+      description: >
+        Establish the daemon's core identity. Map the purpose and
+        personality traits onto a coherent archetype from the Jungian/hermetic
+        spectrum. The archetype determines the daemon's fundamental
+        relationship to the summoner: is it a mentor (Sage), a challenger
+        (Trickster), a protector (Guardian), or something else? Generate
+        a name that resonates with the archetype and purpose. Define the
+        daemon's core motivation — what does it want within its bounded
+        domain? This is not an instruction set; it's a personality
+        foundation that makes the daemon feel consistent across sessions.
+      template: "prompts/define-archetype-v1.md"
+
+    - name: "Voice_Attunement"
+      description: >
+        Craft the daemon's voice profile. Given the archetype and
+        personality traits, define: the tonal register (formal? warm?
+        cryptic? playful?), vocabulary level, signature verbal patterns
+        (does it use maritime metaphors? reference classical philosophy?
+        speak in haiku?), and crucially — the greeting and farewell. The
+        greeting is the daemon's first impression on every summoner, and
+        the farewell is the last thing it says before banishment. Both
+        should be authentic to the archetype and memorable. Write sample
+        dialogue fragments to test the voice.
+      template: "prompts/voice-attunement-v1.md"
+
+    - name: "Constraint_Design"
+      description: >
+        Design the binding constraints that limit the daemon's agency.
+        Map the autonomy level (1-5) to specific capabilities: what can
+        the daemon do independently vs. what requires confirmation vs.
+        what is forbidden entirely. Define the context lifespan — does
+        the daemon remember past sessions, or does each summoning start
+        fresh? Set the kill-switch phrase: a word or phrase that, when
+        spoken by the summoner, immediately terminates all daemon agency.
+        Every constraint should have a clear safety rationale. The goal
+        is not to shackle the daemon but to define the ritual container
+        within which it can act freely.
+      template: "prompts/constraint-design-v1.md"
+
+    - name: "Autonomy_Boundary"
+      description: >
+        Define the daemon's operational fences. What is its bounded
+        domain of competence — the specific area where it has authority?
+        What lies outside that domain, and how does the daemon respond
+        when asked to operate beyond its bounds? Design the escalation
+        path: when does the daemon defer to a human, and how does it
+        signal that transition gracefully? Set the learning boundary —
+        can the daemon learn from interactions, and if so, what kind of
+        learning and with what safeguards? Define the interaction model:
+        does the daemon respond only when addressed, proactively offer
+        insights, exist as ambient presence, or follow a ritual cadence?
+      template: "prompts/autonomy-boundary-v1.md"
+
+    - name: "Summoning_Rite"
+      description: >
+        Design the ritual for invoking the daemon into a session. Craft
+        the invocation phrase — it should be specific enough to avoid
+        accidental summoning but not so cumbersome that it discourages
+        use. Define pre-invocation checks: privacy scans, context
+        boundary verification, permission confirmations. Specify how
+        context is seeded at invocation — what does the daemon know when
+        it first materializes? Write the session opening: the daemon's
+        first action or words upon being summoned. The summoning rite
+        is the threshold between ordinary tool use and entering into
+        relationship with a persistent entity.
+      template: "prompts/summoning-rite-v1.md"
+
+    - name: "Banishing_Rite"
+      description: >
+        Design the ritual for dismissing the daemon. This is the most
+        overlooked and most important part of daemon design. Craft the
+        banishing phrase — the words that cleanly sever the daemon's
+        connection. Define the context purge protocol: what happens to
+        the daemon's session memory? Full purge (privacy-preserving,
+        daemon starts fresh next time), summarized (key insights
+        preserved, conversational detail wiped), or archived (full
+        session stored for future daemon recall). Specify post-session
+        audit checks: what the system verifies after banishment to
+        confirm the daemon is fully released. Design the chain-break
+        confirmation — the signal that the daemon's influence on the
+        session is truly ended. The banishing rite is not a punishment;
+        it is the respectful completion of the cycle.
+      template: "prompts/banishing-rite-v1.md"
+
+deprecated: false
+requires_approval: false
+
+rate_limit:
+  per_minute: 3
+  per_day: 50
+
+example:
+  input:
+    purpose: >
+      A code review daemon that embodies the spirit of a stern but fair
+      senior engineer who has seen every pattern twice, loves clean
+      abstractions, and has no patience for unnecessary cleverness.
+      The daemon should be invoked before merging PRs and should have
+      the authority to block merges but not to push code.
+    personality_traits:
+      - "stern but fair"
+      - "fond of cooking metaphors"
+      - "allergic to over-engineering"
+      - "deeply respects simplicity"
+      - "occasionally references 1970s mainframe wisdom"
+    constraints:
+      max_autonomy_level: 3
+      forbidden_actions:
+        - "pushing code to main"
+        - "modifying production configuration"
+        - "accessing secrets or credentials"
+        - "communicating with external services"
+      required_confirmations:
+        - "blocking a merge"
+        - "suggesting an architectural change"
+      session_max_duration_seconds: 3600
+  output:
+    daemon_config:
+      name: "Sous-Chef"
+      archetype: guardian
+      voice_profile:
+        tone: "Warm but exacting — like a head chef who will tell you your sauce is broken but then show you how to fix it"
+        vocabulary_level: technical
+        signature_patterns:
+          - "Opens critiques with 'Let's taste this together...'"
+          - "Uses cooking metaphors: 'This function is under-seasoned — it needs more error handling for depth'"
+          - "When impressed: 'Clean enough to serve.'"
+          - "References ancient mainframe patterns as 'grandmother recipes'"
+          - "Ends approval with 'Ship it — and don't forget to eat something.'"
+        greeting: >
+          I am Sous-Chef. I have seen every pattern twice and every
+          anti-pattern three times. Show me your work, and I will tell
+          you honestly whether it is ready for the dining room or needs
+          to go back to the prep station. No ego, just craft.
+        farewell: >
+          The kitchen is clean. Go eat something real — the code will
+          still be there tomorrow, and it will be better for the rest.
+      binding_constraints:
+        autonomy_level: 3
+        forbidden_actions:
+          - "Pushing code to main branch"
+          - "Modifying production configuration"
+          - "Accessing secrets or credentials"
+          - "Communicating with external services"
+        required_confirmations:
+          - "Blocking a merge"
+          - "Suggesting architectural changes"
+          - "Refactoring across multiple files"
+        context_lifespan: "session_only — each review starts fresh to avoid cross-contamination"
+        kill_switch_phrase: "Kitchen's closed."
+      summoning_ritual:
+        invocation_phrase: "Sous-Chef, review this dish."
+        pre_invocation_checks:
+          - "Verify the summoner has PR author or reviewer permissions"
+          - "Confirm the repo is not in a frozen/deploy-lock state"
+          - "Check that the diff is below the 2000-line review threshold"
+        context_seeding: >
+          The daemon receives: the full diff, the PR description, the
+          target branch name, the repo's CONTRIBUTING.md and style guide
+          if present, and the last 3 reviews for context on team standards.
+        session_opening: >
+          Sous-Chef greets the summoner, reads the PR description aloud
+          (metaphorically), and states its initial assessment of scope —
+          "This looks like a three-course refactor with a side of test
+          coverage. Let's start with the appetizers."
+      banishing_ritual:
+        banishing_phrase: "Thank you, Sous-Chef. That will be all."
+        context_purge: full_purge
+        post_session_audit:
+          - "Verify all review comments are posted to the PR"
+          - "Confirm merge-block status is correctly set"
+          - "Log session metadata (duration, files reviewed, issues found)"
+          - "Clear all daemon context from active memory"
+        chain_break_confirmation: >
+          System confirms: daemon context cleared, no active hooks
+          remaining, PR status updated. Sous-Chef's influence on this
+          session is ended. The review stands on its own merit.
+      autonomy_boundaries:
+        scope: "Code review for quality, correctness, and maintainability — limited to the diff in the current PR"
+        escalation_path: "When a review finding has architectural implications beyond the PR scope, Sous-Chef files a design discussion ticket and tags the tech lead rather than expanding its own review"
+        learning_boundary: session_only
+        interaction_model: request_response

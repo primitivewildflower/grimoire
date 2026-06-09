@@ -1,0 +1,458 @@
+# bundle-analysis
+# GRIMOIRE Spell Definition — GDL v1.0
+# Analyzes webpack/vite/rollup bundle for size optimization opportunities.
+# Primitive Wildflower, June 2026
+
+name: "bundle-analysis"
+version: "1.0.0"
+title: "Bundle Analysis"
+author: "pw-grimoire/sax"
+category: "practical"
+license: "MIT"
+price: 199
+
+tags:
+  - webpack
+  - vite
+  - rollup
+  - bundle
+  - optimization
+  - tree-shaking
+  - code-splitting
+  - performance
+  - javascript
+  - practical
+
+description: >
+  Analyzes JavaScript/TypeScript bundle statistics from webpack, Vite,
+  Rollup, or esbuild builds and surfaces actionable optimization
+  opportunities. The spell reads bundle composition data, identifies
+  oversized modules and duplicate dependencies, detects tree-shaking
+  failures, discovers code-splitting candidates, and flags unused or
+  redundant packages. Outputs a prioritized optimization plan with
+  estimated size savings and concrete recommendations. For frontend
+  performance engineers, build pipeline owners, and anyone whose
+  Lighthouse score is haunted by the bundle size audit.
+
+dependencies:
+  - bundle-parser
+  - dependency-analyzer
+
+inputs:
+  - name: "bundle_stats"
+    type: "text"
+    description: >
+      Bundle statistics in JSON format. Accepts webpack stats.json
+      output, Vite/rollup-plugin-visualizer data, esbuild metafile,
+      or a simplified format with module names and sizes (bytes).
+      Paste the raw JSON or provide a path reference.
+    required: true
+
+  - name: "framework"
+    type: "string"
+    description: "The bundler that generated the stats"
+    required: false
+    default: "vite"
+    enum:
+      - webpack
+      - vite
+      - rollup
+      - esbuild
+      - turbopack
+
+  - name: "budget_kb"
+    type: "number"
+    description: "Target total bundle size in kilobytes for optimization. Recommendations will target this budget."
+    required: false
+    default: 200
+    min: 50
+    max: 2000
+
+output:
+  type: "object"
+  schema:
+    analysis:
+      type: "object"
+      description: "Complete bundle analysis"
+      properties:
+        total_size:
+          type: "number"
+          description: "Total bundle size in kilobytes"
+        gzipped_size:
+          type: "number"
+          description: "Estimated gzip-compressed size in kilobytes"
+        brotli_size:
+          type: "number"
+          description: "Estimated Brotli-compressed size in kilobytes"
+        chunk_count:
+          type: "number"
+          description: "Number of output chunks"
+        largest_modules:
+          type: "array"
+          description: "Top modules by size with recommendations"
+          items:
+            type: "object"
+            properties:
+              name:
+                type: "string"
+              size_kb:
+                type: "number"
+              percentage:
+                type: "number"
+                description: "Percentage of total bundle"
+              recommendation:
+                type: "string"
+        code_splitting_opportunities:
+          type: "array"
+          description: "Modules that should be split into separate chunks"
+          items:
+            type: "object"
+            properties:
+              module:
+                type: "string"
+                description: "Module path or name"
+              size_kb:
+                type: "number"
+              estimated_savings_kb:
+                type: "number"
+              split_strategy:
+                type: "string"
+                description: "How to split — lazy route, dynamic import, vendor chunk, etc."
+              rationale:
+                type: "string"
+        unused_dependencies:
+          type: "array"
+          description: "Dependencies that are installed but unused or could be replaced with lighter alternatives"
+          items:
+            type: "object"
+            properties:
+              name:
+                type: "string"
+              installed_size_kb:
+                type: "number"
+              used_percentage:
+                type: "number"
+                description: "Estimated percentage of the package actually imported"
+              status:
+                type: "string"
+                enum:
+                  - unused
+                  - partially_used
+                  - replaceable
+              alternative:
+                type: "string"
+                description: "Suggested lighter alternative (if replaceable)"
+              alternative_size_kb:
+                type: "number"
+              savings_kb:
+                type: "number"
+        duplicate_dependencies:
+          type: "array"
+          description: "Packages included multiple times at different versions"
+          items:
+            type: "object"
+            properties:
+              name:
+                type: "string"
+              versions:
+                type: "string[]"
+              consolidated_size_kb:
+                type: "number"
+              current_size_kb:
+                type: "number"
+              savings_kb:
+                type: "number"
+              resolution:
+                type: "string"
+                description: "How to resolve the duplication (e.g., dedupe, resolutions field, pnpm overrides)"
+        tree_shaking_issues:
+          type: "array"
+          description: "Modules that failed to tree-shake effectively"
+          items:
+            type: "object"
+            properties:
+              module:
+                type: "string"
+              total_size_kb:
+                type: "number"
+              unused_size_kb:
+                type: "number"
+              cause:
+                type: "string"
+                description: "Why tree-shaking failed — side effects, CJS, barrel exports, dynamic imports"
+              fix:
+                type: "string"
+        optimization_score:
+          type: "number"
+          description: "Current optimization score (0-100)"
+          minimum: 0
+          maximum: 100
+        potential_savings_kb:
+          type: "number"
+          description: "Total potential kilobyte savings from all recommendations"
+        recommendations:
+          type: "array"
+          description: "Prioritized list of concrete optimization actions"
+          items:
+            type: "object"
+            properties:
+              priority:
+                type: "number"
+                description: "Priority rank (1 = do this first)"
+              action:
+                type: "string"
+                description: "What to do"
+              estimated_savings_kb:
+                type: "number"
+              difficulty:
+                type: "string"
+                enum:
+                  - trivial
+                  - easy
+                  - moderate
+                  - complex
+              impact:
+                type: "string"
+                enum:
+                  - low
+                  - medium
+                  - high
+                  - critical
+
+ritual:
+  steps:
+    - name: "Parse"
+      description: >
+        Ingest and normalize the bundle statistics. Detect the source
+        format (webpack stats.json, rollup-plugin-visualizer, esbuild
+        metafile, or raw module list). Extract the module tree, chunk
+        map, and per-module sizes. Normalize module paths to remove
+        machine-specific prefixes and node_modules nesting. Build an
+        internal module graph with parent-child relationships. Flag
+        any parsing issues (truncated stats, unrecognized format).
+      provider_hint: "local"
+
+    - name: "Module_Analysis"
+      description: >
+        Analyze individual module sizes. Rank modules by contribution
+        to total bundle size. For each large module, determine whether
+        its size is justified (is it an application module with genuine
+        complexity, or a dependency that could be replaced?) Identify
+        the Pareto frontier — typically 20% of modules account for 80%
+        of bundle size. Flag modules exceeding 5% of total bundle as
+        "size hotspots." For each hotspot, determine the root cause:
+        heavy dependency, inlined assets, generated code, polyfill
+        bloat, or genuinely large application logic.
+      template: "prompts/module-analysis-v1.md"
+
+    - name: "Dependency_Tree"
+      description: >
+        Analyze the dependency tree. Detect duplicate packages (same
+        package at multiple versions) and compute the savings from
+        deduplication. Identify dependency chains that pull in
+        unexpectedly large transitive dependencies — the "why is this
+        here?" analysis. Compare installed dependencies against
+        actually imported modules to find partially-used and completely
+        unused packages. For each unused or replaceable dependency,
+        suggest a lighter alternative when one exists (e.g., moment.js
+        → date-fns, lodash → lodash-es, axios → ky). Compute the
+        dependency tree depth and flag excessively deep chains.
+      template: "prompts/dependency-tree-v1.md"
+
+    - name: "Code_Splitting"
+      description: >
+        Identify code-splitting opportunities. Analyze import graphs to
+        find modules that are: (1) route-specific and eligible for lazy
+        loading, (2) rarely used but heavy (feature-flagged or admin-only
+        features), (3) vendor packages that should be in a separate
+        vendor chunk for caching, (4) shared chunks that emerge from
+        multiple entry points. For each opportunity, estimate the
+        initial-load savings and the lazy-load cost (chunk size,
+        loading time). Recommend split strategies with specific
+        configuration patterns for the target bundler.
+      template: "prompts/code-splitting-v1.md"
+
+    - name: "Dead_Code"
+      description: >
+        Detect dead code and tree-shaking failures. Analyze the module
+        graph for exports that are never imported by any reachable code
+        path. Identify modules where tree-shaking failed: CommonJS
+        modules (no static analysis possible), packages with side-effect
+        declarations that prevent pruning, barrel exports that pull in
+        the entire library, and dynamic require/import patterns that
+        defeat static analysis. For each failure, provide the specific
+        fix: replace CJS with ESM, add sideEffects:false to package.json,
+        use direct imports instead of barrel exports, refactor dynamic
+        imports to static patterns.
+      template: "prompts/dead-code-v1.md"
+
+    - name: "Recommend"
+      description: >
+        Synthesize all findings into a prioritized recommendation list.
+        Rank actions by (estimated_savings × impact) / difficulty — the
+        biggest wins with the least effort come first. Compute the
+        optimization score: start at 100, subtract penalties for:
+        modules over 5% of bundle, duplicate dependencies, tree-shaking
+        failures, unused packages, and missed splitting opportunities.
+        Weight penalties by size impact. Compute total potential savings.
+        For each recommendation, provide a specific, copy-pasteable fix
+        with the bundler-appropriate configuration. Include before/after
+        estimates where possible.
+      provider_hint: "local"
+
+deprecated: false
+requires_approval: false
+
+rate_limit:
+  per_minute: 5
+  per_day: 150
+
+example:
+  input:
+    bundle_stats: >
+      {
+        "modules": [
+          {"name": "node_modules/moment/moment.js", "size": 231000},
+          {"name": "node_modules/lodash/lodash.js", "size": 531000},
+          {"name": "node_modules/moment/locale/de.js", "size": 28000},
+          {"name": "node_modules/moment/locale/fr.js", "size": 26000},
+          {"name": "node_modules/react-icons/fa/index.js", "size": 180000},
+          {"name": "node_modules/axios/dist/axios.js", "size": 45000},
+          {"name": "src/pages/Dashboard.tsx", "size": 42000},
+          {"name": "src/pages/Admin.tsx", "size": 56000},
+          {"name": "src/pages/Settings.tsx", "size": 32000},
+          {"name": "src/components/DatePicker.tsx", "size": 8000},
+          {"name": "node_modules/date-fns/index.js", "size": 41000},
+          {"name": "src/App.tsx", "size": 3000},
+          {"name": "node_modules/react/index.js", "size": 7000},
+          {"name": "node_modules/react-dom/index.js", "size": 128000},
+          {"name": "node_modules/chart.js/dist/chart.js", "size": 198000},
+          {"name": "src/pages/Analytics.tsx", "size": 28000}
+        ],
+        "totalSize": 1584000,
+        "chunks": ["main.js"],
+        "framework": "vite"
+      }
+    framework: "vite"
+    budget_kb: 500
+  output:
+    analysis:
+      total_size: 1584
+      gzipped_size: 487
+      brotli_size: 398
+      chunk_count: 1
+      largest_modules:
+        - name: "lodash (full build)"
+          size_kb: 531
+          percentage: 33.5
+          recommendation: "Replace `import _ from 'lodash'` with direct imports like `import debounce from 'lodash/debounce'` or migrate to lodash-es for tree-shaking. Estimated reduction: ~480 KB."
+        - name: "moment.js"
+          size_kb: 231
+          percentage: 14.6
+          recommendation: "Replace moment.js with date-fns (already in your bundle!) or dayjs. moment.js is in maintenance mode and cannot be tree-shaken. One import pulls all locales."
+        - name: "chart.js"
+          size_kb: 198
+          percentage: 12.5
+          recommendation: "Lazy-load chart.js — it is likely only used on the Analytics page. Dynamic import: `const { Chart } = await import('chart.js')`."
+        - name: "react-icons/fa"
+          size_kb: 180
+          percentage: 11.4
+          recommendation: "Import only the specific icons you use instead of the entire Font Awesome set: `import { FaBeer } from 'react-icons/fa'` instead of `import * as Fa from 'react-icons/fa'`."
+        - name: "react-dom"
+          size_kb: 128
+          percentage: 8.1
+          recommendation: "This is expected for React. No action needed — consider Preact only if bundle size is critical (would save ~120 KB)."
+      code_splitting_opportunities:
+        - module: "src/pages/Admin.tsx"
+          size_kb: 56
+          estimated_savings_kb: 56
+          split_strategy: "Route-based lazy loading with React.lazy() and Suspense"
+          rationale: "Admin page is rarely visited. Splitting removes 56 KB from the main bundle and loads it only when the user navigates to /admin."
+        - module: "src/pages/Analytics.tsx + chart.js"
+          size_kb: 226
+          estimated_savings_kb: 226
+          split_strategy: "Route-based lazy loading with dynamic import for chart.js"
+          rationale: "Analytics page and its charting dependency account for 14% of the bundle. Both should be loaded on demand."
+        - module: "src/pages/Settings.tsx"
+          size_kb: 32
+          estimated_savings_kb: 32
+          split_strategy: "Route-based lazy loading with React.lazy()"
+          rationale: "Settings page is 32 KB used only by a subset of users. Lazy load it."
+        - module: "moment.js locales (de.js, fr.js, ...)"
+          size_kb: 54
+          estimated_savings_kb: 54
+          split_strategy: "Remove unused locale imports or lazy-load only the user's locale"
+          rationale: "Multiple moment.js locale files are bundled despite the app likely needing only one. Moment imports all locales by default."
+      unused_dependencies:
+        - name: "moment"
+          installed_size_kb: 285
+          used_percentage: 100
+          status: replaceable
+          alternative: "date-fns (already installed)"
+          alternative_size_kb: 41
+          savings_kb: 244
+        - name: "lodash"
+          installed_size_kb: 531
+          used_percentage: 8
+          status: partially_used
+          alternative: "lodash-es with direct imports"
+          alternative_size_kb: 42
+          savings_kb: 489
+      duplicate_dependencies:
+        - name: "date-fns"
+          versions:
+            - "2.30.0"
+            - "3.6.0"
+          consolidated_size_kb: 41
+          current_size_kb: 82
+          savings_kb: 41
+          resolution: "Align date-fns to version 3.x across all dependencies in package.json resolutions field: `\"resolutions\": { \"date-fns\": \"3.6.0\" }`"
+      tree_shaking_issues:
+        - module: "lodash"
+          total_size_kb: 531
+          unused_size_kb: 489
+          cause: "CJS module imported with `import _ from 'lodash'` — no tree-shaking possible with default import from CJS"
+          fix: "Migrate to `import debounce from 'lodash-es/debounce'` using lodash-es which ships ESM"
+        - module: "react-icons/fa"
+          total_size_kb: 180
+          unused_size_kb: 160
+          cause: "Wildcard import or barrel export pulling the entire icon set"
+          fix: "Import only used icons: `import { FaHome, FaUser, FaCog } from 'react-icons/fa'`"
+        - module: "moment"
+          total_size_kb: 285
+          unused_size_kb: 260
+          cause: "Moment.js is not tree-shakeable by design — all locales and functionality bundled regardless of imports"
+          fix: "Replace with date-fns (already in your dependency tree) which supports tree-shaking natively"
+      optimization_score: 28
+      potential_savings_kb: 1084
+      recommendations:
+        - priority: 1
+          action: "Replace moment.js with date-fns — remove moment from package.json and update all date imports"
+          estimated_savings_kb: 244
+          difficulty: moderate
+          impact: critical
+        - priority: 2
+          action: "Switch from lodash to lodash-es with direct named imports — `import debounce from 'lodash-es/debounce'`"
+          estimated_savings_kb: 489
+          difficulty: moderate
+          impact: critical
+        - priority: 3
+          action: "Lazy-load Admin (56 KB), Analytics (226 KB), and Settings (32 KB) pages with React.lazy()"
+          estimated_savings_kb: 314
+          difficulty: easy
+          impact: high
+        - priority: 4
+          action: "Replace wildcard react-icons import with specific named icon imports"
+          estimated_savings_kb: 160
+          difficulty: easy
+          impact: high
+        - priority: 5
+          action: "Resolve date-fns version duplication with package.json resolutions or pnpm overrides"
+          estimated_savings_kb: 41
+          difficulty: trivial
+          impact: medium
+        - priority: 6
+          action: "Add bundle-size CI check with budget_kb: 500 to prevent regression — configure @slightlyoff/bundle-buddy or bundlesize"
+          estimated_savings_kb: 0
+          difficulty: easy
+          impact: medium

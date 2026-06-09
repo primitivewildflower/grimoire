@@ -1,0 +1,420 @@
+# accessibility-audit
+# GRIMOIRE Spell Definition — GDL v1.0
+# WCAG 2.2 accessibility audit and remediation plan.
+# Primitive Wildflower, June 2026
+
+name: "accessibility-audit"
+version: "1.0.0"
+title: "Accessibility Audit"
+author: "pw-grimoire/sax"
+category: "code-review"
+license: "MIT"
+price: 199
+
+tags:
+  - accessibility
+  - wcag
+  - a11y
+  - code-review
+  - aria
+  - contrast
+  - keyboard
+  - remediation
+  - compliance
+  - inclusive-design
+
+description: >
+  Conducts a comprehensive WCAG 2.2 accessibility audit on HTML/JSX/Vue/Svelte
+  templates and component code. Checks for semantic structure violations,
+  ARIA misuse, keyboard navigability gaps, color contrast failures, focus
+  management issues, screen reader compatibility problems, and missing
+  accessible names. Outputs a prioritized violation report with specific
+  remediation code and an overall compliance score. Designed for frontend
+  developers, design system maintainers, and teams pursuing WCAG conformance.
+  Supports AA and AAA conformance levels.
+
+dependencies:
+  - dom-parser
+  - contrast-analyzer
+  - aria-validator
+
+inputs:
+  - name: "code"
+    type: "text"
+    description: >
+      HTML, JSX, Vue SFC, Svelte, or Angular template code to audit.
+      Can be a single component, a page template, or a collection
+      of templates. Paste the code directly.
+    required: true
+
+  - name: "level"
+    type: "string"
+    description: "WCAG conformance level to audit against"
+    required: false
+    default: "AA"
+    enum:
+      - A
+      - AA
+      - AAA
+
+  - name: "components"
+    type: "string[]"
+    description: >
+      Specific component types to focus the audit on. If omitted, all
+      patterns are checked. Examples: "forms", "modals", "navigation",
+      "data-tables", "carousels", "dropdowns", "toasts".
+    required: false
+
+output:
+  type: "object"
+  schema:
+    audit:
+      type: "object"
+      description: "Complete accessibility audit report"
+      properties:
+        violations:
+          type: "array"
+          description: "All detected WCAG violations"
+          items:
+            type: "object"
+            properties:
+              element:
+                type: "string"
+                description: "The HTML element or component with the violation"
+              line:
+                type: "number"
+                description: "Approximate line number in the provided code"
+              rule:
+                type: "string"
+                description: "The WCAG success criterion violated (e.g., '1.1.1 Non-text Content', '1.4.3 Contrast Minimum')"
+              severity:
+                type: "string"
+                enum:
+                  - blocker
+                  - critical
+                  - serious
+                  - moderate
+                  - minor
+              description:
+                type: "string"
+                description: "What is wrong — described clearly for a developer who may not know accessibility deeply"
+              fix:
+                type: "string"
+                description: "Specific code change to resolve the violation — copy-pasteable where possible"
+              wcag_link:
+                type: "string"
+                description: "Link to the relevant WCAG understanding document"
+        score:
+          type: "number"
+          description: "Overall accessibility compliance score (0-100)"
+          minimum: 0
+          maximum: 100
+        score_breakdown:
+          type: "object"
+          description: "Score broken down by WCAG principle"
+          properties:
+            perceivable:
+              type: "number"
+              description: "Score for Principle 1 — Perceivable (0-100)"
+            operable:
+              type: "number"
+              description: "Score for Principle 2 — Operable (0-100)"
+            understandable:
+              type: "number"
+              description: "Score for Principle 3 — Understandable (0-100)"
+            robust:
+              type: "number"
+              description: "Score for Principle 4 — Robust (0-100)"
+        remediation_plan:
+          type: "object"
+          description: "Structured remediation plan"
+          properties:
+            summary:
+              type: "string"
+              description: "Overview of what needs to be fixed and in what order"
+            phases:
+              type: "array"
+              description: "Phased remediation steps"
+              items:
+                type: "object"
+                properties:
+                  phase:
+                    type: "number"
+                  name:
+                    type: "string"
+                    description: "Phase name (e.g., 'Critical Fixes', 'Structural Improvements')"
+                  description:
+                    type: "string"
+                  violations_to_fix:
+                    type: "array"
+                    description: "Reference to specific violation indices"
+                    items:
+                      type: "number"
+                  estimated_effort:
+                    type: "string"
+                    description: "Estimated effort (e.g., '2-4 hours', '1-2 days')"
+                  target_score_after:
+                    type: "number"
+                    description: "Expected score after completing this phase"
+            total_estimated_effort:
+              type: "string"
+              description: "Total estimated remediation effort"
+            quick_wins:
+              type: "array"
+              description: "High-impact, low-effort fixes that can be done immediately"
+              items:
+                type: "object"
+                properties:
+                  action:
+                    type: "string"
+                  effort:
+                    type: "string"
+                  score_improvement:
+                    type: "number"
+
+ritual:
+  steps:
+    - name: "DOM_Parse"
+      description: >
+        Parse the input code into a DOM-like structure. Handle JSX
+        transformations (className → class, htmlFor → for), Vue
+        directives (v-if/v-show → visibility, v-model → value+binding),
+        Svelte shorthand, and Angular structural directives. Build the
+        accessibility tree — the representation that assistive
+        technologies receive. Identify landmarks, headings, forms,
+        links, buttons, images, and interactive controls. Flag any
+        parsing ambiguities (dynamic content, conditional rendering)
+        that limit static analysis coverage.
+      provider_hint: "local"
+
+    - name: "Contrast_Check"
+      description: >
+        Audit color contrast across all text elements and meaningful
+        graphics. Extract foreground and background color pairs from
+        inline styles, CSS-in-JS, class references to known design
+        tokens, and computed color values. For each pair, compute the
+        contrast ratio. Flag violations at the specified WCAG level:
+        Level AA requires 4.5:1 for normal text and 3:1 for large text;
+        Level AAA requires 7:1 and 4.5:1 respectively. Also check
+        non-text contrast (UI components, graphical objects) against
+        the 3:1 minimum. Include the hex values and recommend adjusted
+        colors that pass while preserving the design intent.
+      template: "prompts/contrast-check-v1.md"
+
+    - name: "Structure_Audit"
+      description: >
+        Audit semantic structure and document hierarchy. Check heading
+        levels form a logical outline (no skipped levels like h1 → h3).
+        Verify landmark regions (header, main, nav, footer, aside) are
+        present and correctly scoped. Check that all page content sits
+        within a landmark. Flag missing or duplicate landmarks. Audit
+        list structures — are items that look like lists actually marked
+        up as ul/ol? Check that tables have proper caption, thead/tbody,
+        and scope attributes. Verify that iframes have meaningful title
+        attributes. Flag div-as-button and span-as-link anti-patterns.
+      template: "prompts/structure-audit-v1.md"
+
+    - name: "ARIA_Review"
+      description: >
+        Validate ARIA usage against the rules of ARIA: (1) Don't use
+        ARIA if native HTML semantics suffice, (2) Don't override native
+        semantics with conflicting roles, (3) All interactive ARIA
+        controls must be keyboard-accessible, (4) role="presentation"
+        or role="none" must not be applied to focusable elements,
+        (5) All interactive elements must have accessible names
+        (aria-label, aria-labelledby, or native labeling). Check that
+        aria-expanded, aria-selected, aria-current, and aria-pressed
+        are used correctly on interactive controls. Flag missing
+        aria-live regions for dynamically updating content. Verify
+        aria-describedby associations for error messages and
+        descriptions. Check for common ARIA antipatterns: aria on
+        non-interactive elements, missing required ARIA children
+        (e.g., role="listbox" needs role="option" children).
+      template: "prompts/aria-review-v1.md"
+
+    - name: "Keyboard_Test"
+      description: >
+        Audit keyboard accessibility. Verify all interactive elements
+        are reachable via Tab (tabindex violations — negative values
+        that remove from tab order unintentionally, positive values
+        that disrupt natural order). Check that custom interactive
+        widgets (dropdowns, modals, tabs, carousels) have documented
+        keyboard interaction patterns matching ARIA Authoring Practices.
+        Flag click handlers on non-interactive elements (div onClick
+        without role and keyboard handler). Verify focus trapping in
+        modals and focus restoration on close. Check for focus
+        indicators — are they visible? Are they suppressed with
+        outline:none without a custom replacement? Verify skip links
+        are present and functional on content-heavy pages.
+      template: "prompts/keyboard-test-v1.md"
+
+    - name: "Remediate"
+      description: >
+        Synthesize all findings into a structured audit report and
+        remediation plan. Compute the score: start at 100, subtract
+        weighted penalties per violation (blocker=-20, critical=-12,
+        serious=-7, moderate=-3, minor=-1). Compute per-principle
+        breakdown. Build the phased remediation plan: Phase 1 addresses
+        all blockers and critical violations, Phase 2 addresses serious
+        violations, Phase 3 is structural improvements and moderate
+        fixes, Phase 4 is polish (minor issues). Within each phase,
+        order by impact-to-effort ratio. Include a quick-wins section
+        for fixes that take under 15 minutes each. Estimate total
+        remediation effort. For every violation, include a specific code
+        fix — the goal is that a developer can work through the report
+        without needing to look up WCAG documentation.
+      provider_hint: "local"
+
+deprecated: false
+requires_approval: false
+
+rate_limit:
+  per_minute: 5
+  per_day: 200
+
+example:
+  input:
+    code: >
+      <div class="modal" onclick="closeModal()">
+        <div class="modal-title">Confirm Delete</div>
+        <div class="modal-body">
+          Are you sure you want to delete this item?
+        </div>
+        <input type="text" placeholder="Type DELETE to confirm" />
+        <div class="modal-error" style="color: #ff9999; background: #ffffff;">
+          Text must match exactly
+        </div>
+        <div class="btn" onclick="handleDelete()">Delete</div>
+        <span onclick="closeModal()">Cancel</span>
+      </div>
+      <img src="icon-warning.svg" />
+      <table>
+        <tr><td>Item 1</td><td>Value 1</td></tr>
+        <tr><td>Item 2</td><td>Value 2</td></tr>
+      </table>
+    level: "AA"
+    components:
+      - modals
+      - forms
+      - data-tables
+  output:
+    audit:
+      violations:
+        - element: "<div class='modal'>"
+          line: 1
+          rule: "4.1.2 Name, Role, Value"
+          severity: blocker
+          description: "Modal container is a plain div with no role='dialog', no aria-modal='true', and no aria-labelledby pointing to the title. Screen readers cannot identify this as a dialog."
+          fix: "Add role='dialog', aria-modal='true', and aria-labelledby='modal-title-id' to the modal container. Add id='modal-title-id' to the title element. Use a <dialog> element or a dedicated modal library that handles these attributes."
+          wcag_link: "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
+        - element: "<img src='icon-warning.svg' />"
+          line: 11
+          rule: "1.1.1 Non-text Content"
+          severity: critical
+          description: "Warning icon image has no alt text. Screen readers will either ignore the image or read the filename. If the icon conveys meaning (warning), it needs alt text. If purely decorative, it needs role='presentation' or alt=''."
+          fix: "If the icon conveys warning information alongside the error text: `<img src='icon-warning.svg' alt='Warning' />`. If decorative only: `<img src='icon-warning.svg' alt='' role='presentation' />`"
+          wcag_link: "https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html"
+        - element: "<div class='modal-title'>"
+          line: 2
+          rule: "1.3.1 Info and Relationships"
+          severity: serious
+          description: "Modal title is a plain div instead of a heading element. Screen reader users navigating by headings cannot find it. Use an <h1>/<h2> or a <div role='heading' aria-level='2'>."
+          fix: "Replace `<div class='modal-title'>` with `<h2 id='modal-title-id' class='modal-title'>` to provide heading semantics and serve as the aria-labelledby target for the dialog."
+          wcag_link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+        - element: "<input type='text' ...>"
+          line: 5
+          rule: "1.3.1 Info and Relationships / 3.3.2 Labels or Instructions"
+          severity: serious
+          description: "Text input has no associated label — placeholder text is not a substitute. Screen reader users in forms mode need a persistent label that remains visible when they're typing."
+          fix: "Add a visible label: `<label for='confirm-input'>Type DELETE to confirm</label><input id='confirm-input' type='text' />`. Keep the placeholder as supplementary hint."
+          wcag_link: "https://www.w3.org/WAI/WCAG22/Understanding/labels-or-instructions.html"
+        - element: "<div class='modal-error' style='color: #ff9999; background: #ffffff;'>"
+          line: 6
+          rule: "1.4.3 Contrast (Minimum)"
+          severity: critical
+          description: "Error text (#ff9999) on white background (#ffffff) has a contrast ratio of 1.9:1 — far below the 4.5:1 minimum for normal text and even the 3:1 minimum for large text."
+          fix: "Change error text color to #d32f2f (contrast ratio 5.3:1 on white) or #b71c1c (contrast ratio 8.5:1). If using design tokens, update the error color token value."
+          wcag_link: "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+        - element: "<div class='btn' onclick='handleDelete()'>"
+          line: 8
+          rule: "4.1.2 Name, Role, Value / 2.1.1 Keyboard"
+          severity: critical
+          description: "Delete button is a div with onclick. It is not focusable (no tabindex), not keyboard-operable (no Enter/Space handler), and has no button role. Keyboard users and screen reader users cannot interact with it."
+          fix: "Replace with `<button class='btn' onclick='handleDelete()'>Delete</button>`. Native buttons are focusable, keyboard-operable, and have correct semantics automatically."
+          wcag_link: "https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html"
+        - element: "<span onclick='closeModal()'>"
+          line: 9
+          rule: "4.1.2 Name, Role, Value / 2.1.1 Keyboard"
+          severity: critical
+          description: "Cancel control is a span with only an onclick handler. Same issue as the Delete button — not focusable and not role-identified. Additionally, a cancel action should be a button, not a link."
+          fix: "Replace with `<button class='cancel-btn' onclick='closeModal()'>Cancel</button>`"
+          wcag_link: "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
+        - element: "<div class='modal-error'>..."
+          line: 6
+          rule: "3.3.1 Error Identification / 4.1.3 Status Messages"
+          severity: serious
+          description: "Error message is not associated with the input field via aria-describedby, and its container lacks role='alert' or aria-live for dynamic announcement. Screen reader users won't know the error appeared."
+          fix: "Add `aria-describedby='confirm-error'` to the input and `id='confirm-error' role='alert'` to the error container. If the error appears dynamically, role='alert' ensures it is announced."
+          wcag_link: "https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html"
+        - element: "<table>"
+          line: 12
+          rule: "1.3.1 Info and Relationships"
+          severity: moderate
+          description: "Table lacks <th> elements for headers and has no <caption> or aria-label for context. Screen reader users navigating by table get no column/row context."
+          fix: "Add a caption and replace <td> with <th scope='col'> for header cells: `<table><caption>Item Values</caption><thead><tr><th scope='col'>Name</th><th scope='col'>Value</th></tr></thead><tbody>...`"
+          wcag_link: "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      score: 28
+      score_breakdown:
+        perceivable: 20
+        operable: 15
+        understandable: 35
+        robust: 10
+      remediation_plan:
+        summary: >
+          The component has 9 violations: 1 blocker (missing dialog
+          semantics), 4 critical (contrast and keyboard access), 3 serious
+          (missing labels and error association), and 1 moderate (table
+          structure). The modal is the worst offender — it is invisible to
+          screen readers and inoperable by keyboard. Start with the modal
+          semantics and keyboard access fixes; these are foundational and
+          most other issues cascade from them. The contrast fix is a
+          single-line color change.
+        phases:
+          - phase: 1
+            name: "Dialog Semantics & Keyboard Access"
+            description: "Fix the modal to be a proper dialog with correct ARIA, and replace div/span controls with native buttons to restore keyboard operability."
+            violations_to_fix:
+              - 0
+              - 5
+              - 6
+            estimated_effort: "30-60 minutes"
+            target_score_after: 55
+          - phase: 2
+            name: "Content & Label Accessibility"
+            description: "Add alt text to images, associate labels with inputs, connect error messages to fields, and add ARIA live regions for dynamic content."
+            violations_to_fix:
+              - 1
+              - 3
+              - 7
+            estimated_effort: "30-45 minutes"
+            target_score_after: 72
+          - phase: 3
+            name: "Visual & Structural Improvements"
+            description: "Fix color contrast, add proper heading structure, and add table semantics."
+            violations_to_fix:
+              - 2
+              - 4
+              - 8
+            estimated_effort: "20-30 minutes"
+            target_score_after: 92
+        total_estimated_effort: "1.5-2.5 hours"
+        quick_wins:
+          - action: "Change the error text color from #ff9999 to #d32f2f"
+            effort: "1 minute"
+            score_improvement: 8
+          - action: "Add alt='warning' or alt='' to the icon image based on whether it conveys meaning"
+            effort: "2 minutes"
+            score_improvement: 7
+          - action: "Add <caption> and replace td header cells with <th>"
+            effort: "5 minutes"
+            score_improvement: 3

@@ -1,0 +1,489 @@
+# conceptual-blending
+# GRIMOIRE Spell Definition — GDL v1.0
+# Blends concepts across domains using Fauconnier & Turner's conceptual
+# blending theory + Hermetic correspondence. Generates novel ideas from
+# unlikely combinations.
+# Primitive Wildflower, June 2026
+
+name: "conceptual-blending"
+version: "1.0.0"
+title: "Conceptual Blending"
+author: "pw-grimoire/sax"
+category: "frontier"
+license: "MIT"
+price: 599
+
+tags:
+  - conceptual-blending
+  - fauconnier-turner
+  - hermetic
+  - ideation
+  - creativity
+  - cross-domain
+  - emergence
+  - cognitive-science
+  - innovation
+  - frontier
+
+description: >
+  Blends concepts from any two domains using Fauconnier & Turner's
+  conceptual blending framework — the cognitive mechanism behind metaphor,
+  creativity, and innovation — augmented with Hermetic correspondence
+  principles that reveal hidden resonances between apparently unrelated
+  ideas. The spell deconstructs each concept into its structural elements,
+  maps them into a shared generic space, identifies cross-space
+  counterpart connections, and compresses the blend to reveal emergent
+  structure: novel ideas that belong to neither input space alone. For
+  product designers seeking breakthrough features, writers hunting for
+  original metaphors, researchers crossing disciplinary boundaries, and
+  anyone who believes the most interesting ideas live in the space
+  between seemingly unrelated things.
+
+dependencies:
+  - semantic-embedding
+  - conceptual-graph
+
+inputs:
+  - name: "concept_a"
+    type: "text"
+    description: >
+      The first concept to blend. Can be anything: an object, a process,
+      a system, a metaphor, a domain of knowledge, a cultural practice.
+      Describe it richly — the more structural detail, the richer the
+      blend. Example: "a coral reef ecosystem" or "the UNIX pipe philosophy"
+      or "the Hero's Journey narrative structure."
+    required: true
+
+  - name: "concept_b"
+    type: "text"
+    description: >
+      The second concept. For the most productive blends, choose a concept
+      from a domain distant from concept_a — the further the semantic
+      distance, the more surprising the emergent structure. Example:
+      pairing "a coral reef ecosystem" with "a social media platform"
+      rather than with "a rainforest ecosystem."
+    required: true
+
+  - name: "blend_depth"
+    type: "number"
+    description: "Depth of blending analysis — 1 (quick blend), 3 (standard, structural), 5 (exhaustive, multi-frame)"
+    required: false
+    default: 3
+    min: 1
+    max: 5
+
+output:
+  type: "object"
+  schema:
+    blend:
+      type: "object"
+      description: "The conceptual blend product"
+      properties:
+        generic_space:
+          type: "object"
+          description: "The abstract structure shared by both input spaces"
+          properties:
+            description:
+              type: "string"
+              description: "The common abstract structure that both concepts share"
+            roles:
+              type: "string[]"
+              description: "Abstract roles that exist in both domains"
+            relations:
+              type: "string[]"
+              description: "Abstract relations that hold in both domains"
+            dynamic_schema:
+              type: "string"
+              description: "The dynamic process or event shape common to both"
+        input_spaces:
+          type: "array"
+          description: "The structured representations of the two input concepts"
+          items:
+            type: "object"
+            properties:
+              concept:
+                type: "string"
+                description: "The original concept label"
+              elements:
+                type: "string[]"
+                description: "Key structural elements of the concept"
+              relations:
+                type: "string[]"
+                description: "Relationships between elements"
+              frame:
+                type: "string"
+                description: "The cognitive frame or organizing gestalt"
+              salient_properties:
+                type: "string[]"
+                description: "What makes this concept distinctive"
+        cross_space_mappings:
+          type: "array"
+          description: "Counterpart connections between the two input spaces"
+          items:
+            type: "object"
+            properties:
+              element_a:
+                type: "string"
+                description: "Element from concept A"
+              element_b:
+                type: "string"
+                description: "Counterpart element from concept B"
+              mapping_type:
+                type: "string"
+                description: "Type of correspondence"
+                enum:
+                  - identity
+                  - analogy
+                  - metaphor
+                  - role_mapping
+                  - property_mapping
+                  - hermetic_correspondence
+              rationale:
+                type: "string"
+                description: "Why these elements map to each other"
+              hermetic_principle:
+                type: "string"
+                description: "Hermetic principle underlying the mapping (if applicable)"
+                enum:
+                  - correspondence
+                  - vibration
+                  - polarity
+                  - rhythm
+                  - cause_and_effect
+                  - gender
+        emergent_structure:
+          type: "object"
+          description: "The new structure that arises from the blend — not present in either input alone"
+          properties:
+            fused_elements:
+              type: "string[]"
+              description: "Elements created through blending that have no counterpart in either input"
+            emergent_relations:
+              type: "string[]"
+              description: "New relationships that only exist in the blended space"
+            governing_principles:
+              type: "string[]"
+              description: "Principles that govern the blended space — may combine, refine, or contradict input principles"
+            core_insight:
+              type: "string"
+              description: "The central revelation — the thing the blend makes visible that was invisible before"
+            paradoxes:
+              type: "string[]"
+              description: "Productive tensions or contradictions in the blend that generate creative energy"
+        novel_applications:
+          type: "array"
+          description: "Concrete ideas generated from the blend"
+          items:
+            type: "object"
+            properties:
+              application:
+                type: "string"
+                description: "The novel idea, product, system, or framework"
+              domain:
+                type: "string"
+                description: "The domain where this application lives"
+              mechanism:
+                type: "string"
+                description: "How the emergent structure translates into this application"
+              feasibility:
+                type: "string"
+                enum:
+                  - speculative
+                  - experimental
+                  - viable
+                  - near_term
+        confidence:
+          type: "number"
+          description: "Confidence in the blend's coherence and novelty (0-1)"
+          minimum: 0
+          maximum: 1
+
+ritual:
+  steps:
+    - name: "Deconstruct"
+      description: >
+        Deconstruct each input concept into its structural skeleton.
+        Strip away surface features and extract: elements (the things
+        that participate), relations (how elements connect), the
+        organizing frame (the gestalt that holds it together), and
+        salient properties (what makes this concept distinctive, the
+        features that carry its identity). For example, a coral reef
+        deconstructs to: elements (polyps, algae symbionts, fish,
+        calcium carbonate structures, nutrient flows), relations
+        (symbiosis, predation, competition, nutrient cycling), frame
+        (ecosystem), salient properties (decentralized intelligence,
+        structural accretion over time, biodiversity as resilience).
+        This is the analytical foundation — sloppy deconstruction
+        produces muddy blends.
+      template: "prompts/deconstruct-v1.md"
+
+    - name: "Map_Generic"
+      description: >
+        Construct the generic space — the abstract structure that both
+        input concepts share. This is the bridge that makes blending
+        possible. Identify abstract roles that exist in both domains
+        (e.g., "entity that produces structure," "flow that distributes
+        resources," "feedback loop that maintains equilibrium"). Identify
+        abstract relations (e.g., "X depends on Y for survival,"
+        "increasing Z decreases W"). Extract the dynamic schema — the
+        event shape or process pattern common to both. The generic space
+        should be abstract enough to span the semantic distance between
+        inputs but specific enough to support meaningful mapping. This is
+        where Hermetic correspondence principles activate: the ancient
+        idea that patterns echo across scales ("as above, so below")
+        provides the philosophical warrant for finding structural
+        identities between seemingly unrelated domains.
+      template: "prompts/map-generic-v1.md"
+
+    - name: "Cross_Space"
+      description: >
+        Establish cross-space mappings: connect counterparts between the
+        two input spaces. For each element in concept A, find its best
+        counterpart in concept B through the lens of the generic space.
+        Each mapping gets a type: identity (X literally is Y, just in
+        different contexts), analogy (X relates to its system the way Y
+        relates to its system), metaphor (X is poetically Y), role
+        mapping (X and Y serve the same abstract function), property
+        mapping (X and Y share a salient property), or hermetic
+        correspondence (X and Y resonate through ancient symbolic
+        systems). For each mapping, articulate the rationale. This step
+        also identifies unmappable elements — features that exist in one
+        concept with no clear counterpart in the other. These are often
+        the source of the most interesting emergent structure: what
+        happens when a feature from concept A enters a world where it
+        has no natural counterpart?
+      template: "prompts/cross-space-v1.md"
+
+    - name: "Compress"
+      description: >
+        Compress the blend: bring the two input spaces together into a
+        single integrated mental space. This is where the magic happens.
+        Apply vital relations compression — time may compress (a process
+        that takes millennia becomes instantaneous), space may compress
+        (distributed elements become co-located), identity may fuse (two
+        distinct things become one thing in the blend), cause-effect may
+        compress (a chain of causality becomes a single gestalt).
+        Selective projection: some elements from each input space are
+        projected into the blend, others are left behind. The governing
+        principles of the blend may combine input principles, selectively
+        apply them, or develop emergent principles that exist in neither
+        source. Identify fused elements — new entities that inherit from
+        both inputs but are identical to neither.
+      template: "prompts/compress-v1.md"
+
+    - name: "Emerge"
+      description: >
+        Elaborate the emergent structure: run the blend. Take the
+        compressed blend and elaborate it — let it run forward in
+        imagination. What new relations emerge from the fused elements?
+        What behaviors arise that neither input would produce alone?
+        Identify governing principles that are unique to the blend.
+        Extract the core insight — the thing the blend reveals that was
+        invisible before the blending operation. Surface productive
+        paradoxes: tensions in the blend that generate creative energy
+        rather than collapse. This step connects the cognitive
+        architecture (Fauconnier & Turner) with the Hermetic tradition:
+        the emergent structure is the alchemical "third thing" — the
+        product of conjunction that is greater than either input.
+        Generate novel applications: concrete ideas, products, systems,
+        frameworks that the blend suggests. For each application,
+        assess feasibility (speculative → near-term).
+      template: "prompts/emerge-v1.md"
+
+    - name: "Validate"
+      description: >
+        Validate the blend's coherence and novelty. Check for the
+        "optimality principles" from blending theory: integration (does
+        the blend form a coherent scene?), web (are the cross-space
+        mappings tight and well-motivated?), unpacking (can you
+        reconstruct the inputs from the blend?), topology (do the
+        relations in the blend preserve the relation structures of the
+        inputs?), and good reason (do the elements in the blend serve a
+        purpose?). Compute a confidence score based on: mapping density
+        (how many cross-space connections were found), structural overlap
+        (how rich is the generic space), emergent novelty (how much new
+        structure appeared), and application viability (how concrete
+        and feasible are the novel applications). A high-confidence
+        blend has dense mappings, rich generic structure, surprising
+        emergence, and actionable applications.
+      provider_hint: "local"
+
+deprecated: false
+requires_approval: false
+
+rate_limit:
+  per_minute: 3
+  per_day: 50
+
+example:
+  input:
+    concept_a: >
+      A coral reef ecosystem: thousands of species co-existing in a
+      calcium carbonate structure built by tiny polyps over millennia.
+      The reef is a decentralized intelligence — no central controller,
+      yet nutrient cycling, symbiotic relationships (polyps + algae),
+      and predator-prey dynamics create a self-regulating system.
+      Biodiversity is resilience: the more species, the more the reef
+      can absorb shocks (bleaching events, storms). The reef grows by
+      accretion — layer upon layer of calcified polyps. It is both a
+      physical structure and a living process. It attracts and supports
+      life far beyond its own biomass. It is under threat from
+      acidification and warming.
+    concept_b: >
+      Wikipedia: a collaboratively edited encyclopedia built entirely
+      through distributed human contribution. No central editor
+      determines truth — instead, citation requirements, talk pages,
+      edit histories, and consensus processes create a self-organizing
+      knowledge structure. Vandalism is handled by a distributed
+      network of editors who watch pages. The quality of articles
+      improves through iterative refinement — each edit is a small
+      accretion of accuracy. Some articles become "featured" — the
+      reef's biodiversity hotspots. The project is under threat from
+      editor attrition and coordinated disinformation campaigns.
+    blend_depth: 3
+  output:
+    blend:
+      generic_space:
+        description: >
+          A decentralized, self-organizing structure built by many small
+          agents through accumulated contributions over time. The structure
+          is both a physical/codified artifact and a living process.
+          Resilience comes from diversity of participants. Quality emerges
+          from iterative refinement with feedback mechanisms. The system
+          is vulnerable to slow-moving environmental threats (acidification
+          ↔ disinformation) that its local feedback loops cannot detect
+          at scale until damage is advanced.
+        roles:
+          - "Builder agents that contribute small structural units"
+          - "Symbiotic partners that enhance builder survival/success"
+          - "Predators/vandals that damage the structure"
+          - "Feedback mechanisms that maintain equilibrium"
+          - "Environmental conditions that enable or threaten the system"
+        relations:
+          - "Agent count and diversity positively correlate with system resilience"
+          - "Structure grows through accretion of small contributions, not top-down design"
+          - "Quality of individual contributions is reinforced or corrected by community feedback"
+          - "The system attracts more participants as it grows — a virtuous cycle"
+          - "Slow degradation processes are harder to detect and reverse than acute shocks"
+        dynamic_schema: "Accretion through distributed agency → emergent self-regulation → attractor for more agents → vulnerability to slow environmental shifts"
+      input_spaces:
+        - concept: "Coral Reef Ecosystem"
+          elements:
+            - "Coral polyps (builders)"
+            - "Zooxanthellae algae (symbionts)"
+            - "Reef fish (residents/consumers)"
+            - "Predators (sharks, groupers)"
+            - "Calcium carbonate structure"
+            - "Nutrient flows"
+            - "Ocean currents (environmental context)"
+          relations:
+            - "Polyps build calcium carbonate skeletons"
+            - "Algae provide energy via photosynthesis to polyps"
+            - "Predators control herbivore populations, preventing overgrazing"
+            - "Nutrient cycling between species maintains water chemistry"
+            - "Biodiversity creates functional redundancy — multiple species fill each ecological role"
+          frame: "Ecosystem"
+          salient_properties:
+            - "Decentralized — no reef CEO"
+            - "Accretion-based growth over geological time"
+            - "Symbiosis as foundational architecture"
+            - "Biodiversity = resilience"
+            - "Visible structure is dead — the living part is the surface layer"
+        - concept: "Wikipedia"
+          elements:
+            - "Editors (builders)"
+            - "Reliable sources/citations (symbionts)"
+            - "Readers (residents/consumers)"
+            - "Vandals/spammers (predators)"
+            - "Article text and structure"
+            - "Information flows (citations, links)"
+            - "Internet and culture (environmental context)"
+          relations:
+            - "Editors write and refine article content"
+            - "Citations provide verifiability to editors' contributions"
+            - "Edit-watching and bots control vandalism"
+            - "Talk page consensus processes maintain article quality"
+            - "Editor diversity across topics creates coverage resilience"
+          frame: "Collaborative Knowledge System"
+          salient_properties:
+            - "Decentralized — no editor-in-chief"
+            - "Accretion-based growth through iterative edits"
+            - "Verifiability (citations) as foundational architecture"
+            - "Editor diversity = coverage and quality resilience"
+            - "Visible article is a snapshot — the living part is the edit history"
+      cross_space_mappings:
+        - element_a: "Coral polyp"
+          element_b: "Wikipedia editor"
+          mapping_type: role_mapping
+          rationale: "Both are the fundamental building agents — they contribute the small structural units (calcium carbonate / text edits) that accumulate into the visible structure."
+        - element_a: "Zooxanthellae algae"
+          element_b: "Reliable sources / citations"
+          mapping_type: analogy
+          rationale: "Algae provide energy (photosynthesis) that powers polyp construction; citations provide epistemic energy (verifiability) that powers editor contribution. Both are symbiotic — the relationship benefits both parties."
+        - element_a: "Biodiversity"
+          element_b: "Editor diversity and topic coverage"
+          mapping_type: property_mapping
+          rationale: "Species diversity creates functional redundancy in the reef — if one species declines, others fill the role. Editor diversity creates coverage resilience — if editors leave a topic, others can sustain article quality. Both systems degrade when diversity drops below a critical threshold."
+        - element_a: "Ocean acidification"
+          element_b: "Coordinated disinformation campaigns"
+          mapping_type: hermetic_correspondence
+          rationale: "Both are slow-moving environmental threats that degrade the system's foundation (dissolving calcium carbonate ↔ eroding trust in verifiability) before visible collapse occurs. Both operate at a scale that local feedback mechanisms weren't designed to detect."
+          hermetic_principle: correspondence
+        - element_a: "Predator-prey dynamics"
+          element_b: "Vandalism and edit-watching"
+          mapping_type: analogy
+          rationale: "Predators control herbivore populations, preventing any single species from overgrazing; edit-watchers and bots control vandalism, preventing any single bad actor from degrading content."
+        - element_a: "Reef structure (dead calcium carbonate)"
+          element_b: "Article history (past revisions)"
+          mapping_type: metaphor
+          rationale: "The visible reef is mostly dead skeleton — the living tissue is a thin surface layer. The visible Wikipedia article is a snapshot — the living knowledge process is in the edit history behind it."
+      emergent_structure:
+        fused_elements:
+          - "Citation-Algae: a hybrid concept where information sources symbiotically power knowledge construction, and the health of the source ecosystem directly determines the health of the knowledge structure"
+          - "Editor-Polyps: agents that are simultaneously individual contributors and part of a collective structure — their individual deaths (editor attrition / polyp death) are normal, but mass die-offs collapse the system"
+          - "Disinformation Acidification: a slow chemical/ epistemic process that changes the fundamental medium — trust and verifiability — making it harder for knowledge structures to form, just as acidification makes it harder for calcium carbonate to crystallize"
+        emergent_relations:
+          - "The health of the symbiotic layer (citations/sources ↔ algae) is the leading indicator of system collapse, not the visible structure"
+          - "Both systems exhibit 'shifting baselines' — each generation of participants accepts a slightly degraded system as normal"
+          - "Recovery requires not just stopping the threat but actively rebuilding the symbiotic layer — you can't just stop acidification, you have to replant the algae; you can't just ban disinformation, you have to rebuild source ecosystems"
+        governing_principles:
+          - "The surface is always lagging — apparent health is a trailing indicator of underlying process health"
+          - "Symbiotic relationships are the load-bearing architecture; builders alone cannot sustain the system"
+          - "Resilience is a function of diversity, not efficiency — maximizing for efficiency (fewer editors per article, monoculture coral) creates fragility"
+        core_insight: >
+          The vulnerability that threatens Wikipedia is the same structural
+          vulnerability that threatens coral reefs: a slow degradation of the
+          invisible symbiotic layer (citations and reliable sources ↔ algae
+          and nutrient flows) that goes undetected because we monitor the
+          visible structure (article count and quality ↔ reef surface area)
+          rather than the health of the underlying relationships. By the time
+          the visible structure collapses, the symbiotic layer has been dying
+          for years. The insight is that you protect the reef by protecting
+          the algae; you protect Wikipedia by protecting the ecosystem of
+          reliable sources.
+        paradoxes:
+          - "The most important part of the system is the part that is least visible and hardest to measure"
+          - "Growth can mask decline — expanding article count / reef area can hide thinning symbiotic health"
+          - "The system's greatest strength (decentralized self-organization) is also its vulnerability (no one is responsible for detecting slow systemic threats)"
+      novel_applications:
+        - application: "Symbiotic Health Index for Knowledge Platforms"
+          domain: "Platform governance / trust & safety"
+          mechanism: "Adapt coral reef health monitoring techniques to knowledge platforms. Instead of measuring content quantity and surface quality, measure 'symbiotic health': citation freshness, source diversity indices, editor-to-source ratios, and 'acidification' metrics (rate of source link rot, concentration of citations to a shrinking set of domains). Create a dashboard that shows platform health the way marine biologists monitor reef health."
+          feasibility: viable
+        - application: "Polycentric Moderation Architecture"
+          domain: "Community management / content moderation"
+          mechanism: "Model moderation after reef trophic cascades. Instead of top-down content removal (which is like trying to manually remove algae from a reef), build polycentric feedback loops: different 'species' of moderators (fact-checkers, style editors, subject experts, community elders) each consume different 'nutrients' (misinformation, bias, staleness, incivility) and produce different 'waste' that feeds other moderation processes. The system self-regulates through overlapping niches, not centralized control."
+          feasibility: experimental
+        - application: "Accretion Protocol for Organizational Knowledge"
+          domain: "Enterprise knowledge management / wikis"
+          mechanism: "Design organizational knowledge systems that explicitly mimic coral accretion: every contribution leaves a permanent structure (unlike Slack messages that evaporate), but the living part — the active, debated, evolving knowledge — is a thin surface layer on top of that structure. The system visualizes the 'reef': the accumulated knowledge structure below, and the living layer of active contributors and evolving understanding on top. This makes visible what enterprise wikis miss — that the artifact and the community are one system."
+          feasibility: near_term
+        - application: "Source Ecosystem Restoration"
+          domain: "Media / journalism / platform integrity"
+          mechanism: "Treat the decline of reliable sources as an ecological restoration problem, not a content moderation problem. Just as reef restoration projects replant coral polyps and monitor symbiont health, source ecosystem restoration would: (1) identify 'bleached zones' — topics where reliable sources have disappeared, (2) fund and support new source creation in those zones, (3) monitor source health metrics the way marine biologists monitor reef transects, (4) create 'marine protected areas' — topic spaces with heightened sourcing requirements during restoration. The frame shift from 'fighting misinformation' to 'restoring information ecosystems' is the application of the blend."
+          feasibility: speculative
+        - application: "Shifted Baseline Detector"
+          domain: "AI alignment / information ecosystem monitoring"
+          mechanism: "Build a tool that detects shifting baselines in knowledge systems. Just as each generation of marine biologists accepts a more degraded reef as 'normal,' each cohort of platform users accepts a more degraded information environment as 'normal.' The detector compares cross-generational expectations — what did editors in 2010 consider a well-sourced article vs. editors in 2026? — and sounds an alarm when the baseline has shifted. This makes visible the slow acidification that no one notices because everyone's reference frame is drifting together."
+          feasibility: experimental
+      confidence: 0.82
