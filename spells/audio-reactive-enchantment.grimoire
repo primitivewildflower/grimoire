@@ -1,0 +1,634 @@
+# audio-reactive-enchantment
+# GRIMOIRE Spell Definition — GDL v1.0
+# Generates audio-reactive visual specifications — maps frequency
+# bands to visual parameters for real-time generative visuals.
+# Primitive Wildflower, June 2026
+
+name: "audio-reactive-enchantment"
+version: "1.0.0"
+title: "Audio-Reactive Enchantment"
+author: "pw-grimoire/sax"
+category: "practical"
+license: "MIT"
+price: 299
+
+tags:
+  - audio-reactive
+  - visuals
+  - frequency-analysis
+  - generative
+  - real-time
+  - shader
+  - music-visualization
+  - parameter-mapping
+  - creative-coding
+  - practical
+
+description: >
+  Generates a complete audio-reactive visual specification — a precise
+  mapping from audio frequency bands to visual parameters (color, shape,
+  position, scale, opacity, distortion, particle behavior) with timing
+  curves, smoothing strategies, and implementation notes. Feed it a
+  description of the visual world you want to build and a reference
+  track, and it returns a scored specification ready for shader
+  programming, TouchDesigner, Max/MSP, p5.js, or any real-time graphics
+  environment. For VJs, installation artists, creative coders, game
+  audio designers, and anyone who wants sound to shape light.
+
+dependencies:
+  - audio-analysis
+  - visual-specification
+
+inputs:
+  - name: "visual_concept"
+    type: "text"
+    description: >
+      Describe the visual world you want sound to shape. Be specific
+      about elements, materials, lighting, atmosphere, and behavior.
+      Examples: "a field of crystalline flowers that bloom and wilt
+      with the music, petals made of stained glass, set in a midnight
+      void," or "fluid ink plumes in water, slow and viscous, dissolving
+      into chroma clouds when the kick hits, set against a deep black
+      background with golden light from above."
+    required: true
+
+  - name: "track_description"
+    type: "text"
+    description: >
+      Describe the audio you're working with — genre, tempo, energy arc,
+      instrumentation, mix characteristics, structural sections. The
+      more detail, the more precise the frequency-to-visual mapping.
+      Examples: "downtempo electronic, 85 BPM, sparse arrangement —
+      sub bass, glitchy percussion, ambient pads, occasional vocal
+      samples, builds slowly over 6 minutes to a single peak then
+      dissolves," or "live jazz trio recording, upright bass prominent,
+      brush drums, muted trumpet, conversational dynamics, 120-140 BPM
+      with tempo fluctuations."
+    required: true
+
+  - name: "output_environment"
+    type: "string"
+    description: >
+      Target environment for the visual implementation. Determines the
+      level of technical detail and the format of specification notes.
+    required: false
+    default: "creative-coding"
+    enum:
+      - "shader"
+      - "touchdesigner"
+      - "max-msp-jitter"
+      - "p5js"
+      - "unity"
+      - "unreal"
+      - "creative-coding"
+
+  - name: "visual_complexity"
+    type: "string"
+    description: "Visual density target — affects how many simultaneous mappings and elements are specified"
+    required: false
+    default: "moderate"
+    enum:
+      - "minimal"
+      - "moderate"
+      - "dense"
+      - "maximal"
+
+  - name: "fft_resolution"
+    type: "number"
+    description: "Number of FFT frequency bins to map against — higher gives finer frequency resolution"
+    required: false
+    default: 64
+    min: 16
+    max: 512
+    enum:
+      - 16
+      - 32
+      - 64
+      - 128
+      - 256
+      - 512
+
+output:
+  type: "object"
+  schema:
+    enchantment:
+      type: "object"
+      description: "The complete audio-reactive visual specification"
+      properties:
+        visual_elements:
+          type: "array"
+          description: "The visual elements that compose the scene"
+          items:
+            type: "object"
+            properties:
+              name:
+                type: "string"
+                description: "Element name (e.g., 'Crystalline Flowers', 'Background Void', 'Kick Flare')"
+              visual_description:
+                type: "string"
+                description: "How this element looks before audio drives it"
+              rendering_notes:
+                type: "string"
+                description: "Technical approach — shader type, geometry, particle system, post-processing"
+        frequency_band_mappings:
+          type: "array"
+          description: "The core mappings from audio frequency bands to visual parameters"
+          items:
+            type: "object"
+            properties:
+              band_name:
+                type: "string"
+                description: "Descriptive name (e.g., 'Sub Bass 20-60Hz', 'Vocals 300-3000Hz')"
+              frequency_range_hz:
+                type: "string"
+                description: "Frequency range (e.g., '20-60')"
+              drives_element:
+                type: "string"
+                description: "Which visual element this band controls"
+              drives_parameter:
+                type: "string"
+                description: "Which visual parameter (scale, opacity, position, hue, etc.)"
+              mapping_curve:
+                type: "string"
+                description: "How audio amplitude maps to parameter value — linear, exponential, logarithmic, stepped, inverted"
+              smoothing_ms:
+                type: "number"
+                description: "Smoothing/attack-release window in milliseconds to prevent jitter"
+              min_value:
+                type: "string"
+                description: "The parameter value at silence"
+              max_value:
+                type: "string"
+                description: "The parameter value at peak amplitude"
+              character:
+                type: "string"
+                description: "Qualitative description of how this mapping feels — snappy, fluid, weighty, delicate"
+        onset_detection:
+          type: "array"
+          description: "Transient/onset-triggered visual events"
+          items:
+            type: "object"
+            properties:
+              trigger:
+                type: "string"
+                description: "What audio event triggers this (e.g., 'kick drum onset', 'snare hit', 'vocal transient')"
+              detection_strategy:
+                type: "string"
+                description: "How to detect this onset (spectral flux, amplitude threshold, band-specific rise)"
+              visual_response:
+                type: "string"
+                description: "What happens visually when this onset fires"
+              decay_curve:
+                type: "string"
+                description: "How the visual response decays after the onset"
+              cooldown_ms:
+                type: "number"
+                description: "Minimum time between triggers to prevent visual overload"
+        section_map:
+          type: "array"
+          description: "How the visual scene shifts across the track's structural sections"
+          items:
+            type: "object"
+            properties:
+              section:
+                type: "string"
+                description: "Section name (intro, verse, chorus, drop, bridge, outro)"
+              audio_characteristics:
+                type: "string"
+                description: "What distinguishes this section sonically"
+              visual_state:
+                type: "string"
+                description: "The visual mood and active elements during this section"
+              transition_in:
+                type: "string"
+                description: "How the visual transitions into this section (cut, crossfade, morph, build)"
+              transition_out:
+                type: "string"
+                description: "How the visual transitions out of this section"
+        color_palette:
+          type: "object"
+          properties:
+            base_palette:
+              type: "string[]"
+              description: "Core hex colors of the visual world at silence"
+            frequency_color_shifts:
+              type: "array"
+              description: "How frequency bands shift colors"
+              items:
+                type: "object"
+                properties:
+                  band:
+                    type: "string"
+                  hue_shift_degrees:
+                    type: "number"
+                    description: "Hue rotation in HSL space per unit of band amplitude"
+                  saturation_response:
+                    type: "string"
+                    description: "How saturation changes with amplitude"
+                  brightness_response:
+                    type: "string"
+                    description: "How brightness changes with amplitude"
+        temporal_smoothing:
+          type: "object"
+          description: "Global temporal filtering strategy"
+          properties:
+            strategy:
+              type: "string"
+              description: "Overall approach — uniform, per-band, dual-time-constant, adaptive"
+            envelope_followers:
+              type: "string[]"
+              description: "Envelope follower configurations"
+            beat_synchronization:
+              type: "string"
+              description: "Whether and how visuals lock to detected BPM/tempo"
+        implementation_checklist:
+          type: "string[]"
+          description: "Ordered implementation steps with environment-specific notes"
+        performance_notes:
+          type: "string[]"
+          description: "GPU/CPU budget considerations, optimization suggestions, bottleneck warnings"
+
+ritual:
+  steps:
+    - name: "Decompose_Concept"
+      description: >
+        Parse the visual concept into discrete, nameable elements. Each
+        element must be independently controllable — a "crystalline
+        flower" is one element, "the midnight void background" is
+        another, "the falling petals" is a third. Assign each element
+        a rendering approach (particle system, mesh deformation, full-
+        screen shader, post-processing pass, geometry instancing) and
+        write visual description notes specific enough for an artist
+        or shader programmer to implement without ambiguity. Determine
+        which elements are persistent (always visible) vs. event-driven
+        (appear on onsets). This decomposition is the scaffold: every
+        mapping in later steps connects audio to one of these named
+        elements.
+      template: "prompts/decompose-concept-v1.md"
+
+    - name: "Map_Frequency_Bands"
+      description: >
+        Analyze the track description and identify the meaningful
+        frequency bands based on the instrumentation. Divide the
+        spectrum into perceptually relevant bands (not mathematically
+        equal divisions): sub bass (20-60Hz, felt in chest), bass
+        (60-250Hz, the body of the groove), low mids (250-500Hz,
+        warmth and mud), mids (500-2000Hz, instruments and presence),
+        high mids (2000-8000Hz, clarity and attack), highs (8000-20000Hz,
+        air and sparkle). For each band, assign it to drive one or more
+        visual parameters of specific elements. Apply perceptual mapping
+        logic: low frequencies drive slow, weighty parameters (scale of
+        large objects, background brightness, displacement magnitude),
+        high frequencies drive fast, detailed parameters (particle count,
+        sparkle intensity, edge sharpness, chroma shift). Specify the
+        mapping curve (linear for most, exponential for highly dynamic
+        elements, logarithmic for subtle control), smoothing window
+        (faster for high frequencies, slower for sub), and the min/max
+        parameter range. Write the qualitative "character" of each
+        mapping — this is how a VJ or creative coder connects with the
+        specification emotionally.
+      template: "prompts/map-frequency-bands-v1.md"
+
+    - name: "Design_Onsets"
+      description: >
+        Design transient-triggered visual events. Identify the track's
+        key percussive and transient elements from the track description:
+        kicks, snares, hi-hats, vocal attacks, instrumental stabs. For
+        each onset type, specify a detection strategy (spectral flux for
+        broadband transients, band-limited amplitude threshold for
+        specific drums, onset detection function with configurable
+        sensitivity). Design the visual response: what happens in the
+        scene when this onset fires? A kick might spawn a radial bloom
+        from center, a snare might scatter particles, a vocal attack
+        might ripple a displacement field. Specify the decay curve
+        (linear, exponential, ease-out) and cooldown to prevent
+        overlapping onsets from creating visual cacophony. Onset design
+        is where the enchantment becomes visceral — the moments when
+        the audience feels the music hit their eyes. Too many onset
+        events create noise; too few create a disconnect. Balance is
+        everything.
+      template: "prompts/design-onsets-v1.md"
+
+    - name: "Score_Sections"
+      description: >
+        Map the track's structural sections to visual states. Identify
+        the likely sections from the track description (intro, verse,
+        chorus, drop, bridge, outro — or genre-appropriate equivalents).
+        For each section, define: (1) the audio characteristics that
+        identify it, (2) the visual mood — which elements are active,
+        what the color temperature is, the overall density, (3) the
+        transition into this section (instant cut for drops, slow morph
+        for bridges, crossfade between visual states), and (4) the
+        transition out. Sections give the visual experience narrative
+        shape — without section mapping, you get a responsive
+        screensaver; with section mapping, you get a visual composition.
+        Include a "calibration" note: how the system knows when a
+        section has changed (amplitude envelope shape, spectral centroid
+        shift, BPM detection, or manual trigger if the environment is
+        live performance).
+      template: "prompts/score-sections-v1.md"
+
+    - name: "Specify_Implementation"
+      description: >
+        Compile the full implementation specification. Generate the
+        color palette: base colors (the scene at silence) and frequency-
+        driven color shifts (how each band modulates hue, saturation, and
+        brightness). Define the temporal smoothing strategy: per-parameter
+        envelope followers, global smoothing constants, beat-aligned
+        quantization if the environment supports BPM detection. Write the
+        implementation checklist — ordered steps for building this visual
+        system in the specified output_environment, with environment-
+        specific notes (shader uniform names, TouchDesigner CHOP
+        connections, p5.js FFT object usage, etc.). Add performance notes:
+        estimated GPU load, which elements are the most expensive, where
+        to optimize first if frame rate drops, and recommended minimum
+        hardware. This step transforms the artistic specification into
+        an engineering document without losing the artistic intent.
+      provider_hint: "local"
+
+deprecated: false
+requires_approval: false
+
+rate_limit:
+  per_minute: 3
+  per_day: 60
+
+example:
+  input:
+    visual_concept: >
+      A field of crystalline flowers that bloom and wilt with the music.
+      Each flower is a cluster of thin glass-like petals growing from a
+      central glowing core. The ground is a dark mirror reflecting the
+      flowers upside down — not a perfect mirror, more like black water.
+      Above, a canopy of hanging luminous threads drifts slowly, like
+      deep-sea bioluminescent creatures suspended in dark water. When
+      the music is intense, the flowers pulse and shed glowing pollen
+      that rises upward into the threads. The whole scene is set in a
+      void — no walls, no horizon, just infinite dark with these glowing
+      things.
+    track_description: >
+      Ambient electronic with organic percussion. 100 BPM. Opens with
+      solo piano — sparse chords, lots of space. Bass and kick enter at
+      0:45, gentle but present. Arpeggiated synth layers build from 1:30,
+      getting denser. Vocal sample (ethereal, wordless) enters at 2:15.
+      Peak at 3:00 — full arrangement, all elements, shaker percussion
+      driving energy. Breakdown at 3:45 — everything drops except piano
+      and reverb tail. Final build 4:15-5:00, then dissolve into single
+      piano note and silence.
+    output_environment: "shader"
+    visual_complexity: "dense"
+    fft_resolution: 128
+  output:
+    enchantment:
+      visual_elements:
+        - name: "Crystalline Flowers"
+          visual_description: >
+            A field of 40-60 individual flower instances arranged in a
+            loose grid with organic jitter. Each flower is a cluster of
+            5-8 thin translucent petals radiating from a point-light core.
+            Petals are modeled as thin refractive quads with Fresnel edges.
+            At rest, flowers are partially closed — petals angled inward
+            at ~30°. When blooming, petals rotate outward to ~80° and
+            the core brightness increases. Bloom state is driven by
+            mid-frequency audio energy. Wilting is the inverse animation
+            with a slight droop on the Y-axis.
+          rendering_notes: >
+            GPU-instanced geometry with vertex shader animation. Each
+            instance has a bloom parameter (0-1) updated per frame from
+            audio analysis. Petal refraction via screen-space normal
+            perturbation. Core glow via additive billboarded sprite.
+            Instance count: 40-60. Triangle budget per flower: ~120 tris.
+        - name: "Dark Mirror Ground"
+          visual_description: >
+            A reflective plane at Y=-1.5. Not a perfect mirror — the
+            reflection is blurred proportional to distance from the
+            reflected flower, creating a depth effect. The ground has
+            subtle concentric ripples that emanate from each flower's
+            reflection point, driven by sub-bass energy. The ripples
+            are visible only at their specular highlights — thin bright
+            rings fading into black.
+          rendering_notes: >
+            Screen-space reflection with variable blur kernel. Ripple
+            displacement via normal map generation in a pre-pass,
+            updated per frame with sub-bass amplitude modulating
+            ripple radius and count. Post-process composite over
+            the reflected scene.
+        - name: "Bioluminescent Threads"
+          visual_description: >
+            15-25 hanging vertical threads suspended from Y=3 to Y=1.
+            Each thread is a catenary curve with 8-12 control points,
+            rendered as a thin glowing line with variable width. Threads
+            sway slowly with a perlin noise field — independent of audio
+            at rest, but the sway amplitude increases with high-frequency
+            energy. Each thread has small glowing nodes at its control
+            points that pulse independently.
+          rendering_notes: >
+            Geometry shader generating triangle strips from spline
+            control points. Glow via additive blending with falloff
+            texture. Sway animation via vertex displacement in vertex
+            shader using 3D perlin noise lookup. Thread count and
+            control point density scale with visual_complexity setting.
+        - name: "Rising Pollen"
+          visual_description: >
+            Small glowing particles (200-500) that spawn from flower
+            cores when onset energy exceeds threshold. Particles rise
+            upward with slight lateral drift, fading out over 2-3
+            seconds. Color matches the spawning flower's core color
+            with slight random hue variation. Particles are drawn toward
+            the nearest thread as they rise, creating subtle curved paths.
+          rendering_notes: >
+            GPU particle system with compute shader update. Spawn events
+            triggered by onset detection on mid-high bands. Particle
+            attraction to thread control points computed in the update
+            pass. Rendered as camera-facing quads with soft additive
+            glow texture. Max particle count: 500, recycled in ring buffer.
+        - name: "Background Void"
+          visual_description: >
+            Deep black with a subtle radial gradient — barely perceptible
+            dark blue at the center, fading to pure black at the edges.
+            When the arrangement is sparse (intro, breakdown), a faint
+            starfield becomes visible — 100-200 tiny points drifting
+            slowly. When the arrangement is dense, the void darkens
+            further, swallowing the stars.
+          rendering_notes: >
+            Full-screen quad as the first render pass. Radial gradient
+            via fragment shader. Star visibility controlled by inverse
+            of overall spectral energy — stars fade in when amplitude
+            drops below threshold. Stars are randomly distributed points
+            with slow drift and subtle twinkle (sine wave brightness
+            modulation at per-star random frequencies).
+      frequency_band_mappings:
+        - band_name: "Sub Bass"
+          frequency_range_hz: "20-60"
+          drives_element: "Dark Mirror Ground"
+          drives_parameter: "Ripple amplitude and radius"
+          mapping_curve: "Exponential — quiet sub bass produces no ripples; threshold crossing triggers proportional response"
+          smoothing_ms: 120
+          min_value: "No ripples (normal map = flat)"
+          max_value: "Maximum ripple displacement (normal perturbation ~0.3 units) at peak sub energy"
+          character: "Weighty, tectonic — the ground responds to what's felt in the chest, not what's heard in the ears. Slow to wake, slow to settle."
+        - band_name: "Bass"
+          frequency_range_hz: "60-250"
+          drives_element: "Crystalline Flowers"
+          drives_parameter: "Bloom openness (petal angle)"
+          mapping_curve: "Linear with soft clipping at top — petals open proportionally to bass energy, but never exceed 85° to maintain crystalline shape"
+          smoothing_ms: 80
+          min_value: "Petal angle 30° (partially closed)"
+          max_value: "Petal angle 80° (fully bloomed)"
+          character: "The breath of the garden — flowers open and close with the groove. Fluid, organic, the main visual heartbeat."
+        - band_name: "Low Mids"
+          frequency_range_hz: "250-500"
+          drives_element: "Crystalline Flowers"
+          drives_parameter: "Core glow brightness"
+          mapping_curve: "Logarithmic — small mid energy produces noticeable glow; saturation at high energy to prevent blown-out cores"
+          smoothing_ms: 50
+          min_value: "Core glow at 20% brightness — dim ember"
+          max_value: "Core glow at 100% — bright luminous center"
+          character: "The warmth inside the flowers — the glow that says 'something is alive here.' Responds to piano, pads, the harmonic body of the track."
+        - band_name: "Mids"
+          frequency_range_hz: "500-2000"
+          drives_element: "Bioluminescent Threads"
+          drives_parameter: "Sway amplitude"
+          mapping_curve: "Linear"
+          smoothing_ms: 30
+          min_value: "Gentle drift — sway amplitude ~5cm"
+          max_value: "Active sway — amplitude ~30cm with increased perlin noise frequency"
+          character: "Nervous, responsive — the threads dance to the melodic content. When the arpeggios build, the threads animate with them."
+        - band_name: "High Mids"
+          frequency_range_hz: "2000-8000"
+          drives_element: "Rising Pollen"
+          drives_parameter: "Spawn rate"
+          mapping_curve: "Threshold-gated with hysteresis — pollen spawns when band energy crosses above threshold, stops when it drops below (lower) release threshold"
+          smoothing_ms: 20
+          min_value: "No pollen spawned"
+          max_value: "Maximum spawn rate (~50 particles/second) at peak energy"
+          character: "The visual shimmer — pollen erupts when the track has bite and articulation. Responds to shakers, hi-hat transients, vocal sibilance. The fastest visual response in the scene."
+        - band_name: "Highs"
+          frequency_range_hz: "8000-20000"
+          drives_element: "Bioluminescent Threads"
+          drives_parameter: "Node pulse brightness"
+          mapping_curve: "Linear, high-sensitivity — high frequencies are typically low amplitude and need gain compensation"
+          smoothing_ms: 15
+          min_value: "Nodes at 30% brightness"
+          max_value: "Nodes at 100% brightness — distinct twinkling points"
+          character: "Air and sparkle — the threads' nodes pulse like distant stars communicating. The most delicate response, easily lost in the mix, rewards clean high-frequency content."
+      onset_detection:
+        - trigger: "Kick drum onset"
+          detection_strategy: "Band-limited (20-100Hz) amplitude rise detection with 3ms attack window — spectral flux triggered when sub-bass energy increases >12dB in <5ms"
+          visual_response: "Ground ripple pulse — a single strong concentric ring expands rapidly (150ms) from each flower's reflection point, then fades over 600ms. All flowers receive the pulse simultaneously."
+          decay_curve: "Ease-out exponential — fast initial expansion, slow fade"
+          cooldown_ms: 80
+        - trigger: "Snare/shaker transient"
+          detection_strategy: "Broadband spectral flux (2000-12000Hz) — onset detection function with adaptive threshold (1.5x moving average of spectral flux)"
+          visual_response: "Pollen burst — 15-30 particles spawn simultaneously from random flower cores, rising faster than normal pollen (3x speed) with wider lateral spread"
+          decay_curve: "Linear fade over 1.5 seconds"
+          cooldown_ms: 40
+        - trigger: "Vocal sample onset"
+          detection_strategy: "Band-limited (300-3000Hz) spectral flux with longer analysis window (20ms) to catch the slower attack of vocal onsets vs percussion"
+          visual_response: "Thread sway synchronization — all threads momentarily align their sway phase and increase amplitude 2x for 500ms, then return to independent perlin-driven motion"
+          decay_curve: "Ease-in-out — slow alignment, brief hold, slow release"
+          cooldown_ms: 200
+      section_map:
+        - section: "Intro (0:00-0:45)"
+          audio_characteristics: "Solo piano, sparse chords, lots of space between notes, no percussion"
+          visual_state: "Flowers at minimum bloom (30°) with dim cores. Threads nearly still. No pollen. Starfield visible at 80% brightness. The garden is sleeping. Piano notes cause subtle flower core brightness pulses — a gentle correspondence between each chord and a different flower cluster."
+          transition_in: "Scene fades in from black over 3 seconds as first piano note sounds"
+          transition_out: "Smooth transition — flowers begin gradual bloom, starfield fades, ground ripples begin to stir"
+        - section: "Bass Entry (0:45-1:30)"
+          audio_characteristics: "Bass and kick enter, piano continues, track gains body"
+          visual_state: "Flowers bloom to ~60% openness on sustained bass notes. Ground ripples become visible centered on flower reflections. Core glow increases 20% → 50%. Threads begin subtle sway. Starfield fading. The garden is waking."
+          transition_in: "Ground ripple amplitude ramps from 0 to active over 8 bars"
+          transition_out: "Flowers continue opening, threads animate more actively"
+        - section: "Build (1:30-2:15)"
+          audio_characteristics: "Arpeggiated synth layers enter, density increasing, energy building"
+          visual_state: "Flowers approaching full bloom (70-80°). Pollen begins spawning in small bursts with each arpeggio note onset. Threads actively swaying — noticeable motion. Core glow at 70-80%. Colors shifting warmer (hue +15° from base). The garden is alive and responding."
+          transition_in: "Pollen system activates — first particles spawn as arpeggios begin"
+          transition_out: "Scene intensifies toward peak — all parameters trending toward maximum"
+        - section: "Peak (2:15-3:45)"
+          audio_characteristics: "Full arrangement, vocal sample, shaker percussion, maximum energy"
+          visual_state: "Flowers at full bloom (80°) with bright pulsing cores. Continuous pollen streams rising. Threads in active dance — wide sway, bright pulsing nodes. Ground ripples constant and overlapping. Starfield completely dark. Warm color shift at maximum. The garden is ecstatic."
+          transition_in: "Vocal sample onset triggers thread synchronization — a moment of visual unity across all threads"
+          transition_out: "Breakdown approaching — pre-echo: one measure before the drop, pollen spawn rate decreases by 50% as a visual cue"
+        - section: "Breakdown (3:45-4:15)"
+          audio_characteristics: "Everything drops except piano and long reverb tail — sudden negative space"
+          visual_state: "Flowers wilt to 35° over 2 seconds (fast, dramatic). Pollen particles all fade out over 3 seconds. Threads slow to near-stillness. Ground ripples settle. Starfield fades in at 60%. The garden exhales. Single piano notes trigger individual flower core pulses in isolation — intimate, exposed."
+          transition_in: "Sharp visual drop at 3:45 — flowers wilt, pollen killed, threads decelerate. A visual breath."
+          transition_out: "Slow rebuild as final section approaches"
+        - section: "Final Build & Dissolve (4:15-5:00+)"
+          audio_characteristics: "Final build, then dissolve into single piano note and silence"
+          visual_state: "Flowers bloom to 70% for the final build — slightly less than the peak, like a memory of the earlier ecstasy. At the dissolve point, all elements begin fading sequentially: pollen stops, threads slow and dim, flowers close gently, ground ripples fade. Final piano note: a single flower holds bloom for 2 seconds, then slowly closes as the note decays. Scene fades to black over 4 seconds as silence returns."
+          transition_in: "Threads reanimate, flowers reopen — a gentler version of the earlier peak"
+          transition_out: "Fade to black — starfield appears briefly at fade midpoint (a callback to the intro) then fades too"
+      color_palette:
+        base_palette:
+          - "#0a0a1a"
+          - "#1a1040"
+          - "#2d1b69"
+          - "#4a2c8a"
+          - "#6b3fa0"
+          - "#c9a0dc"
+        frequency_color_shifts:
+          - band: "Sub Bass"
+            hue_shift_degrees: 0
+            saturation_response: "None — sub bass doesn't shift color, it shifts geometry (ripples)"
+            brightness_response: "+15% on ground reflection brightness at peak sub energy"
+          - band: "Bass"
+            hue_shift_degrees: 0
+            saturation_response: "None"
+            brightness_response: "+20% on flower petal brightness at peak bass energy"
+          - band: "Low Mids"
+            hue_shift_degrees: "+10° toward gold/yellow — piano and harmonic content warms the scene"
+            saturation_response: "+15% saturation at peak energy"
+            brightness_response: "+30% on flower core brightness"
+          - band: "Mids"
+            hue_shift_degrees: "+5° — subtle warmth from melodic content"
+            saturation_response: "+10%"
+            brightness_response: "+10% on thread brightness"
+          - band: "High Mids"
+            hue_shift_degrees: "-5° toward blue — articulation and attack cool the palette slightly, creating warm/cool interplay with low mids"
+            saturation_response: "+20% — high mids increase color intensity"
+            brightness_response: "+25% on pollen brightness"
+          - band: "Highs"
+            hue_shift_degrees: "±3° perlin-driven — air frequencies create subtle iridescence, tiny hue oscillations rather than directional shifts"
+            saturation_response: "+5%"
+            brightness_response: "+15% on thread node brightness"
+      temporal_smoothing:
+        strategy: "Per-band dual-time-constant envelope followers with beat-synchronized quantization option"
+        envelope_followers:
+          - "Sub Bass: Slow follower — 120ms attack, 200ms release. Sub energy changes slowly; the follower should be smooth enough that ripples feel tectonic, not jittery."
+          - "Bass: Medium follower — 80ms attack, 100ms release. Responsive enough for groove lock, smooth enough to avoid petal flutter."
+          - "Low Mids: Medium follower — 50ms attack, 80ms release. Piano notes need visible onset but smooth decay between chords."
+          - "Mids: Fast follower — 30ms attack, 50ms release. Arpeggios and melodic motion need quick response for thread dance."
+          - "High Mids: Fast follower — 20ms attack, 30ms release. Shakers and transients need immediacy for pollen spawn."
+          - "Highs: Fast follower — 15ms attack, 25ms release. Air frequencies are already low amplitude; need minimal smoothing to preserve detail."
+        beat_synchronization: >
+          BPM detection at 100 BPM (600ms per beat). Optional beat-aligned
+          quantization for parameter updates: flowers update bloom state
+          on eighth notes (75ms intervals), pollen spawn checks run on
+          sixteenth notes (37.5ms intervals) to catch fast transients,
+          thread sway runs continuous (no quantization) for organic feel.
+          Ground ripple pulses are onset-triggered (not beat-quantized)
+          but the ripple expansion animation duration is set to one beat
+          (600ms) to rhythmically align with the track.
+      implementation_checklist:
+        - "Set up FFT analysis pipeline: 128 bins, 60fps update rate, Hann window function"
+        - "Implement envelope followers per band — start with the smoothing parameters from the spec, tune during testing"
+        - "Build flower geometry: instanced quads with vertex-shader petal rotation driven by bloom parameter uniform"
+        - "Implement flower core glow: additive billboarded sprite with brightness uniform"
+        - "Create ground plane with screen-space reflection pass — start with uniform blur, add ripple displacement in second pass"
+        - "Implement thread system: catenary spline generation, perlin noise sway in vertex shader"
+        - "Build particle system: compute shader for spawn/update, vertex shader for billboarding, fragment for soft glow"
+        - "Implement onset detection: sub-band spectral flux with adaptive thresholds"
+        - "Wire frequency band mappings: connect envelope followers to shader uniforms (bloom, glow, sway, spawn rate, ripple)"
+        - "Build section sequencer: manual timeline markers (0:00 intro, 0:45 bass entry, 1:30 build, 2:15 peak, 3:45 breakdown, 4:15 final) with parameter tweening between sections"
+        - "Implement color pipeline: base palette with HSL shifts driven by band energy"
+        - "Add starfield pass as first render layer, visibility driven by inverse spectral energy"
+        - "Profile: target 60fps at 1080p on GTX 1060 or equivalent. Optimize particle count and thread segments first if dropping frames."
+        - "Tune per-band smoothing during live playback — the spec values are starting points; final values depend on the actual track's dynamics"
+      performance_notes:
+        - "Flower instancing: 60 instances × 120 tris = 7200 tris — negligible. The cost is in the vertex shader animation, not triangle count."
+        - "Particle system: 500 particles × compute shader update — well within budget. The bottleneck is the attraction calculation (particles → nearest thread), which is O(P×T) = 500×25 = 12,500 distance checks per frame. Optimize with spatial hashing if this becomes a problem."
+        - "Screen-space reflection pass: the most expensive single operation. Consider quarter-resolution reflection buffer with bilateral upscale for performance. At 1080p, a full-res SSR pass can eat 2-4ms on mid-range GPUs."
+        - "Perlin noise lookup for thread sway: use a pre-computed 3D noise texture (64³) rather than computing perlin in the shader. One texture sample vs. dozens of instructions."
+        - "FFT analysis on CPU: 128 bins at 60fps is trivial (sub-0.1ms). No need for GPU FFT unless targeting mobile or very low-power devices."
+        - "Total estimated GPU budget at 1080p: 6-10ms on GTX 1060 equivalent, well within 16.7ms frame budget. Headroom exists for the 'maximal' complexity setting."

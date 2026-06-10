@@ -1,0 +1,355 @@
+# dream-interpretation
+# GRIMOIRE Spell Definition — GDL v1.0
+# Jungian dream analysis with archetypal mapping, shadow
+# identification, and personal symbol tracking.
+# Primitive Wildflower, June 2026
+
+name: "dream-interpretation"
+version: "1.0.0"
+title: "Dream Interpretation"
+author: "pw-grimoire/sax"
+category: "ritual"
+license: "MIT"
+price: 399
+
+tags:
+  - dream
+  - jungian
+  - archetype
+  - shadow
+  - symbol
+  - unconscious
+  - analysis
+  - interpretation
+  - personal-myth
+  - ritual
+
+description: >
+  Analyzes dream narratives through a Jungian lens — mapping characters,
+  settings, and events to archetypes, identifying shadow material,
+  tracking personal symbol evolution across dream entries, and
+  surfacing the compensatory message the unconscious is offering to
+  the waking ego. The spell does not decode dreams through a fixed
+  symbol dictionary; it treats each dream as a personal myth, mapping
+  its structure, identifying the dream ego's stance, and surfacing
+  what the dream is trying to balance in the dreamer's conscious life.
+  For therapists, journal keepers, artists mining the unconscious, and
+  anyone who believes dreams are not random noise but precise
+  communications from the parts of the self that don't speak in words.
+
+dependencies:
+  - archetype-library
+  - semantic-embedding
+
+inputs:
+  - name: "dream_narrative"
+    type: "text"
+    description: >
+      The dream narrative, written as fully as you can remember. Include
+      setting, characters, actions, emotions, sensory details (colors,
+      sounds, textures, temperatures), dialogue fragments, transitions,
+      and the ending. Write in present tense. The more sensory detail,
+      the richer the interpretation. Don't interpret as you write — just
+      record.
+    required: true
+
+  - name: "dreamer_context"
+    type: "text"
+    description: >
+      Relevant waking-life context. Dreams are compensatory — the
+      unconscious shows what consciousness is missing or suppressing.
+      What's happening in your waking life? Major decisions, emotional
+      states, relationship dynamics, creative blocks, life transitions,
+      recurring thoughts. Be honest — the unconscious already knows the
+      truth; withholding context from the spell only cheats the
+      interpretation.
+    required: false
+
+  - name: "previous_dreams"
+    type: "text[]"
+    description: >
+      Previous dream narratives for personal symbol tracking and pattern
+      detection. Include 2-3 previous dream records to surface recurring
+      figures, settings, motifs, and the arc of your personal myth over
+      time. The spell tracks symbols across entries to identify evolution
+      — is the shadow figure becoming less threatening? Has a character
+      changed form?
+    required: false
+
+  - name: "analysis_depth"
+    type: "number"
+    description: "Depth — 1 (basic archetype ID), 3 (full interpretation), 5 (exhaustive with amplification and active imagination prompts)"
+    required: false
+    default: 3
+    min: 1
+    max: 5
+
+  - name: "amplify"
+    type: "boolean"
+    description: "Include mythological/cultural amplification — linking dream symbols to myths, fairy tales, and alchemical texts"
+    required: false
+    default: true
+
+output:
+  type: "object"
+  schema:
+    interpretation:
+      type: "object"
+      description: "The complete dream interpretation"
+      properties:
+        dream_summary:
+          type: "string"
+          description: "A structural summary — the narrative stripped to its dramatic skeleton"
+        dramatis_personae:
+          type: "array"
+          description: "All characters/figures in the dream, analyzed"
+          items:
+            type: "object"
+            properties:
+              figure:
+                type: "string"
+              archetype:
+                type: "string"
+                enum:
+                  - Self
+                  - Shadow
+                  - Anima
+                  - Animus
+                  - Persona
+                  - Wise Old Man
+                  - Wise Old Woman
+                  - Trickster
+                  - Hero
+                  - Great Mother
+                  - Terrible Mother
+                  - Child
+                  - Puer Aeternus
+                  - Senex
+                  - Complex_Figure
+              role_in_dream:
+                type: "string"
+              psychic_function:
+                type: "string"
+                description: "What part of the dreamer's psyche this figure represents or compensates"
+              affect:
+                type: "string"
+              waking_life_correlate:
+                type: "string"
+                description: "What in waking life this figure might relate to"
+        setting_analysis:
+          type: "object"
+          properties:
+            primary_setting:
+              type: "string"
+            psychic_quality:
+              type: "string"
+            atmosphere:
+              type: "string"
+        shadow_analysis:
+          type: "object"
+          properties:
+            shadow_figures:
+              type: "string[]"
+            shadow_content:
+              type: "string"
+              description: "The specific quality the dreamer is projecting and not owning"
+            integration_invitation:
+              type: "string"
+              description: "What the dream is asking the dreamer to integrate"
+        compensatory_message:
+          type: "string"
+          description: "The dream's core thesis — what the unconscious is trying to balance in the conscious stance"
+        dream_ego_stance:
+          type: "string"
+          description: "How the dream ego is positioned — active/passive, observer/participant, empowered/helpless"
+        emotional_arc:
+          type: "object"
+          properties:
+            opening_affect:
+              type: "string"
+            middle_affect:
+              type: "string"
+            closing_affect:
+              type: "string"
+            transformation:
+              type: "string"
+        personal_symbol_tracking:
+          type: "array"
+          description: "Symbols tracked across this dream and previous entries"
+          items:
+            type: "object"
+            properties:
+              symbol:
+                type: "string"
+              occurrences:
+                type: "number"
+              evolution:
+                type: "string"
+              personal_meaning:
+                type: "string"
+        amplification:
+          type: "array"
+          description: "Mythological amplifications of key symbols"
+          items:
+            type: "object"
+            properties:
+              symbol:
+                type: "string"
+              mythic_parallel:
+                type: "string"
+              resonance:
+                type: "string"
+        active_imagination_prompt:
+          type: "string"
+          description: "A prompt for re-entering the dream in waking imagination to continue dialogue with figures"
+        waking_life_bridge:
+          type: "string"
+          description: "A concrete small action to honor the dream's message in daily life"
+
+ritual:
+  steps:
+    - name: "Structure_Dream"
+      description: >
+        Parse the dream narrative into its structural skeleton. Extract:
+        settings and transitions, every character/figure including
+        animals and machines, the dream ego's behavior and stance, the
+        action sequence, the emotional arc (opening → middle → closing
+        affect), and sensory details. Dreams speak in sensory metaphor —
+        a cold room means something different from a dark room. This
+        structural extraction is the interpretive foundation.
+      provider_hint: "local"
+
+    - name: "Map_Archetypes"
+      description: >
+        Map each dream figure to their closest Jungian archetype.
+        Distinguish between Shadow (same gender, carries rejected
+        qualities), Anima/Animus (inner contrasexual), Wise Old Man/
+        Woman, Trickster, Persona, Self, Hero, Great/Terrible Mother.
+        For each figure, identify their psychic function — what part of
+        the psyche they represent — and their affect. Map waking-life
+        correlates. The affect a figure evokes is often the most direct
+        clue to its meaning.
+      template: "prompts/map-archetypes-v1.md"
+
+    - name: "Analyze_Shadow"
+      description: >
+        Perform dedicated shadow analysis. Identify shadow figures —
+        same-gender characters that provoke strong negative or
+        uncomfortably strong positive affect. Also identify shadow
+        content in objects, animals, or events. Articulate the specific
+        quality being projected, with precision. Culminate in the
+        integration invitation: what specific step toward wholeness
+        does the shadow figure represent? The shadow is not the enemy —
+        it is the part of the self that was rejected to form the ego,
+        and dreams return it to us with a demand for recognition.
+      template: "prompts/analyze-shadow-v1.md"
+
+    - name: "Discern_Compensation"
+      description: >
+        Discern the compensatory message. Compare the dream ego's stance
+        with the dreamer_context to identify the tension. Write the
+        compensatory message as a direct statement, as if the dream
+        itself could speak, using the dream's own language where
+        possible. The compensatory message should feel true and slightly
+        uncomfortable — if it's comfortable, it's probably not what the
+        dream was actually saying.
+      template: "prompts/discern-compensation-v1.md"
+
+    - name: "Amplify_And_Bridge"
+      description: >
+        If amplify=true, perform mythological amplification: find
+        parallels for key dream symbols in mythology, fairy tales, and
+        alchemical texts. Generate an active imagination prompt — a
+        specific invitation to re-enter the dream in waking imagination
+        and continue dialogue with a dream figure. Write the waking life
+        bridge: one concrete, small action to honor the dream's message.
+        Dreams want to change how we live, not just how we think.
+      template: "prompts/amplify-and-bridge-v1.md"
+
+deprecated: false
+requires_approval: false
+
+rate_limit:
+  per_minute: 3
+  per_day: 50
+
+example:
+  input:
+    dream_narrative: >
+      I am in a vast underground library. The shelves are carved from
+      stone and extend impossibly high — I can't see the ceiling. Every
+      book is blank when I open it, but I know they contain everything
+      I've ever forgotten. A wolf is pacing between the shelves. It's
+      not threatening — it seems to be guarding me, but I'm also afraid
+      of it. An old woman sits at a wooden desk in the center, knitting
+      a long white scarf that pools on the floor and grows longer as I
+      watch. She doesn't look at me, but I know she knows I'm there.
+      I try to speak to her but no sound comes out. I wake up feeling
+      I've left something important behind.
+    dreamer_context: >
+      I'm 34, a product designer in a 3-month creative block. I've been
+      considering leaving my job for something more meaningful but keep
+      telling myself it's not the right time. My grandmother, who taught
+      me to draw, died six months ago. I haven't really grieved — I
+      threw myself into work instead.
+    analysis_depth: 3
+    amplify: true
+  output:
+    interpretation:
+      dream_summary: "The dreamer enters an underground library of blank books representing forgotten knowledge. A wolf guards the space (feared but protective). An old woman knits an endlessly growing white scarf without acknowledging the dreamer, who cannot speak. The dream ends with the feeling of leaving something important behind."
+      dramatis_personae:
+        - figure: "The Wolf"
+          archetype: Shadow
+          role_in_dream: "Paces between shelves, simultaneously guarding and threatening"
+          psychic_function: "The wolf carries the dreamer's unexpressed instinctual creative energy — wild, non-linear, untamed — suppressed by the professional persona (product designer = order, systems). The wolf guards the library because the instinctual self is the key to accessing what's been forgotten. The fear is the ego's fear of losing control to the wild thing."
+          affect: "Unnerving but protective — the dream ego is afraid but recognizes the wolf is not attacking"
+          waking_life_correlate: "The creative instinct the dreamer suppresses to maintain professional stability — the part that wants to leave the job and make original work"
+        - figure: "The Old Woman Knitting"
+          archetype: Wise Old Woman
+          role_in_dream: "Sits at the library's center, knitting an infinitely growing white scarf, not acknowledging the dreamer"
+          psychic_function: "The Wise Old Woman holds the organizing intelligence of the unconscious. The white scarf is the thread of life — continuity backward (ancestral lineage, the grandmother's teachings) and forward (what the dreamer will create). Her refusal to acknowledge is significant: she waits for the dreamer to find their voice before she responds."
+          affect: "Neutral, absorbed, patient — not withholding, but waiting"
+          waking_life_correlate: "The grandmother who taught the dreamer to draw — creative lineage, artistic identity, unprocessed grief"
+        - figure: "The Dream Ego (I)"
+          archetype: Hero
+          role_in_dream: "Explores the library, tries to read blank books, cannot speak to the old woman"
+          psychic_function: "The conscious self encountering the unconscious. The muteness is the dream's diagnosis: the ego has lost the language of image and symbol, which is exactly the creative block — knowing the material exists but being unable to access it."
+          affect: "Curious, frustrated, awe-struck, incomplete upon waking"
+          waking_life_correlate: "The conscious self in creative block — aware something is missing but only able to rearrange existing ideas"
+      setting_analysis:
+        primary_setting: "An underground stone library of infinite height"
+        psychic_quality: "The library is the personal unconscious — vast, structured, permanent (stone), containing everything the dreamer has ever forgotten. The books are blank because the conscious mind has lost the symbolic language to decode them — the language the wolf and the old woman still speak. The infinite ceiling mirrors the unconscious's unending depth."
+        atmosphere: "Silent, reverent, expectant — the library is waiting, not hostile, charged with unreleased potential"
+      shadow_analysis:
+        shadow_figures:
+          - "The Wolf"
+        shadow_content: "The wolf carries instinctual creative energy — raw, non-linear, disruptive to the orderly professional persona. This is the wild creative intelligence the dreamer fears will destabilize their life if unleashed. The dream shows the wolf is guarding the library, not destroying it — integration is the path, not banishment."
+        integration_invitation: "The dream is asking the dreamer to approach the wolf not as a threat but as a guardian. The question is: what would happen if you stopped organizing and let the wild thing lead? The wolf is not asking you to quit your job — it's asking you to let instinct re-enter your creative process. Make something ugly. Make something you can't explain. The wolf will be there."
+      compensatory_message: "Your conscious life has become a library of blank books — orderly, structured, professionally respectable, and empty of living content. The wolf (instinct) and the old woman (ancestral creative lineage, unprocessed grief) are the two keys you've locked out. You cannot speak in their presence because you've been speaking the wrong language — the language of arrangement, not the language of creation. The dream is asking you to grieve your grandmother not as an obligation but as a doorway back to the source of your art. The blank books are not empty — you've forgotten how to read the language you were born speaking."
+      dream_ego_stance: "Passive, curious but impotent — the dream ego observes and tries but cannot act. This mirrors the waking stance of 'considering leaving' but never acting, of recognizing the creative block but not breaking it."
+      emotional_arc:
+        opening_affect: "Curiosity and wonder — the library is vast and compelling"
+        middle_affect: "Frustration and awe — the books are blank, the wolf is fearsome, the old woman is unreachable"
+        closing_affect: "Loss and incompleteness — waking with the feeling of leaving something important behind"
+        transformation: "The emotional arc moves from wonder through frustration to a specific kind of grief — the grief of knowing something is present but inaccessible"
+      personal_symbol_tracking:
+        - symbol: "The Library / Archive"
+          occurrences: 1
+          evolution: "First appearance — to track across future dreams"
+          personal_meaning: "The unconscious itself as a structured space of forgotten knowledge — the dreamer's psyche as a repository rather than a living ecosystem"
+        - symbol: "The Wolf"
+          occurrences: 1
+          evolution: "First appearance as Shadow guardian — monitor whether the wolf becomes more approachable or more threatening in subsequent dreams. Integration would show as reduced fear."
+          personal_meaning: "The instinctual creative self — currently projected as an external threat, seeking recognition as an internal ally"
+      amplification:
+        - symbol: "The Underground Library"
+          mythic_parallel: "The Akashic Records — the compendium of all knowledge, events, and souls, accessible only in altered states. Also: Borges' 'Library of Babel,' an infinite library containing every possible book, most of which are incomprehensible."
+          resonance: "The Akashic Records and the Library of Babel both suggest that all knowledge exists simultaneously — the problem is not availability but legibility. The dreamer's library of blank books is not empty; it is written in a script the waking mind has forgotten. This reframes the creative block: the material is present, the decoder is broken."
+        - symbol: "The Wolf"
+          mythic_parallel: "Fenrir (Norse) — the wolf destined to devour Odin at Ragnarok, bound by the gods because they feared what he would become. Also: the she-wolf who nursed Romulus and Remus — the wild that nurtures civilization's founders."
+          resonance: "The wolf is both feared and essential. The gods bound Fenrir because they feared his power, and that binding guaranteed their destruction. The dreamer's wolf is still free — pacing the library, guarding it. The question is whether the dreamer will bind it (further creative suppression) or accept its guardianship (creative integration). Romulus and Remus suggest the third option: the wolf as nurturer of what the dreamer will build."
+        - symbol: "The Old Woman Knitting"
+          mythic_parallel: "The Norns (Norse) — the three fates who spin and cut the thread of destiny at the base of Yggdrasil. Also: Penelope (Greek) — who weaves by day and unweaves by night, holding time in suspension through her craft."
+          resonance: "The knitting old woman is a fate figure — she holds the thread of the dreamer's creative life and continues to spin it whether the dreamer participates or not. The scarf grows longer while the dreamer cannot speak, which means the thread of creative life is not broken — it's accumulating, waiting for the dreamer to claim it. The Penelope parallel suggests the creative block is a form of productive waiting, not barren emptiness."
+      active_imagination_prompt: "Sit quietly in a dim room. Close your eyes. Visualize the underground library. See the stone shelves, the blank books, the wolf pacing in the distance. Approach the old woman at her desk. This time, don't try to speak — just sit beside her. Watch her knit. Notice the scarf: what color is it really? What does the texture feel like? After a few minutes of silent watching, let her look at you. She will speak first. What does she say? Write it down immediately when you open your eyes. Repeat this practice once a week for a month. The old woman will tell you what the books contain."
+      waking_life_bridge: "Draw something today — not a design, not a wireframe, not something useful. Draw from your body, not your head. Use the materials your grandmother would have given you: pencil on paper, charcoal, crayon. Don't show it to anyone. This is not a product. It is a message back to the old woman in the library: I am beginning to remember the language."

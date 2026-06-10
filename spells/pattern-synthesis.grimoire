@@ -1,0 +1,521 @@
+# pattern-synthesis
+# GRIMOIRE Spell Definition — GDL v1.0
+# Emergent pattern detection across vault data with resonance
+# thresholds and negative-space analysis.
+# Primitive Wildflower, June 2026
+
+name: "pattern-synthesis"
+version: "1.0.0"
+title: "Pattern Synthesis"
+author: "pw-grimoire/sax"
+category: "frontier"
+license: "MIT"
+price: 499
+
+tags:
+  - pattern-detection
+  - emergence
+  - negative-space
+  - resonance
+  - vault-analysis
+  - cross-domain
+  - structural-mapping
+  - anomaly
+  - insight
+  - frontier
+
+description: >
+  Detects emergent patterns across vault data that don't register on
+  conventional analysis — patterns defined not by what is present but
+  by what is absent, by resonance thresholds rather than correlation
+  coefficients, and by structural symmetries that span domains. The
+  spell operates in three modes simultaneously: (1) positive-space
+  analysis — what patterns are actually clustering in the data, (2)
+  negative-space analysis — what patterns should be there based on
+  structural expectations but aren't (the pattern-shaped hole), and
+  (3) resonance analysis — weak signals that don't meet statistical
+  thresholds but share deep structural signatures with known patterns,
+  like a chord you can almost hear. For researchers, data scientists,
+  creative technologists, and anyone who suspects their data is
+  hiding patterns that standard tooling can't see.
+
+dependencies:
+  - semantic-embedding
+  - topological-data-analysis
+
+inputs:
+  - name: "vault_source"
+    type: "text"
+    description: >
+      The primary data source to analyze. Can be structured (JSON, CSV),
+      semi-structured (markdown notes, log files), or unstructured
+      (journal entries, transcripts, creative text). The spell adapts
+      its parsing to the source. For multi-source analysis, concatenate
+      with source labels.
+    required: true
+
+  - name: "pattern_domains"
+    type: "string[]"
+    description: >
+      The conceptual domains to search for patterns within. Examples:
+      "temporal cycles," "conceptual symmetries," "emotional arcs,"
+      "structural isomorphisms," "narrative structures," "numerical
+      resonances," "semantic clusters." The spell focuses its analysis
+      lenses on these domains. If empty, all domains are searched but
+      with lower depth per domain.
+    required: false
+
+  - name: "resonance_threshold"
+    type: "number"
+    description: "Resonance sensitivity (0-1). Lower = catches fainter signals but produces more false positives. Higher = only strong, unambiguous patterns."
+    required: false
+    default: 0.4
+    min: 0.1
+    max: 0.9
+
+  - name: "negative_space_depth"
+    type: "number"
+    description: "Depth of negative-space analysis — how aggressively to search for patterns that should exist but don't. 0 = off, 3 = exhaustive. Higher depths are computationally expensive and may surface speculative absences."
+    required: false
+    default: 1
+    min: 0
+    max: 3
+
+  - name: "min_cluster_size"
+    type: "number"
+    description: "Minimum number of data points required for a cluster to be considered a pattern"
+    required: false
+    default: 3
+    min: 2
+    max: 20
+
+  - name: "output_format"
+    type: "string"
+    description: "Output detail level"
+    required: false
+    default: "full"
+    enum:
+      - summary
+      - full
+      - exhaustive
+
+output:
+  type: "object"
+  schema:
+    synthesis:
+      type: "object"
+      description: "The complete pattern synthesis output"
+      properties:
+        positive_patterns:
+          type: "array"
+          description: "Patterns found in the data (what is there)"
+          items:
+            type: "object"
+            properties:
+              pattern_name:
+                type: "string"
+                description: "Evocative name for the detected pattern"
+              domain:
+                type: "string"
+                description: "Which domain the pattern belongs to"
+              confidence:
+                type: "number"
+                description: "Confidence score (0-1)"
+              cluster_size:
+                type: "number"
+                description: "Number of data points in the pattern cluster"
+              structural_signature:
+                type: "string"
+                description: "The abstract structural shape of this pattern (e.g., 'oscillation with increasing amplitude,' 'branching tree with one deep root')"
+              exemplars:
+                type: "string[]"
+                description: "Representative data excerpts that embody the pattern"
+              interpretation:
+                type: "string"
+                description: "What this pattern means — the insight it offers"
+              actionable:
+                type: "boolean"
+                description: "Whether this pattern suggests a concrete action"
+              suggested_action:
+                type: "string"
+                description: "What to do with this insight (if actionable)"
+        negative_patterns:
+          type: "array"
+          description: "Patterns detected by their absence (what should be there but isn't)"
+          items:
+            type: "object"
+            properties:
+              expected_pattern:
+                type: "string"
+                description: "The pattern that structural analysis predicted but data doesn't contain"
+              structural_basis:
+                type: "string"
+                description: "Why this pattern was expected — the structural reasoning"
+              significance:
+                type: "string"
+                description: "Why the absence matters — what it tells us that the data is positive for this particular emptiness"
+              suggested_investigation:
+                type: "string"
+                description: "How to verify or explore this absence further"
+              confidence:
+                type: "number"
+        resonance_signals:
+          type: "array"
+          description: "Sub-threshold signals that share structural signatures with stronger patterns"
+          items:
+            type: "object"
+            properties:
+              signal_name:
+                type: "string"
+              structural_signature:
+                type: "string"
+              resonance_with:
+                type: "string"
+                description: "Which positive pattern this faint signal resonates with"
+              resonance_strength:
+                type: "number"
+                description: "How strongly this signal matches the structural signature of its resonant parent"
+              data_points:
+                type: "string[]"
+                description: "The faint data points forming this signal"
+              recommendation:
+                type: "string"
+                description: "Whether to investigate further or note as speculative"
+        structural_topology:
+          type: "object"
+          description: "The overall structural map of the data — how patterns relate to each other"
+          properties:
+            pattern_graph:
+              type: "string"
+              description: "Textual description of how detected patterns connect, overlap, or conflict"
+            hubs:
+              type: "array"
+              description: "Central concepts or themes that many patterns connect through"
+              items:
+                type: "string"
+            bridges:
+              type: "array"
+              description: "Unexpected connections between seemingly unrelated patterns"
+              items:
+                type: "string"
+            islands:
+              type: "array"
+              description: "Isolated data regions with no detected patterns — the terra incognita"
+              items:
+                type: "string"
+        synthesis_narrative:
+          type: "string"
+          description: "A narrative integration of all findings — the story the patterns tell when read together"
+
+ritual:
+  steps:
+    - name: "Parse_And_Index"
+      description: >
+        Ingest and structure the vault source. Detect format (JSON, CSV,
+        markdown, plain text, log format), segment into analysable units
+        (rows, entries, paragraphs, log lines), and build a searchable
+        index. Generate semantic embeddings for each unit. Compute baseline
+        statistics: data density, temporal distribution (if timestamps
+        present), vocabulary richness, structural entropy. This is the
+        raw material — everything downstream depends on clean, well-
+        segmented input. Poor parsing produces phantom patterns.
+      provider_hint: "local"
+
+    - name: "Positive_Space_Sweep"
+      description: >
+        Run multi-domain pattern detection across the indexed data. For
+        each specified pattern_domain (or all domains if none specified),
+        apply the appropriate detection lens: temporal analysis for
+        cycles and trends, semantic clustering for conceptual groupings,
+        structural comparison for isomorphisms, sentiment/emotion
+        extraction for affective arcs, numerical analysis for resonances
+        and ratios. Cluster detections using density-based clustering
+        with min_cluster_size constraint. Filter by resonance_threshold.
+        For each surviving cluster: name it, extract its structural
+        signature (the abstract shape of the pattern, independent of
+        content), select exemplar data points, and generate an
+        interpretation. Tag actionable patterns and suggest concrete
+        next steps. This is the visible architecture — the patterns
+        that the data openly contains.
+      template: "prompts/positive-space-sweep-v1.md"
+
+    - name: "Negative_Space_Probe"
+      description: >
+        Execute negative-space analysis if negative_space_depth > 0.
+        Build structural expectations: based on the positive patterns
+        found, what other patterns would a structurally complete system
+        contain? For each expected-but-missing pattern, assess: (1)
+        is the absence statistically surprising given the data's
+        structure, (2) what would cause this absence — is it meaningful
+        or merely an artifact of data collection, (3) what does the
+        absence reveal about the system that produced the data. At
+        depth 1, check only for direct structural complements (if
+        pattern A exists, pattern A's inverse would be expected). At
+        depth 2, also check transitive expectations. At depth 3,
+        perform exhaustive structural completion analysis. The negative
+        space is often more revealing than the positive space — what
+        a system suppresses or omits tells you what it values and what
+        it fears.
+      template: "prompts/negative-space-probe-v1.md"
+
+    - name: "Resonance_Amplification"
+      description: >
+        Search for sub-threshold resonance. Re-examine data points that
+        were excluded from positive-space clusters because they fell
+        below confidence thresholds. Apply resonance amplification:
+        compare each excluded fragment against the structural signatures
+        of confirmed patterns. If a fragment shares a structural
+        signature with a confirmed pattern but lacks the data density
+        to form its own cluster, flag it as a resonance signal —
+        a "harmonic" of the known pattern. These signals are
+        speculative by nature but often represent the leading edge
+        of emerging patterns — things that will be obvious in six
+        months but are only whispers now. Tag each resonance signal
+        with its parent pattern, resonance strength, and a
+        recommendation (investigate, monitor, or note as speculative).
+        The quietest signals are sometimes the most important.
+      template: "prompts/resonance-amplification-v1.md"
+
+    - name: "Synthesize_Topology"
+      description: >
+        Build the pattern topology — the meta-structure of how all
+        detected patterns relate to each other. Identify hubs (central
+        concepts or themes that multiple patterns connect through),
+        bridges (unexpected connections between patterns from different
+        domains), and islands (data regions that participated in no
+        detected patterns — the unmapped territory). Generate the
+        pattern graph narrative: describe how the positive patterns,
+        negative patterns, and resonance signals form a single
+        interconnected picture. Write the synthesis narrative — a
+        human-readable integration that tells the story of what the
+        data is saying, what it's refusing to say, and what it's
+        beginning to whisper. This is the spell's crown: the moment
+        disparate detections become a single coherent insight.
+      template: "prompts/synthesize-topology-v1.md"
+
+deprecated: false
+requires_approval: false
+
+rate_limit:
+  per_minute: 2
+  per_day: 30
+
+example:
+  input:
+    vault_source: >
+      ## Project Log: Hermetic IDE — Jan to June 2026
+      Jan: Built core editor. Rendering pipeline stable. 3 contributors.
+      Jan: User testing session 1 — 4/6 users couldn't find the command palette. Everyone loved the color scheme.
+      Feb: Added plugin system. Plugin API docs published. First external plugin submitted (linter integration).
+      Feb: Performance regression — editor lag on files >2000 lines. Profiled, found O(n²) in syntax highlighter. Fixed.
+      March: Launched private beta. 47 signups. 12 active weekly users. NPS score: 32.
+      March: Top feature requests: split panes (18 votes), vim keybindings (15 votes), git gutter (12 votes).
+      April: Split panes shipped. Vim mode shipped (basic). Git gutter delayed — architecture conflict with plugin system.
+      April: User churn spike — 12 active → 7 active. Exit surveys cite: "too slow on large files," "no collaborative editing."
+      April: Hired perf engineer. Rewrote syntax highlighter in Rust via WASM. 12x speed improvement on files >5000 lines.
+      May: Active users up to 23. NPS improved to 54. Collaborative editing research started — CRDT vs OT decision pending.
+      May: First paying customer ($8/mo tier). Revenue: $8/mo.
+      June: Active users: 41. Paying: 8. MRR: $64. NPS: 61. Command palette usage: 89% of users activate it daily.
+      June: Pattern noticed — users who customize keybindings in first week retain at 3x the rate of those who don't.
+      June: Planning Q3: collaborative editing MVP, plugin marketplace, iOS companion app.
+    pattern_domains:
+      - "temporal cycles"
+      - "structural isomorphisms"
+      - "semantic clusters"
+    resonance_threshold: 0.4
+    negative_space_depth: 2
+    min_cluster_size: 2
+    output_format: full
+  output:
+    synthesis:
+      positive_patterns:
+        - pattern_name: "The Customization-Retention Flywheel"
+          domain: "semantic clusters"
+          confidence: 0.91
+          cluster_size: 4
+          structural_signature: "causation cascade with feedback loop — A (early customization) → B (investment/ownership) → C (retention) → D (word-of-mouth/advocacy) → more A"
+          exemplars:
+            - "users who customize keybindings in first week retain at 3x the rate of those who don't"
+            - "Command palette usage: 89% of users activate it daily"
+            - "Top feature requests: split panes, vim keybindings, git gutter — all customization features"
+            - "NPS improved to 54 after vim mode and split panes shipped"
+          interpretation: >
+            The data reveals that retention is driven not by core editing
+            quality (which was good from Jan) but by personalization —
+            the moment a user configures the tool to feel like theirs,
+            they're locked in. The 89% command palette rate suggests the
+            feature isn't just useful; it's identity-forming. Users become
+            "people who use the command palette." This is a product insight
+            hiding in plain sight: every new feature should include a
+            personalization dimension. The vim mode wasn't a feature — it
+            was an identity bridge.
+          actionable: true
+          suggested_action: "Make keybinding customization part of onboarding, not settings. First-run wizard: 'How do you want to move? Arrow keys / Vim / Emacs.' Ship a 'personalization checklist' that gamifies making the editor yours within the first session. Measure checklist completion as the leading retention indicator."
+        - pattern_name: "Performance-Satisfaction Phase Lock"
+          domain: "temporal cycles"
+          confidence: 0.87
+          cluster_size: 5
+          structural_signature: "tightly coupled oscillators — every performance improvement preceded an NPS/retention improvement by ~2-4 weeks; every performance regression preceded a churn event by ~1-2 weeks"
+          exemplars:
+            - "Feb: Performance regression → editor lag on files >2000 lines. March: NPS 32."
+            - "April: Syntax highlighter rewritten in Rust/WASM. 12x speed. May: Active users 7→23, NPS 32→54."
+            - "Exit surveys cite: 'too slow on large files'"
+            - "Hired perf engineer in April — directly correlated with May metrics improvement"
+          interpretation: >
+            Performance and user satisfaction are phase-locked with a
+            consistent lag. The product's NPS doesn't respond to feature
+            additions (split panes, vim mode shipped in April with no
+            immediate NPS bump) — it responds to performance changes.
+            Features bring users; speed keeps them. The perf engineer hire
+            in April was likely the highest-ROI decision in the 6-month
+            window. This suggests a resource allocation insight: when in
+            doubt between building a new feature and making existing
+            features faster, the data says: make it faster.
+          actionable: true
+          suggested_action: "Institute a performance budget for every sprint. No feature ships that degrades any P95 latency metric. Establish 'perf Tuesdays' — one day per week dedicated to speed improvements, not features. Track performance-NPS correlation monthly to validate the pattern holds at scale."
+        - pattern_name: "The Empty Center: Collaborative Editing Absence as Signal"
+          domain: "semantic clusters"
+          confidence: 0.72
+          cluster_size: 3
+          structural_signature: "persistent unmet need — feature requested in March, cited in exit surveys in April, researched but not shipped by June, yet user growth has a clear ceiling that individual-editor features can't break"
+          exemplars:
+            - "April exit surveys cite: 'no collaborative editing'"
+            - "May: CRDT vs OT decision pending — research phase"
+            - "MRR flat at $64 with 41 active users — conversion rate (8/41 = 19.5%) hasn't improved since May despite NPS gains"
+          interpretation: >
+            Individual productivity features are saturating. NPS is rising,
+            active users are growing, but the conversion rate from free to
+            paid has stalled. The missing feature — collaborative editing
+            — is the bridge from individual tool to team tool. The exit
+            surveys are naming it explicitly. This is a market signal
+            disguised as a feature request: the product has hit the ceiling
+            of "editor for one person" and needs to become "editor for
+            groups" to unlock the next growth tier.
+          actionable: true
+          suggested_action: "Fast-track collaborative editing decision (CRDT vs OT). Ship a 'share session' read-only link within 4 weeks as a stepping stone to full collaborative editing — validate demand before building the hard thing. The research phase has been open for 2 months; the data says close it."
+      negative_patterns:
+        - expected_pattern: "Revenue growth proportional to user growth"
+          structural_basis: >
+            In subscription products, MRR typically scales with active
+            user growth — a 2x increase in active users should produce
+            a roughly proportional increase in paying users if the
+            product's value proposition holds. The structural expectation
+            is: user growth → revenue growth.
+          significance: >
+            Active users grew 3.4x (12 → 41) from March to June, but
+            MRR grew from $0 to $64 — which means paying users went from
+            0 to 8, a conversion rate of 19.5% that hasn't moved since
+            the first payer. The revenue curve is flattening while the
+            user curve is still rising. This absence — the missing
+            proportional revenue growth — signals a conversion problem,
+            not an acquisition problem. More users are trying the
+            product, but the value proposition for paying hasn't
+            strengthened since May.
+          suggested_investigation: >
+            Analyze the conversion funnel: what's the drop-off between
+            "active free user" and "started trial" and "converted to
+            paid"? Interview the 33 active free users — what would make
+            them pay? Is the $8/mo tier too expensive, too limited, or
+            simply not compelling enough compared to free? The data
+            suggests the product is a great free tool and an okay paid
+            tool. The bridge is missing.
+          confidence: 0.78
+        - expected_pattern: "Plugin ecosystem network effects"
+          structural_basis: >
+            When a platform opens a plugin/extension system, the expected
+            pattern is: initial plugin → plugin discovery → more developers
+            attracted → more plugins → users attracted by plugins → more
+            developers. The Feb launch of the plugin system and first
+            external plugin should have triggered this cascade.
+          significance: >
+            The plugin system launched in February. By June — four months
+            later — there's no mention of additional plugins, plugin
+            usage stats, or developer community growth. The plugin
+            marketplace is on the Q3 roadmap. The absence suggests the
+            plugin API shipped as infrastructure without the ecosystem
+            cultivation that makes infrastructure valuable. One external
+            plugin in four months is a ghost town.
+          suggested_investigation: >
+            Reach out to the one external plugin developer: what worked,
+            what didn't, why haven't you built more? Look at plugin API
+            documentation quality and discoverability. Compare against
+            VS Code's early extension ecosystem trajectory. The Q3 plugin
+            marketplace plan is right, but the foundation — developer
+            relations, documentation, plugin discoverability — may need
+            investment before the marketplace launch to avoid launching
+            an empty store.
+          confidence: 0.69
+      resonance_signals:
+        - signal_name: "The iOS Whisper"
+          structural_signature: "complementary form factor — a companion app that extends the core product's reach without replicating its complexity"
+          resonance_with: "The Customization-Retention Flywheel"
+          resonance_strength: 0.51
+          data_points:
+            - "June: Planning Q3 — iOS companion app"
+          recommendation: "Monitor. The iOS companion app appears once in planning with no supporting data — no user requests cited, no mobile usage patterns analyzed. It resonates with the customization-retention pattern because mobile companion apps can increase daily engagement touchpoints (the 'check on it' behavior). Before building, validate: are users asking for this? The data doesn't say they are."
+        - signal_name: "Documentation as Growth Signal"
+          structural_signature: "environmental enabler — infrastructure that doesn't directly drive metrics but creates the conditions for metrics to improve"
+          resonance_with: "Performance-Satisfaction Phase Lock"
+          resonance_strength: 0.44
+          data_points:
+            - "Feb: Plugin API docs published"
+            - "First external plugin submitted (linter integration)"
+          recommendation: >
+            Investigate. The single external plugin appeared immediately
+            after docs were published, then nothing for four months.
+            This might indicate the docs were good enough for one highly
+            motivated developer but not good enough for the broader
+            developer community. If documentation quality is a limiting
+            factor (not API capability), it's a high-leverage, low-cost
+            investment. Compare plugin API docs against industry
+            benchmarks (Stripe-level vs. typical open source).
+      structural_topology:
+        pattern_graph: >
+          The three positive patterns form a hierarchy of product
+          maturity: (1) Performance-Satisfaction Phase Lock is the
+          foundation — speed is the non-negotiable floor, and when the
+          floor drops, everything above it collapses. (2) The
+          Customization-Retention Flywheel is the engagement layer —
+          once the product is fast enough, personalization drives
+          habit formation and identity attachment. (3) The Empty Center
+          (collaborative editing) is the growth ceiling — individual
+          productivity and personalization can only take the product so
+          far before the missing collaborative dimension caps conversion
+          and expansion. The negative patterns (revenue growth gap,
+          plugin ecosystem gap) both trace to the same root: the product
+          is strong at serving individuals but hasn't built the bridges
+          that connect individuals into networks — neither social
+          networks (collaborative editing) nor developer networks
+          (plugin ecosystem). The resonance signals (iOS, documentation)
+          are speculative extensions that will only become relevant once
+          the core growth problem is addressed.
+        hubs:
+          - "Performance as substrate — every other pattern depends on adequate speed"
+          - "Personalization as engagement mechanism — the psychological bridge from trial to habit"
+          - "Collaboration as growth bottleneck — the missing dimension that caps all current metrics"
+        bridges:
+          - "The Customization-Retention Flywheel and the Plugin Ecosystem Gap are two faces of the same phenomenon — customization drives retention when users can personalize, but the plugin system (which could be the ultimate personalization engine) is empty. Plugins are customization at scale; closing the plugin gap would strengthen the retention flywheel."
+          - "Performance-Satisfaction Phase Lock and the Revenue Growth Gap connect through a 'value floor' concept — users won't pay until the product is fast, but speed alone isn't enough to make them pay. The revenue gap appears exactly where performance gains stop converting to willingness-to-pay."
+        islands:
+          - "The iOS companion app entry — appears once with no supporting data, no user requests, no competitive analysis. This is terra incognita that may be a genuine insight or a distraction."
+          - "First external plugin developer — a single data point with no follow-up. This is an island that should be explored (via developer interview) before launching the plugin marketplace."
+      synthesis_narrative: >
+        The Hermetic IDE's first six months tell a story of a product that
+        has nailed its individual-user value proposition — it's fast
+        (after the Rust rewrite), it's personalizable (vim mode, command
+        palette, keybindings), and it's growing (41 active users). But
+        the data reveals a product approaching a growth ceiling that
+        individual-user features cannot break. Three signals converge:
+        (1) the NPS-to-revenue conversion is decoupling — satisfaction
+        is rising but willingness-to-pay is flat, (2) the most-cited
+        missing feature (collaborative editing) is the natural bridge
+        from individual tool to team tool, and (3) the plugin ecosystem,
+        which could drive both personalization and network effects, is
+        dormant. The synthesis is: the product has succeeded at phase
+        one (make something people want to use) and is now entering
+        phase two (make something people want to pay for and build on).
+        The data's strongest recommendation is not to build more
+        individual features — it's to build the bridges: collaborative
+        editing to unlock team adoption, and plugin ecosystem cultivation
+        to unlock developer network effects. The iOS companion app and
+        other speculative features are downstream of these bridges.

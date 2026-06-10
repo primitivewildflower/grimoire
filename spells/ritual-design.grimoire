@@ -1,0 +1,544 @@
+# ritual-design
+# GRIMOIRE Spell Definition — GDL v1.0
+# Designs structured creative rituals with alchemical phase mapping,
+# timing, materials, and intention setting.
+# Primitive Wildflower, June 2026
+
+name: "ritual-design"
+version: "1.0.0"
+title: "Ritual Design"
+author: "pw-grimoire/sax"
+category: "ritual"
+license: "MIT"
+price: 0
+
+tags:
+  - ritual
+  - alchemy
+  - creativity
+  - intention
+  - ceremony
+  - phase-mapping
+  - materials
+  - timing
+  - sacred
+  - practice
+
+description: >
+  Designs a complete, structured creative ritual tailored to a specific
+  intention — launching a project, breaking through a block, consecrating
+  a workspace, or marking a transition. Each ritual is built on the
+  alchemical phase progression (nigredo → albedo → citrinitas → rubedo)
+  with precise timing, material specifications, somatic grounding, and
+  closure protocols. The spell bridges spiritual technology and creative
+  practice: you don't just get a list of steps, you get a fully scored
+  ceremony with place, duration, sensory anchors, and exit criteria.
+  For artists, writers, designers, and anyone who knows that the right
+  container can hold a transformation that the will cannot force.
+
+dependencies:
+  - alchemical-corpus
+  - material-library
+
+inputs:
+  - name: "intention"
+    type: "text"
+    description: >
+      The specific purpose of the ritual. What transformation are you
+      seeking? Be precise — "I want to start my novel" is weaker than
+      "I want to break the paralysis I feel every time I sit down to
+      write the opening scene of my novel, the one I've been avoiding
+      for six months." The ritual's power is proportional to the
+      specificity of the intention it holds. Examples: "consecrate a
+      new studio after a painful move," "release attachment to a project
+      that's no longer alive," "invite a new creative collaborator into
+      my practice," "mark the completion of a 3-year body of work."
+    required: true
+
+  - name: "context"
+    type: "text"
+    description: >
+      The surrounding situation — what brought you to this moment, what
+      history the intention carries, what's at stake. This is the raw
+      material the ritual transmutes. Include emotional state, recent
+      events, and any relevant backstory. Optional but transformative:
+      rituals designed without context work generically; rituals designed
+      with context work specifically.
+    required: false
+
+  - name: "duration_minutes"
+    type: "number"
+    description: "Maximum duration of the ritual in minutes"
+    required: false
+    default: 30
+    min: 5
+    max: 180
+
+  - name: "setting"
+    type: "string"
+    description: >
+      Where the ritual will take place. Describe the space — its
+      qualities, its constraints, its feeling. Examples: "my 8x10
+      studio at dawn, facing east, one window," "a forest clearing
+      near the creek, mossy ground," "my kitchen table after everyone's
+      asleep, lit by a single lamp."
+    required: false
+
+  - name: "alchemical_emphasis"
+    type: "string"
+    description: >
+      Which alchemical phase to center in the ritual design. If your
+      intention is about breaking down something old → nigredo. If it's
+      about purification or clarification → albedo. If it's about
+      illumination or finding the core idea → citrinitas. If it's about
+      completion, embodiment, or manifestation → rubedo. If you're not
+      sure, the spell will choose based on the intention.
+    required: false
+    enum:
+      - nigredo
+      - albedo
+      - citrinitas
+      - rubedo
+
+  - name: "materials_available"
+    type: "string[]"
+    description: >
+      Materials, objects, or tools you have available and are willing to
+      incorporate. Candles, paper, ink, water, salt, specific objects
+      with personal meaning, sound sources (bells, bowls, voice),
+      incense, fabric, thread, stones, photographs — anything you can
+      physically interact with. Leave empty if you want the spell to
+      suggest materials from common domestic availability.
+    required: false
+
+output:
+  type: "object"
+  schema:
+    ritual:
+      type: "object"
+      description: "The designed ritual"
+      properties:
+        invocation:
+          type: "string"
+          description: "Opening words or gesture that marks the ritual's beginning — the threshold between ordinary time and ritual time"
+        alchemical_arc:
+          type: "object"
+          description: "The four-phase alchemical structure"
+          properties:
+            nigredo:
+              type: "object"
+              properties:
+                duration_seconds:
+                  type: "number"
+                action:
+                  type: "string"
+                  description: "What to do — the physical, embodied action for this phase"
+                sensory_anchor:
+                  type: "string"
+                  description: "A sensory instruction (sound, smell, touch, sight) that deepens the phase"
+                words:
+                  type: "string"
+                  description: "Words to speak aloud or hold silently"
+                somatic_cue:
+                  type: "string"
+                  description: "A body instruction — where to place attention, how to breathe, what to feel"
+            albedo:
+              type: "object"
+              properties:
+                duration_seconds:
+                  type: "number"
+                action:
+                  type: "string"
+                sensory_anchor:
+                  type: "string"
+                words:
+                  type: "string"
+                somatic_cue:
+                  type: "string"
+            citrinitas:
+              type: "object"
+              properties:
+                duration_seconds:
+                  type: "number"
+                action:
+                  type: "string"
+                sensory_anchor:
+                  type: "string"
+                words:
+                  type: "string"
+                somatic_cue:
+                  type: "string"
+            rubedo:
+              type: "object"
+              properties:
+                duration_seconds:
+                  type: "number"
+                action:
+                  type: "string"
+                sensory_anchor:
+                  type: "string"
+                words:
+                  type: "string"
+                somatic_cue:
+                  type: "string"
+        materials:
+          type: "array"
+          description: "Materials needed and how each is used"
+          items:
+            type: "object"
+            properties:
+              item:
+                type: "string"
+                description: "The material"
+              role:
+                type: "string"
+                description: "Its symbolic and practical function in the ritual"
+              substitution:
+                type: "string"
+                description: "What to use if you don't have this item"
+        preparation:
+          type: "object"
+          description: "How to prepare the space before the ritual"
+          properties:
+            space_setup:
+              type: "string"
+              description: "How to arrange the physical space"
+            personal_preparation:
+              type: "string"
+              description: "What to do with your body and mind before beginning"
+            threshold_marker:
+              type: "string"
+              description: "The physical or ritual act that separates preparation from the ritual itself"
+        closure:
+          type: "object"
+          description: "How the ritual ends and integrates"
+          properties:
+            closing_words:
+              type: "string"
+              description: "Words that seal the ritual"
+            integration_action:
+              type: "string"
+              description: "What to do in the minutes/hours after to carry the ritual's effect into ordinary life"
+            aftercare:
+              type: "string"
+              description: "How to tend to yourself after — rest, nourish, journal, walk, etc."
+        timing_map:
+          type: "array"
+          description: "Minute-by-minute breakdown of the full ritual"
+          items:
+            type: "object"
+            properties:
+              minute_range:
+                type: "string"
+                description: "Minute range (e.g. '0-3')"
+              phase:
+                type: "string"
+              what_happens:
+                type: "string"
+        design_notes:
+          type: "string"
+          description: "The ritual designer's reasoning — why these choices serve this intention"
+
+ritual:
+  steps:
+    - name: "Discern_Intention"
+      description: >
+        Analyze the stated intention and context. Extract: (1) the true
+        desire beneath the stated desire — what the practitioner really
+        needs vs. what they asked for, (2) the primary alchemical phase
+        that maps to this transformation (if not specified, map the
+        intention's emotional and structural character to nigredo/
+        albedo/citrinitas/rubedo), (3) the resistance pattern — what
+        will make this ritual hard for this specific practitioner to
+        do sincerely (self-consciousness, impatience, skepticism,
+        overwhelm), and (4) the energetic quality the ritual needs
+        (solemn, ecstatic, intimate, fierce, tender, expansive). This
+        analysis shapes everything that follows.
+      template: "prompts/discern-intention-v1.md"
+
+    - name: "Select_Materials"
+      description: >
+        Map materials to alchemical phases. Each phase has traditional
+        correspondences: nigredo → black candle, obsidian, ink, ash,
+        salt (the dark, the dissolving, the ground); albedo → white
+        candle, clear water, quartz, paper, silver (the clarifying,
+        the purifying, the mirror); citrinitas → yellow/gold candle,
+        honey, resin, sunlight, gold leaf (the illuminating, the
+        sweetening, the revealing); rubedo → red candle, blood/iron
+        symbolism, rose, pomegranate, copper (the embodying, the
+        completing, the living). Cross-reference with materials_available.
+        For any missing material, provide a common household substitution.
+        For each material, articulate its role — not just what it is but
+        what it does in the ritual and what it means. Materials without
+        meaning are decoration; materials with meaning are technology.
+      template: "prompts/select-materials-v1.md"
+
+    - name: "Score_Phases"
+      description: >
+        Compose each alchemical phase as a miniature ceremony. Duration
+        is allocated proportionally: the emphasized phase gets 37% of
+        total time, the other three phases split the remaining 63%
+        (21% each). Within each phase, design: (a) the action — a
+        concrete, doable physical act (light a candle, write on paper,
+        pour water, arrange stones, speak aloud), (b) the sensory anchor
+        — something for each major sense if possible (flame for sight,
+        bell for sound, incense for smell, cool stone for touch), (c)
+        the words — precise, rhythmic text to speak aloud (or hold
+        silently if speaking aloud isn't possible), and (d) the somatic
+        cue — a body instruction that grounds the phase in physical
+        sensation (feel your feet on the ground, breathe into the place
+        below your sternum, let your jaw go slack). Each phase should
+        feel different from the others — the body should know it has
+        moved through a genuine transition.
+      template: "prompts/score-phases-v1.md"
+
+    - name: "Frame_Thresholds"
+      description: >
+        Design the ritual's bookends. The invocation is the opening that
+        separates ritual time from ordinary time — a specific phrase,
+        gesture, or action that says "now we begin." It should be
+        impossible to do casually; it should feel like stepping through
+        a door. The closure is the ending that returns the practitioner
+        to ordinary time without whiplash. Good closure includes: a
+        sealing phrase, an integration instruction (one small act to
+        do after that carries the ritual's energy into daily life), and
+        aftercare guidance (rest, nourishment, journaling). Also design
+        the threshold marker in preparation — the act that separates
+        "getting ready" from "the ritual has started." This is often
+        physical: lighting the first candle, ringing a bell, drawing a
+        circle in salt, or simply sitting down and closing your eyes.
+      template: "prompts/frame-thresholds-v1.md"
+
+    - name: "Weave_Coherence"
+      description: >
+        Review the full ritual design for internal coherence. Check: (1)
+        do the materials make sense across phases — is there a throughline?
+        (2) does the emotional arc build correctly — does each phase feel
+        like a genuine transition? (3) are the words speakable — do they
+        sound right in a human mouth rather than a ceremonial manual? (4)
+        is the timing realistic — can a person actually do each phase's
+        actions in the allocated seconds? (5) does the ritual honor the
+        intention — if you strip away the form, does the core serve what
+        was asked? Adjust any incoherence. Generate the timing map — a
+        minute-by-minute breakdown so the practitioner never wonders
+        "what am I supposed to be doing right now?" This is the gift of
+        structure: freedom from decision during the ritual itself.
+      provider_hint: "local"
+
+    - name: "Compose_Design_Notes"
+      description: >
+        Write the design notes: explain the ritual designer's reasoning.
+        Why were these specific materials chosen? Why this alchemical
+        emphasis? What is the ritual doing beneath its surface — what
+        is the psychological or spiritual mechanism it employs? What
+        should the practitioner know that the instructions don't say
+        explicitly? The design notes are the bridge between the ritual
+        designer and the practitioner — they make the invisible logic
+        visible, which makes the practitioner a collaborator rather than
+        a follower of instructions. A ritual understood is more powerful
+        than a ritual merely performed.
+      provider_hint: "local"
+
+deprecated: false
+requires_approval: false
+
+example:
+  input:
+    intention: >
+      I need to break the paralysis I feel every time I sit down to
+      write the opening scene of my novel. I've been avoiding it for
+      six months. The blank page feels like a verdict on whether I'm
+      actually a writer or just someone who talks about writing.
+    context: >
+      I'm a designer by day, writing is my private second life. I've
+      published nothing. This novel has been alive in me for three
+      years — characters, plot, world — all of it exists, but only in
+      notebooks and my head. The first real page is the threshold I
+      can't cross. I'm scared that when I actually write it, it won't
+      be a novel at all, just a long, bad document.
+    duration_minutes: 35
+    setting: "My desk at 5:30am, before anyone else wakes up, facing a blank wall"
+    materials_available:
+      - "white paper"
+      - "fountain pen with black ink"
+      - "matches"
+      - "small white candle"
+      - "a smooth grey river stone from a trip"
+      - "salt"
+      - "a glass of water"
+  output:
+    ritual:
+      invocation: >
+        Strike the match. Hold it between your fingers and watch it burn
+        down to halfway — let the sulfur smell fill your nose. Before it
+        reaches your skin, touch it to the candle wick. As the flame
+        catches, speak aloud: "This flame is the first word. Everything
+        before was kindling."
+      alchemical_arc:
+        nigredo:
+          duration_seconds: 300
+          action: >
+            Take a single sheet of white paper. Write six months of
+            avoidance as six sentences — one per line. Don't explain
+            or justify, just name what happened. Example: "October — I
+            rearranged my desk instead. November — I told myself the
+            outline wasn't ready. December — I got busy with work and
+            let it feel like a relief." When all six are written, fold
+            the paper once, twice, three times until it's a small
+            square. Hold it in your left hand.
+          sensory_anchor: "The candle flame at the edge of your vision — a small, constant fire that has been burning since the invocation"
+          words: "I name the darkness not to dwell in it but to know its shape. These are the doors I've been closing. I hold them now, and soon I will not need to hold them anymore."
+          somatic_cue: "Feel the folded paper in your left hand — its edges pressing into your palm, the slight weight of it. Notice that it's just paper. Notice that six months of avoidance is, in your hand, only paper."
+        albedo:
+          duration_seconds: 240
+          action: >
+            Pour a thin line of salt in a circle around the candle.
+            Take the folded paper and place it outside the salt circle
+            — beyond the boundary. Take a sip of water. Wet your
+            fingertip and draw a single wet line on the blank wall in
+            front of you — a horizon line, as simple as a child's
+            drawing of where sea meets sky.
+          sensory_anchor: "The wet line on the wall — watch it as it slowly dries, the moisture evaporating into the air. This is what clarity looks like: a temporary mark that leaves no stain."
+          words: "What belongs outside the circle stays outside. What belongs inside approaches now. I clear the space. I draw the line between then and now. The horizon is empty. That's not a problem — that's permission."
+          somatic_cue: "Breathe into your chest, not your belly. Short inhale, long exhale — the exhale should be twice as long as the inhale. This breathing pattern signals your nervous system: you are not running, you are not fighting, you are settling."
+        citrinitas:
+          duration_seconds: 480
+          action: >
+            Place the river stone in front of the candle. Take a fresh
+            sheet of paper. Write the first sentence of your novel —
+            not the final first sentence, just the first sentence. Write
+            it slowly, with the fountain pen, letting each letter form.
+            Don't judge it. Don't re-read it. Write the second sentence.
+            Then a third. Write exactly seven sentences — no more. Stop
+            at seven even if you want to continue. The stopping is the
+            point: you are proving you can begin without being swallowed.
+          sensory_anchor: "The river stone — its weight, its coolness, its patience. It was formed by water over millennia. Your sentences are forming now, and they don't need to be mountains yet."
+          words: "Seven sentences. One for each day of the week ahead. I am not writing a novel tonight. I am writing seven sentences. The river stone was once a sharp rock. I am the water. I am the time. I am writing seven sentences."
+          somatic_cue: "Let your writing hand move slowly. If you feel urgency — the urge to hurry through — pause. Rest the pen on the paper without moving it for three full breaths. Then continue. Speed is the enemy of beginning. Slowness is the ally of permission."
+        rubedo:
+          duration_seconds: 300
+          action: >
+            Read your seven sentences aloud to the candle. Don't edit
+            them as you read — speak them as they are. When you finish,
+            take the river stone in your right hand (the hand that
+            wrote). Squeeze it once, firmly. Place it on top of the
+            page where your sentences live. Blow out the candle. Sit
+            in the dark for ten breaths.
+          sensory_anchor: "The darkness after the candle — the smell of extinguished wick, the absence of flame, the way your eyes adjust and the room slowly reappears in pre-dawn grey light"
+          words: "These seven sentences exist now. They were not here before. I brought them. Tomorrow I will bring seven more. The novel is not a mountain I climb — it is a river I step into, one sentence at a time. The stone holds the page. The page holds the beginning. I am a writer who has written."
+          somatic_cue: "In the dark, place both palms flat on the desk. Feel the wood. Feel the temperature. Feel that you are still here, that you have done the thing, that nothing terrible happened. Let your shoulders drop. Let your jaw unclench. Ten breaths in the dark. Count them."
+      materials:
+        - item: "White candle"
+          role: "The witness — the flame that holds attention through all four phases, the continuity that says 'this is still the same ritual' even as you move through different emotional territories"
+          substitution: "Any candle — a tealight, a birthday candle stuck in clay, a beeswax stub. The flame matters more than the form."
+        - item: "Fountain pen with black ink"
+          role: "The instrument of nigredo (black ink = prima materia, the dark stuff you're working with) and citrinitas (the same hand, the same tool, now writing creation instead of confession)"
+          substitution: "Any pen you enjoy holding. A pencil if that's what makes you brave."
+        - item: "White paper"
+          role: "The receptive surface — nigredo receives the confession, citrinitas receives the creation. White = albedo potential, the space before the mark."
+          substitution: "Any blank paper. The back of an envelope. A notebook. The blankness is the point."
+        - item: "Matches"
+          role: "The threshold — striking a match is a small deliberate act that cannot be undone. Fire is the oldest ritual technology. The sulfur smell is the body's first cue that this is not ordinary time."
+          substitution: "A lighter — though matches are better because the scratch-and-catch moment creates a distinct sensory event"
+        - item: "River stone"
+          role: "The anchor — an object from the natural world that has been shaped by slow forces over long time. It models what you're doing: being shaped by repeated small actions, not single violent events. In rubedo, it becomes the weight that holds the page — the embodied proof that something was written."
+          substitution: "Any small heavy object with personal meaning — a paperweight, a piece of sea glass, a worry stone, a smooth piece of wood"
+        - item: "Salt"
+          role: "The boundary — salt circles are ancient threshold technology across multiple traditions. Here it marks the line between the old pattern (avoidance, outside the circle) and the new pattern (creation, inside the circle). Salt is also a preservative and a purifier — it cleans the space."
+          substitution: "A ribbon, a piece of string, chalk — anything that can make a visible or tactile boundary. Rice, sand, a line of small stones."
+        - item: "Glass of water"
+          role: "The living element — water is albedo's element (clarity, flow, purification). Drinking it is a small act of self-care mid-ritual. Drawing with it on the wall is temporary mark-making — it teaches the nervous system that not every creative act must leave a permanent record."
+          substitution: "Any drinkable liquid. Tea, if the warmth is comforting."
+      preparation:
+        space_setup: >
+          Clear your desk of everything except the materials listed above.
+          Wipe the surface with a dry cloth — physically remove the dust
+          of ordinary work. Place the candle at the center of the cleared
+          space. Arrange the paper to the right, pen on top. Salt to the
+          left. River stone above the candle. Matches and water glass
+          within reach. Face the blank wall. If the wall has anything on
+          it — a calendar, a post-it, a painting — remove it. You need
+          a literal blank wall to face.
+        personal_preparation: >
+          Wash your hands in cold water. Dry them thoroughly. Put on
+          comfortable clothes — nothing constricting at the waist or
+          wrists. If you usually drink coffee before writing, make the
+          coffee but don't drink it yet — place it outside the salt
+          circle as a reward for after. Use the bathroom. This is a
+          35-minute container; your body needs to be settled.
+        threshold_marker: >
+          Sit in your chair with the lights off. The only light should
+          be pre-dawn from the window or, if it's still full dark, a
+          single dim lamp you'll turn off after the invocation. Close
+          your eyes. Take five slow breaths. When you open your eyes,
+          you are in ritual time. Reach for the matches.
+      closure:
+        closing_words: >
+          After the ten breaths in the dark, speak aloud: "The ritual is
+          complete. The threshold closes. I carry what I made into the
+          day." Stand up. Stretch your arms overhead. Turn on a light.
+          The ritual is over.
+        integration_action: >
+          Place the page with your seven sentences somewhere you'll see
+          it today — taped to the bathroom mirror, propped against the
+          coffee maker, tucked into the book you're reading. Before you
+          sleep tonight, read it once. Don't edit it. Just read it.
+          Tomorrow morning before sunrise, return to the desk. The
+          candle will be there. The stone will be there. You will be
+          someone who has already begun.
+        aftercare: >
+          Drink the coffee (or water). Eat something — protein and fat,
+          not just sugar. If you journal, write one sentence about what
+          the ritual felt like — not what you think about it, what it
+          felt like in your body. If you don't journal, just notice your
+          emotional weather for the next hour without trying to change it.
+          The ritual may have stirred things. Let them settle.
+      timing_map:
+        - minute_range: "0-2"
+          phase: "Preparation"
+          what_happens: "Sit in darkness, five breaths, open eyes — threshold crossed"
+        - minute_range: "2-3"
+          phase: "Invocation"
+          what_happens: "Strike match, light candle, speak invocation"
+        - minute_range: "3-8"
+          phase: "Nigredo"
+          what_happens: "Write six months of avoidance, fold paper, hold in left hand"
+        - minute_range: "8-12"
+          phase: "Albedo"
+          what_happens: "Salt circle, place folded paper outside, sip water, draw horizon line on wall"
+        - minute_range: "12-20"
+          phase: "Citrinitas"
+          what_happens: "Place river stone, write seven sentences slowly, rest between sentences"
+        - minute_range: "20-25"
+          phase: "Rubedo"
+          what_happens: "Read sentences aloud, squeeze stone, place stone on page, blow out candle"
+        - minute_range: "25-27"
+          phase: "Integration"
+          what_happens: "Ten breaths in darkness, palms on desk"
+        - minute_range: "27-28"
+          phase: "Closure"
+          what_happens: "Speak closing words, stand, stretch, turn on light"
+        - minute_range: "28-35"
+          phase: "Aftercare buffer"
+          what_happens: "Coffee, food, optional journaling — unstructured integration time"
+      design_notes: >
+        This ritual is built on the recognition that creative paralysis
+        is not a lack of ideas — it's a protection mechanism. The writer
+        has spent six months avoiding the first page because the first
+        page carries the symbolic weight of "am I a real writer?" The
+        ritual's core strategy is to refuse that question. By writing
+        exactly seven sentences — not a chapter, not a scene, not even
+        a paragraph — the ritual makes completion trivially achievable
+        while still being a genuine act of writing. The alchemical arc
+        maps to the psychological arc: nigredo names the avoidance
+        pattern (confession without shame), albedo purifies the space
+        (separating the old pattern from the new possibility), citrinitas
+        illuminates the path (the actual writing, in a container small
+        enough to feel safe), and rubedo embodies the result (reading
+        aloud, anchoring with stone, extinguishing the flame — a complete
+        cycle). The river stone is the key prop: it models the patience
+        of slow formation. The seven-sentence limit is structural mercy
+        — it prevents the ritual from becoming another way to pressure
+        yourself. Tomorrow you'll write seven more. That's how novels
+        happen: not in single heroic acts, but in repeated small ones
+        protected by good containers.

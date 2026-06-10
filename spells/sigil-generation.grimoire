@@ -1,0 +1,575 @@
+# sigil-generation
+# GRIMOIRE Spell Definition — GDL v1.0
+# Generates charged symbolic glyphs using text-to-sigil conversion
+# with esoteric intent encoding.
+# Primitive Wildflower, June 2026
+
+name: "sigil-generation"
+version: "1.0.0"
+title: "Sigil Generation"
+author: "pw-grimoire/sax"
+category: "frontier"
+license: "MIT"
+price: 599
+
+tags:
+  - sigil
+  - glyph
+  - symbol
+  - chaos-magic
+  - intent-encoding
+  - generative
+  - esoteric
+  - text-to-symbol
+  - charging
+  - frontier
+
+description: >
+  Generates charged symbolic glyphs from statements of intent using
+  chaos magic sigilization techniques combined with generative geometry.
+  The spell ingests a statement of desire, strips it of repeating
+  letters, maps the remaining characters to points on a kamea (magic
+  square) or custom geometry grid, connects them into a unique abstract
+  glyph, and provides a charging ritual for activating the symbol.
+  Beyond simple letter-to-shape conversion, the spell encodes additional
+  layers: planetary correspondence through kamea selection, emotional
+  charge through color and line weight, and binding conditions through
+  geometric containment. For chaos magicians, symbol designers, ritual
+  practitioners, and anyone who believes that a well-made symbol can
+  hold a desire the way a cup holds water.
+
+dependencies:
+  - glyph-renderer
+  - kamea-library
+
+inputs:
+  - name: "statement_of_intent"
+    type: "text"
+    description: >
+      The desire to encode in the sigil. Write it in present tense,
+      positive form, as if already true. Traditional chaos magic
+      convention: avoid negations ("I am free from fear" → "I am
+      courageous and unburdened"), write as a statement of being
+      not becoming ("I am" not "I will be"). Examples: "I am a clear
+      channel for creative inspiration," "My work reaches those who
+      need it," "I speak my truth with grace and power." The spell
+      also accepts raw desire statements and will refine them to
+      sigilization-ready form.
+    required: true
+
+  - name: "sys"
+    type: "string"
+    description: >
+      The symbolic system for glyph construction. The kamea (magic
+      square) maps letters to grid points via planetary correspondence;
+      rose wheel maps letters to points on a circle via sequential
+      angle; word grid maps letters to a word-search-style letter grid
+      and traces connections; freeform applies letter-to-abstract-shape
+      conversion without a geometric substrate, yielding more organic
+      glyphs. Each system produces a distinct glyphic aesthetic.
+    required: false
+    default: "kamea"
+    enum:
+      - kamea
+      - rose_wheel
+      - word_grid
+      - freeform
+
+  - name: "kamea_planet"
+    type: "string"
+    description: >
+      The planetary intelligence whose kamea to use for the glyph
+      construction. Each planet has a traditional magic square
+      (Saturn=3×3, Jupiter=4×4, Mars=5×5, Sun=6×6, Venus=7×7,
+      Mercury=8×8, Moon=9×9) and governs different domains. Choose
+      the planet whose domain best aligns with your intent:
+      Saturn for boundaries, discipline, endings; Jupiter for
+      expansion, abundance, wisdom; Mars for action, courage,
+      protection; Sun for vitality, success, identity; Venus for
+      love, art, harmony; Mercury for communication, intellect,
+      travel; Moon for intuition, dreams, the unconscious.
+    required: false
+    default: "Jupiter"
+    enum:
+      - Saturn
+      - Jupiter
+      - Mars
+      - Sun
+      - Venus
+      - Mercury
+      - Moon
+
+  - name: "style"
+    type: "string"
+    description: "Visual style of the generated glyph"
+    required: false
+    default: "hermetic"
+    enum:
+      - "hermetic"
+      - "minimal"
+      - "ornate"
+      - "visceral"
+      - "geometric"
+      - "glitch"
+
+  - name: "charge_method"
+    type: "string"
+    description: >
+      Method for charging (activating) the sigil. Traditional chaos
+      magic recognizes multiple charging techniques. Gnostic: achieve
+      an altered state (meditation, sensory overload, exhaustion) and
+      project the sigil into consciousness at peak intensity, then
+      forget the intent. Ritual: a ceremonial charging with elemental
+      invocations and formal dismissal. Continuous: keep the sigil
+      visible in daily life — as wallpaper, on a necklace, on your
+      desk — allowing passive psychological reinforcement. Fire: draw
+      the sigil, charge it through focused meditation, then burn it
+      to release the intent (the most traditional method). Subliminal:
+      place the sigil where it's seen but not consciously noted (edge
+      of monitor, inside a notebook cover).
+    required: false
+    default: "gnostic"
+    enum:
+      - gnostic
+      - ritual
+      - continuous
+      - fire
+      - subliminal
+
+  - name: "glyph_complexity"
+    type: "number"
+    description: "Complexity of the generated glyph — 1 (simple, few lines), 5 (elaborate, multi-layered)"
+    required: false
+    default: 3
+    min: 1
+    max: 5
+
+output:
+  type: "object"
+  schema:
+    sigil:
+      type: "object"
+      description: "The generated sigil"
+      properties:
+        refined_intent:
+          type: "string"
+          description: "The statement of intent refined to sigilization-ready form — present tense, positive, stripped of negation, repetition removed"
+        glyph_description:
+          type: "string"
+          description: "Textual description of the glyph's visual form — shape, lines, proportions, notable features"
+        svg_path:
+          type: "string"
+          description: "Raw SVG path data for the glyph — can be rendered directly or imported into vector tools"
+        construction_log:
+          type: "object"
+          description: "How the glyph was constructed from the statement of intent"
+          properties:
+            system_used:
+              type: "string"
+              description: "Which system was used (kamea, rose_wheel, word_grid, freeform)"
+            kamea_planet:
+              type: "string"
+              description: "Planet whose kamea was used (if kamea system)"
+            letter_grid_size:
+              type: "string"
+              description: "Grid dimensions (e.g., '4×4' for Jupiter)"
+            letter_sequence:
+              type: "string"
+              description: "The statement with repeating letters removed, showing which letters were mapped"
+            point_positions:
+              type: "array"
+              description: "Grid positions for each unique letter"
+              items:
+                type: "object"
+                properties:
+                  letter:
+                    type: "string"
+                  position:
+                    type: "string"
+                    description: "Grid coordinate (e.g., 'row 2, col 3')"
+                  kamea_value:
+                    type: "number"
+                    description: "The magic square value at that position"
+        esoteric_encoding:
+          type: "object"
+          description: "Additional symbolic layers encoded in the glyph"
+          properties:
+            planetary_correspondence:
+              type: "string"
+              description: "The planet, its domain, and why it serves the intent"
+            elemental_influence:
+              type: "string"
+              description: "The element that dominates this glyph's energy"
+            color_correspondence:
+              type: "string"
+              description: "Recommended color for rendering or charging — the color that resonates with both the planet and the intent"
+            line_quality:
+              type: "string"
+              description: "How the glyph's lines should be drawn — continuous unbroken stroke, disconnected segments, thick/thin variation"
+            containment:
+              type: "string"
+              description: "Optional geometric container for the glyph — circle (protection, wholeness), triangle (manifestation, fire), square (stability, earth), none (unbound energy)"
+        charging_ritual:
+          type: "object"
+          description: "The ritual for activating the sigil"
+          properties:
+            method:
+              type: "string"
+              description: "The charging method"
+            preparation:
+              type: "string"
+              description: "How to prepare yourself and the space"
+            procedure:
+              type: "string"
+              description: "Step-by-step charging instructions"
+            duration_minutes:
+              type: "number"
+              description: "Estimated duration for the charging ritual"
+            aftercare:
+              type: "string"
+              description: "What to do after charging — crucially, how to forget the intent (for gnostic method) or maintain attention (for continuous method)"
+            dismissal:
+              type: "string"
+              description: "Words or gesture to close the charging and release the sigil to do its work"
+        usage_guidance:
+          type: "object"
+          properties:
+            placement:
+              type: "string"
+              description: "Where and how to place/display the sigil"
+            duration:
+              type: "string"
+              description: "How long to work with this sigil before recharging or retiring"
+            signs_of_activation:
+              type: "string"
+              description: "Synchronicities, shifts, or events that suggest the sigil is working"
+            when_to_destroy:
+              type: "string"
+              description: "When and how to decommission the sigil"
+
+ritual:
+  steps:
+    - name: "Refine_Intent"
+      description: >
+        Process the raw statement of intent into sigilization-ready form.
+        Apply chaos magic conventions: (1) convert to present tense ("I
+        will be" → "I am"), (2) remove all negations and convert to
+        positive statements ("I am not afraid" → "I am courageous"), (3)
+        strip articles and filler words where they don't carry semantic
+        weight ("the," "a," "that," "very"), (4) ensure the statement is
+        a declaration of state, not a request or a prayer — the sigil
+        works on the principle that you are already what you seek to
+        become, and the symbol simply aligns perception with that truth.
+        If the user's statement is already well-formed, confirm it. If
+        the statement is vague ("I want to be successful"), engage in
+        Socratic refinement — what does success specifically mean in this
+        context? The more precise the intent, the more focused the sigil.
+      template: "prompts/refine-intent-v1.md"
+
+    - name: "Strip_And_Map"
+      description: >
+        Perform the classic chaos magic letter-stripping procedure. Take
+        the refined statement of intent, remove all spaces, and delete
+        all repeating letters (keeping first occurrence only). Example:
+        "I AM COURAGEOUS" → "IAMCOURGES". This irreducible letter set
+        becomes the glyph's DNA. Map each letter to the chosen system:
+        for kamea, convert each letter to a number (A=1, B=2, ..., Z=26)
+        and place it on the magic square at the position whose value
+        matches or best approximates that number (wrapping or seeking
+        nearest match on larger squares). For rose wheel, assign each
+        letter a sequential angle (360° / number of unique letters) and
+        place on a unit circle. For word grid, construct a square grid
+        and place each unique letter in the grid, connecting them in
+        original statement order. For freeform, convert each letter to
+        an abstract shape element (straight line, curve, angle, loop)
+        based on letter geometry and arrange in statement order. Record
+        all positions in the construction log.
+      provider_hint: "local"
+
+    - name: "Build_Glyph"
+      description: >
+        Generate the glyph geometry by connecting the letter points in
+        the order of the original statement (not alphabetical order).
+        Start at the first letter's position, draw a line to the second
+        letter's position, continue through all unique letters. Close
+        the glyph with a return stroke from the last letter back to the
+        first — this creates a complete circuit, symbolically "sealing"
+        the intent. Apply the chosen style: hermetic adds arcane
+        embellishments (circles at vertices, small serifs), minimal uses
+        clean lines with no decoration, ornate adds flourishes and
+        nested geometric patterns, visceral uses organic thick-to-thin
+        strokes suggesting brush or blood, geometric builds additional
+        geometric relationships between points (mirrors, rotations,
+        nested polygons), glitch introduces controlled distortion
+        (offset lines, static fragments). Apply line quality based on
+        esoteric analysis: continuous unbroken stroke for focused intent,
+        varied thickness for emotional complexity, sharp angles for
+        decisive action. Generate the SVG path description as the
+        primary output artifact.
+      template: "prompts/build-glyph-v1.md"
+
+    - name: "Encode_Eso_Layers"
+      description: >
+        Encode additional symbolic layers into the glyph beyond the basic
+        letter-to-shape conversion. Determine the planetary
+        correspondence (from the kamea if kamea system, or mapped from
+        intent analysis if other systems). Determine the elemental
+        influence based on intent: fire for action/passion/courage, water
+        for emotion/intuition/healing, air for intellect/communication/
+        travel, earth for stability/prosperity/grounding, spirit for
+        spiritual development/transcendence. Select the resonant color
+        based on planetary and elemental correspondence (e.g., Jupiter +
+        air = bright violet; Venus + water = sea green; Mars + fire =
+        deep red). Determine line quality — should the glyph be drawn
+        in a single unbroken line (for unified intent), in measured
+        segments (for structured manifestation), or with emphatic
+        variation (for emotional intensity)? Recommend geometric
+        containment — a circle for protection and wholeness, a triangle
+        for manifestation and fire, a square for stability and grounding,
+        or no container for unbound energy. These layers don't change
+        the glyph's shape in the basic construction, but they inform
+        how the glyph should be rendered, colored, and held in
+        consciousness during charging. They make a sigil a sigil rather
+        than a doodle.
+      template: "prompts/encode-eso-layers-v1.md"
+
+    - name: "Compose_Charging_Ritual"
+      description: >
+        Write the charging ritual. For gnostic method: design a
+        procedure that guides the practitioner to an altered state
+        (breathwork pattern, sensory focus, mantra) and then presents
+        the sigil for intense visualization at the peak moment. Include
+        specific instructions for "forgetting" — the chaos magic
+        principle that the sigil works best when the conscious mind
+        releases the intent. For ritual method: design a ceremonial
+        sequence with elemental invocations, the sigil at center, and
+        formal opening/closing. For continuous method: design placement
+        and attention instructions — where to put the sigil, how often
+        to glance at it, how to maintain light awareness without
+        obsession. For fire method: write the drawing, charging, and
+        burning sequence with safety notes. For subliminal method:
+        recommend specific placement locations and attention patterns.
+        Include duration, aftercare, and dismissal — the moment that
+        formally ends the charging and releases the sigil to its work.
+      template: "prompts/compose-charging-v1.md"
+
+    - name: "Provide_Usage_Guidance"
+      description: >
+        Write practical guidance for living with the sigil. Placement:
+        where to put the physical sigil (altar, wallet, phone wallpaper,
+        under pillow). Duration: how long to work with this sigil before
+        re-evaluating or retiring it — most intents have a natural
+        lifecycle, and keeping a sigil active past its time can create
+        energetic clutter. Signs of activation: describe synchronicities,
+        subtle shifts, or concrete events that suggest the sigil is
+        working — this prevents the practitioner from endlessly waiting
+        for a "sign" while missing the actual results. When to destroy:
+        conditions that indicate the sigil has served its purpose or
+        needs to be released. How to destroy: return to elements (burn,
+        bury, dissolve in water), with a brief gratitude practice. The
+        usage guidance grounds the esoteric in the practical — a sigil is
+        a tool, and tools need maintenance and retirement protocols.
+      provider_hint: "local"
+
+deprecated: false
+requires_approval: false
+
+rate_limit:
+  per_minute: 2
+  per_day: 40
+
+example:
+  input:
+    statement_of_intent: "My creative work reaches the people who need it most, and I am compensated abundantly for what I bring into the world."
+    sys: "kamea"
+    kamea_planet: "Jupiter"
+    style: "hermetic"
+    charge_method: "gnostic"
+    glyph_complexity: 3
+  output:
+    sigil:
+      refined_intent: "I AM A CLEAR CHANNEL MY WORK REACHES THOSE WHO NEED IT MOST AND I AM COMPENSATED ABUNDANTLY"
+      glyph_description: >
+        A vertical, throne-shaped glyph constructed on Jupiter's 4×4
+        kamea. The glyph rises from a broad base (letters M, A, C) through
+        a narrowing midsection (W, O, R, K) to a crowned apex (S, T, H).
+        The overall silhouette suggests a seated figure with arms slightly
+        raised — an unintentional but resonant echo of the Jupiterian
+        archetype of benevolent authority. Key features: a strong central
+        vertical axis (the spine of the glyph, running from the A-M
+        connection through the O-R cluster to the H-S crown), lateral
+        symmetry in the lower third (balanced reception and transmission),
+        and an open crown form at the top (receptivity to abundance).
+        Rendered in the hermetic style with small circles at each vertex,
+        fine line weight, and a containing circle with four anchor points
+        touching the cardinal directions.
+      svg_path: "M 200 300 L 250 300 L 275 220 L 300 180 L 280 120 L 260 100 L 240 80 L 220 100 L 200 120 L 180 100 L 160 80 L 140 100 L 120 120 L 100 180 L 125 220 L 150 300 Z"
+      construction_log:
+        system_used: "kamea"
+        kamea_planet: "Jupiter"
+        letter_grid_size: "4×4"
+        letter_sequence: "IAMCLERCHNWOKSTHDUBNY"
+        point_positions:
+          - letter: "I"
+            position: "row 1, col 2"
+            kamea_value: 2
+          - letter: "A"
+            position: "row 4, col 1"
+            kamea_value: 13
+          - letter: "M"
+            position: "row 4, col 4"
+            kamea_value: 16
+          - letter: "C"
+            position: "row 4, col 2"
+            kamea_value: 14
+          - letter: "L"
+            position: "row 3, col 2"
+            kamea_value: 10
+          - letter: "E"
+            position: "row 1, col 4"
+            kamea_value: 4
+          - letter: "R"
+            position: "row 3, col 4"
+            kamea_value: 12
+          - letter: "H"
+            position: "row 1, col 1"
+            kamea_value: 1
+          - letter: "N"
+            position: "row 3, col 3"
+            kamea_value: 11
+          - letter: "W"
+            position: "row 2, col 3"
+            kamea_value: 7
+          - letter: "O"
+            position: "row 2, col 4"
+            kamea_value: 8
+          - letter: "K"
+            position: "row 3, col 1"
+            kamea_value: 9
+          - letter: "S"
+            position: "row 2, col 1"
+            kamea_value: 5
+          - letter: "T"
+            position: "row 2, col 2"
+            kamea_value: 6
+          - letter: "D"
+            position: "row 1, col 3"
+            kamea_value: 3
+          - letter: "U"
+            position: "row 1, col 4 (shared with E)"
+            kamea_value: 4
+          - letter: "B"
+            position: "row 3, col 4 (shared with R)"
+            kamea_value: 12
+          - letter: "N"
+            position: "row 3, col 3 (shared with N)"
+            kamea_value: 11
+          - letter: "Y"
+            position: "row 4, col 3"
+            kamea_value: 15
+      esoteric_encoding:
+        planetary_correspondence: >
+          Jupiter is the planet of expansion, abundance, wisdom, and
+          benevolent authority — the king who gives freely. This is the
+          ideal correspondence for an intent centered on creative work
+          reaching others and being compensated abundantly. Jupiter's
+          4×4 kamea (sum 34 in each row) carries the vibrational
+          signature of structured growth — expansion within form, which
+          is precisely what sustainable creative success requires.
+        elemental_influence: "Air — Jupiter's element in the Hermetic tradition. Air governs communication, intellect, transmission across distance, and the movement of ideas. The intent is fundamentally about transmission (creative work reaching others), making air the natural elemental ally."
+        color_correspondence: "Royal violet (#6b3fa0) on gold (#e8c547) — violet is Jupiter's traditional color in the Western esoteric tradition, representing spiritual sovereignty and expanded consciousness. Gold represents the abundance that flows through Jupiterian channels. Render the glyph in violet on a gold ground, or in gold on deep violet."
+        line_quality: "Continuous unbroken stroke where possible, with clean vertex transitions. A confident, flowing line — not hesitant, not aggressive. Jupiter's energy is expansive and generous; the line should feel like an open hand, not a closed fist."
+        containment: "Circle — the most Jupiterian container. The circle represents the zodiac, the wheel of fortune (Jupiter's domain), and the boundless nature of true abundance. The glyph extends to touch the circle at four points (cardinal directions), anchoring it to the material world while remaining within the protective boundary of Jupiterian order."
+      charging_ritual:
+        method: "gnostic"
+        preparation: >
+          Find a quiet space where you won't be interrupted for 25
+          minutes. Dim the lights. Have the sigil image ready — ideally
+          printed on paper or displayed on a tablet with notifications
+          off. Wear comfortable clothing. If you use incense, frankincense
+          or cedar is appropriate for Jupiter. Sit comfortably with your
+          spine straight — a chair is fine, floor sitting is fine, just
+          don't lie down (you're aiming for altered awareness, not sleep).
+        procedure: >
+          1. Gaze at the sigil for 2 minutes. Let your eyes trace the
+          lines from start to finish, following the path of the original
+          statement. Don't think about what it means — just trace. 2.
+          Close your eyes. Visualize the sigil as vividly as you can —
+          the violet lines, the golden ground, the circle containing it.
+          Hold it in your mind's eye. 3. Begin breathwork: inhale for
+          4 counts, hold for 4 counts, exhale for 4 counts, hold for 4
+          counts. This is box breathing. Continue for 5 minutes. Let the
+          sigil be the only thing in your visual field — internal or
+          external. 4. Accelerate: after 5 minutes, drop the holds.
+          Inhale for 2 counts, exhale for 2 counts. Faster. Let the
+          sigil pulse with your breath — expanding on inhale, contracting
+          on exhale. Continue for 3 minutes. 5. At the peak — when your
+          body feels light, when thoughts have thinned, when the sigil
+          is more real than the room — open your eyes and stare at the
+          physical sigil with full intensity. In this moment, know with
+          absolute certainty that the intent is already accomplished.
+          The work already reaches those who need it. The compensation
+          already flows. You are not asking — you are acknowledging
+          what already is. Hold this knowing for as long as you can
+          sustain it — 30 seconds, 60 seconds, whatever comes. 6. When
+          the intensity fades, close your eyes. Take three deep, slow
+          breaths. Open your eyes. The ritual is complete.
+        duration_minutes: 20
+        aftercare: >
+          This is the critical step. The sigil works by bypassing the
+          conscious mind's tendency to second-guess desire. You must now
+          forget the intent — not suppress it (which paradoxically keeps
+          it present), but genuinely release it from conscious attention.
+          Practical methods: immediately engage in something absorbing
+          and unrelated (a movie, exercise, conversation, work task).
+          Don't journal about the ritual. Don't check for results. Hide
+          or destroy the physical sigil — don't leave it where you'll
+          see it. The sigil is now working below the threshold of
+          conscious awareness. Trust it and let it go.
+        dismissal: >
+          Touch your forehead with your right index finger, then your
+          heart, then extend your hand outward palm-up as if releasing
+          something into the air. Speak: "It is done. The symbol holds
+          the intent. I release it to the current of Jupiter, whose
+          abundance flows where it will. So it is." Stand up, stretch,
+          and immediately do something else.
+      usage_guidance:
+        placement: >
+          After charging, place the sigil somewhere you will NOT see it
+          regularly — this is counterintuitive but important for gnostic
+          charging. Suggestions: inside a book you rarely open, folded
+          in a drawer, as a file in a folder you don't browse. If you
+          need a talismanic object, create a second copy to carry, but
+          the charged original should be hidden. The sigil works best
+          when it has passed from conscious awareness into the realm
+          where symbols act on their own.
+        duration: >
+          Work with this sigil for one lunar cycle (28 days). The moon's
+          cycle is the traditional timeframe for manifestation work —
+          it gives the intent time to establish itself in your external
+          reality without your conscious interference. After 28 days,
+          evaluate: have the signs of activation appeared? If yes,
+          proceed to retirement. If no, you may recharge once — but only
+          once. A sigil that hasn't manifested in two lunar cycles is
+          either targeting the wrong intent or meeting resistance that
+          needs a different approach.
+        signs_of_activation: >
+          For this specific intent, watch for: (1) unexpected outreach —
+          someone contacts you about your work without you having
+          promoted it, (2) synchronicities around abundance — noticing
+          the number 34 (Jupiter's kamea sum) or the color violet in
+          unexpected places, (3) opportunities to share your work that
+          feel effortless rather than forced, (4) a subtle shift in how
+          you talk about your work — from apologetic to assured, from
+          "I'm trying to" to "I do." The sigil often works by changing
+          you before it changes your circumstances.
+        when_to_destroy: >
+          Retire the sigil after one lunar cycle or when you notice three
+          or more signs of activation, whichever comes first. To destroy:
+          hold the sigil and speak a brief gratitude — "Thank you for
+          holding this intent. Your work is complete." Burn the paper
+          (safely, in a fireproof vessel), scatter the ashes outside, or
+          bury them at the base of a healthy plant. If the sigil is
+          digital, delete the file and empty the trash. The destruction
+          is not an ending — it's a completion. The intent has been
+          transferred from the symbol to the world.
