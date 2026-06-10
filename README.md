@@ -8,17 +8,17 @@
 
 ## What It Is
 
-GRIMOIRE lets you package AI capabilities as portable, versioned spell definitions using the Grimoire Definition Language (GDL). Think of it as a package manager for intelligence — spells have typed inputs, validated outputs, multi-step rituals, and a marketplace.
+GRIMOIRE lets you package AI capabilities as portable, versioned spell definitions using the Grimoire Definition Language (GDL). Think of it as a package manager for intelligence -- spells have typed inputs, validated outputs, multi-step rituals, and a marketplace.
 
 ```
 $ grimoire search "code review"
 $ grimoire install code-review
 $ grimoire cast code-review --code ./src/App.tsx
 
-  🕯️  Casting: Code Review v1.0.0
-  [1/6] Parse ................... ✔
-  [2/6] Architectural Review .... ✔ Found 3 issues
-  [3/6] Security Review ......... ✔ Found 1 critical
+  Casting: Code Review v1.0.0
+  [1/6] Parse ................... OK
+  [2/6] Architectural Review .... OK Found 3 issues
+  [3/6] Security Review ......... OK Found 1 critical
   ...
 ```
 
@@ -47,6 +47,28 @@ grimoire cast anti-slop-purification --text "Your AI-generated content here"
 | `grimoire validate <file>` | Validate a spell definition |
 | `grimoire publish <file>` | Publish to the marketplace |
 | `grimoire init <name>` | Scaffold a new spell project |
+
+---
+
+## Spell Library (15 Spells)
+
+| Spell | Category | Description |
+|-------|----------|-------------|
+| `anti-slop-purification` | practical | Purifies AI-generated text, restoring human voice |
+| `synchronicity-detection` | frontier | Detects meaningful coincidences in data streams |
+| `code-review` | code-review | Multi-pass code review with architectural analysis |
+| `shader-telepathy` | frontier | Generates GLSL shaders from natural language |
+| `creative-brief` | practical | Creates comprehensive creative project briefs |
+| `daemon-binding` | ritual | Binds an AI personality to a persistent identity |
+| `color-harmony-divination` | frontier | Generates color palettes from esoteric principles |
+| `bundle-analysis` | practical | Analyzes JavaScript bundles for optimization |
+| `accessibility-audit` | code-review | Audits web content for accessibility compliance |
+| `conceptual-blending` | frontier | Blends disparate concepts into novel syntheses |
+| `ritual-design` | ritual | Designs custom esoteric rituals and ceremonies |
+| `pattern-synthesis` | frontier | Synthesizes patterns across multiple domains |
+| `audio-reactive-enchantment` | frontier | Creates audio-reactive visual experiences |
+| `sigil-generation` | ritual | Generates esoteric sigils with intent encoding |
+| `dream-interpretation` | ritual | Interprets dreams using archetypal frameworks |
 
 ---
 
@@ -82,18 +104,18 @@ ritual:
       description: "List specific changes made"
 ```
 
-Each spell defines its own typed interface, execution steps, and validation rules. This isn't a prompt library — it's a capability protocol.
+Each spell defines its own typed interface, execution steps, and validation rules. This isn't a prompt library -- it's a capability protocol.
 
 ---
 
 ## Categories
 
-| Category | Domain | Example Spells |
-|----------|--------|---------------|
-| `frontier` | Creative Code — pushing boundaries | synchronicity-detection, shader-telepathy |
-| `practical` | Sovereignty — tools for independence | anti-slop-purification, creative-brief |
-| `code-review` | Alchemy — refinement of craft | code-review |
-| `ritual` | Esoteric Knowledge — initiatory practice | ritual-design, daemon-binding |
+| Category | Domain | Count | Example Spells |
+|----------|--------|-------|---------------|
+| `frontier` | Creative Code | 6 | synchronicity-detection, shader-telepathy, audio-reactive-enchantment |
+| `practical` | Sovereignty | 4 | anti-slop-purification, creative-brief, bundle-analysis |
+| `code-review` | Alchemy | 2 | code-review, accessibility-audit |
+| `ritual` | Esoteric Knowledge | 3 | ritual-design, daemon-binding, sigil-generation, dream-interpretation |
 
 ---
 
@@ -103,6 +125,7 @@ Each spell defines its own typed interface, execution steps, and validation rule
 - **Local-first.** Spells execute on your machine. No API keys required for local execution. Your data stays yours.
 - **Creator economy.** Publish spells to the marketplace. Set your own price. Earn 70% of every purchase.
 - **Built for LOCUS.** Designed to work with LOCUS, the sovereign AI. Local execution, zero cloud dependency.
+- **No emojis.** Symbols only (✦ ◆ ● ○ ✗ ✓ ═). Clean, cryptic, serious.
 
 ---
 
@@ -116,6 +139,13 @@ See [LICENSE.md](LICENSE.md) for full terms.
 
 ## Part of Primitive Wildflower
 
-GRIMOIRE is part of the Primitive Wildflower ecosystem — tools for sovereign creation at the intersection of code, consciousness, and craft.
+GRIMOIRE is part of the Primitive Wildflower ecosystem -- tools for sovereign creation at the intersection of code, consciousness, and craft.
+
+| Ecosystem Component | Description |
+|---------------------|-------------|
+| [GRIMOIRE](https://github.com/primitivewildflower/grimoire) | Spell marketplace (public) |
+| [SAXON](https://github.com/primitivewildflower/locus-mlx) | Sovereign cipher + cyber defense suite |
+| LOCUS | Sovereign AI (private) |
+| VAULT | Strategy + architecture (private) |
 
 *"The future of AI is 10,000 spells on 10,000 machines."*
